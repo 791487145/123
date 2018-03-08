@@ -34,10 +34,22 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 状态：</p>
 		<p class="col-sm-4">
-			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5"  name="group_id" value="{{ $user_active->group_id }}" disabled="disabled">
+			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5"  name="group_id" value="{{ $user_active->group}}" disabled="disabled">
 			<span class="help-inline col-xs-12 col-sm-7"><i class="light-red ace-icon fa fa-asterisk"></i></span>
 		</p>
 	</div>
+	@if($user_active->group_id != 0)
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 状态：</p>
+			<select name="report_status">
+				<option value="0" @if($user_active->group_b_id == 0) selected @endif>轮空</option>
+				@foreach($user_game_match_results as $game_match_result)
+					<option value="{{$game_match_result->id}}" @if($user_active->group_b_id == $game_match_result->id) selected @endif>{{$game_match_result->group}}组{{$game_match_result->num}}号</option>
+				@endforeach
+			</select>
+			</p>
+		</div>
+	@endif
 	<div class="col-xs-12">
 		<div class="clearfix row bg-backf5 padding20 mg-margin12">
 			<div class="col-xs-12">

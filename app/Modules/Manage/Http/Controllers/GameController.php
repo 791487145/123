@@ -85,6 +85,27 @@ class GameController extends ManageController
             $user_active->group = '未分组';
         }else{
             $user_game_group = UserGameGroupModel::where('id',$user_active->group_id)->first();
+            $user_active->group = $user_game_group->group.'组'.$user_game_group->num.'号';
+
+            $user_game_match_result = UserGameMatchResultModel::where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id)->first();
+            if($user_game_match_result->group_a == $user_active->group_id){
+                $group_id = $user_game_match_result->group_b;
+            }else{
+                $group_id = $user_game_match_result->group_a;
+            }
+            //$user_game_group = UserGameGroupModel::where('id',$group_id)->first();
+           // $user_active->group_b = '轮空';
+            $user_active->group_b_id = $group_id;
+           /* if(!is_null($user_game_group)){
+                $user_active->group_b = $user_game_group->group.'组'.$user_game_group->num.'号';
+            }*/
+
+            $user_game_match_results = UserGameMatchResultModel::where('user_game_match_result.competition',$user_active->competition)->where('group_b',0)
+                                                    ->where('group_a','!=',$user_active->group_id)->where('user_game_match_result.type',UserGameMatchResultModel::TYPE_SINGLE)
+                                                    ->leftJoin('user_game_group','user_game_group.id','=','user_game_match_result.group_a')
+                                                    ->select('user_game_group.id','user_game_group.group','user_game_group.num','user_game_match_result.win','user_game_match_result.id as ugmg_id')
+                                                    ->get();
+            $data['user_game_match_results'] = $user_game_match_results;
         }
 
         if ($request->isMethod('post')) {
@@ -101,9 +122,7 @@ class GameController extends ManageController
             return  redirect('manage/game/single');
         }
 
-        $data = array(
-            'user_active' => $user_active,
-        );
+        $data['user_active'] = $user_active;
 
         return $this->theme->scope('manage.gameSingelDetail', $data)->render();
 
@@ -464,4 +483,27 @@ class GameController extends ManageController
             'param' => $param,
             'status' => $status,
             'user_game_rules' => $user_game_rules,
-            'user_game_rules_child' => $us
+            'user_game_rules_child' => $user_game_rules_child,
+            'user_game_rule_ch' => $user_game_rule_ch
+        );
+        return $data;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
