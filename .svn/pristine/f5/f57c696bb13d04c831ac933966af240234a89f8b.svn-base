@@ -1,0 +1,151 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-left">
+            <!-- 所在位置 -->
+            <div class="now-position text-size12">
+                您的位置：首页 > 资讯中心
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- main -->
+        <div class="col-lg-9 col-left">
+            <!-- 顶部banner -->
+            <?php if(count($ad)): ?>
+            <div class="col-md-12 news-main-banner">
+
+                <a href="<?php echo $ad[0]['ad_url']; ?>"><img src="<?php echo URL($ad[0]['ad_file']); ?>" alt=""></a>
+            </div>
+            <?php endif; ?>
+            <!-- 安全交易 & 行业动态 -->
+            <div class="col-md-12 news-main-area">
+                <div class="news-main-area-wrap">
+                    <ul class="news-title-list nav news-title-list-background">
+                        <?php if(!empty($category->toArray())): ?>
+                        <?php foreach($category as $v): ?>
+                            <li class="news-title-list-item <?php if($catID == $v->id  ): ?> news-title-active <?php endif; ?>  ">
+                                <a href="<?php echo URL('article?catID='.$v->id); ?>"><?php echo e($v['cate_name']); ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+                <div class="news-detail-info">
+                    <?php if(!empty($list['data'])): ?>
+                    <ul class="news-detail-list">
+                        <?php foreach($list['data'] as $v): ?>
+                        <li class="news-detail-list-item news-detail-time-text">
+                            <h4 class="news-detail-title">
+                                <a class="cor-gray3a" href="<?php echo URL('article/'.$v['id']); ?>" title="">
+                                    <?php echo e($v['title']); ?></a>
+                            </h4>
+                            <p class="news-detail-words"><?php echo e($v['summary']); ?></p>
+                            <p class="news-detail-time news-detail-time-text">
+                                <span> 发表时间：<?php echo e($v['created_at']); ?></span>
+                                <span>关注度： <?php if(!empty( $v['view_times'])): ?><?php echo e($v['view_times']); ?><?php else: ?> 0 <?php endif; ?></span>
+                            </p>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <!-- 底部分页 -->
+            <?php /*<div class="row news-page">*/ ?>
+                <?php /*<div class="col-md-12">*/ ?>
+                    <?php /*<div class="dataTables_paginate paging_bootstrap">*/ ?>
+                        <?php /*<ul class="pagination news-page-list">*/ ?>
+
+                        <?php /*</ul>*/ ?>
+                    <?php /*</div>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <div class="col-sm-12">
+                <div class=" paging_bootstrap row paginationwrap">
+                    <ul class="pagination">
+                        <?php if(!empty($list['prev_page_url'])): ?>
+                            <li><a href="<?php echo URL('article').'?'.http_build_query(array_merge($merge,['page'=>$list['current_page']-1])); ?>">上一页</a></li>
+                        <?php endif; ?>
+                        <?php if($list['last_page']>1): ?>
+                            <?php for($i=1;$i<=$list['last_page'];$i++): ?>
+                                <li class="<?php echo e(($i==$list['current_page'])?'active disabled':''); ?>"><a href="<?php echo URL('article').'?'.http_build_query(array_merge($merge,['page'=>$i])); ?>"><?php echo e($i); ?></a></li>
+                            <?php endfor; ?>
+                        <?php endif; ?>
+                        <?php if(!empty($list['next_page_url'])): ?>
+                            <li><a href="<?php echo URL('article').'?'.http_build_query(array_merge($merge,['page'=>$list['current_page']+1])); ?>">下一页</a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- side -->
+        <div class="col-md-3 g-taskside visible-lg-block col-left">
+            <!-- 快速发布需求 -->
+            <div class="g-tasksidemand">
+
+                <?php if(count($rightAd)): ?>
+                <a href="<?php echo $rightAd[0]['ad_url']; ?>"><img src="<?php echo URL($rightAd[0]['ad_file']); ?>" alt=""></a>
+                <?php else: ?>
+                <img src="<?php echo Theme::asset()->url('images/news_pic_side.png'); ?>" alt="">
+                <?php endif; ?>
+                <form class="registerform" action="/task/create" method="get">
+                <div class="release-form">
+                    <div class="space-10"></div>
+                    <b class="text-size16 cor-gray51">快速发布需求</b>
+                    <div class="space-2"></div>
+                    <p>快速发布，坐等服务商回复</p>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="news-icon news-icon-kind"></i>
+                        </span>
+                        <select class="form-control" id="form-field-select-1" readonly="true" name="type" disabled>
+                            <option value="1">悬赏任务</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="news-icon news-icon-tag"></i>
+                        </span>
+                        <input class="form-control input-mask-phone" type="text"  name="title"  id="form-field-mask-2" placeholder="需求标题,如:logo设计">
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="news-icon news-icon-phone"></i>
+                        </span>
+                        <input class="form-control input-mask-phone" type="text" name="phone" id="form-field-mask-2" placeholder="手机号码">
+                    </div>
+
+                    <div class="conmit-demand">
+                        <button class="btn btn-primary conmit-demand-btn bor-radius2 btn-blue" type="submit">发布需求</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <!-- 最新动态 -->
+            <?php if(count($hotlist)): ?>
+            <div class="col-md-12 latest-news">
+                <div class="latest-news-title">
+                    <h5><?php echo $targetName; ?></h5>
+                    <?php /*<a href="<?php echo URL('article' ); ?>">More ></a>*/ ?>
+
+                </div>
+                <ul class="latest-news-list">
+                    <?php foreach($hotlist as $v): ?>
+                        <li><a href="<?php echo $v['url']; ?>" title=""class="latest-news-words">
+                                <?php echo e($v['recommend_name']); ?>
+
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+
+                </ul>
+            </div>
+            <?php endif; ?>
+            <div class="space-10 col-md-12"></div>
+        </div>
+    </div>
+</div>
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('news','css/news.css'); ?>

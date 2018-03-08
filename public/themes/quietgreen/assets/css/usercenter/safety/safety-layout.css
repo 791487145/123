@@ -1,0 +1,50 @@
+/*修改密码*/
+.g-main .registerform .s-safetywrp1{
+    width:16%;
+}
+.g-main .registerform .s-safetywrp2{
+    width: 12%;
+}
+.g-main .registerform .s-safetywrp3{
+    width: 14%;
+}
+.g-main .c-btntime{
+    background-color: #f7f7f7!important;
+    border: 1px solid #d5d5d5;
+    padding: 7px 9px;
+    color: #515151!important;
+    text-shadow:none!important;
+    margin-left: 10px;
+}
+.g-main .c-btntime:hover {
+    background-color: #f0f0f0!important;
+}
+.g-main .form-group input:disabled, .form-group input[disabled]{
+    color: #515151!important;
+    background-color: #f7f7f7!important;
+}
+.g-main .s-formwrp1{
+    margin: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #E3E3E3;
+    border-bottom-color: rgba(0,0,0,.11);
+}
+.g-main .s-labelwrp1{
+    padding-left: 0;
+}
+.g-main .s-formwrp2{
+    margin: 0;
+    padding-bottom: 5px;
+}
+@media screen and (max-width: 767px){
+    .g-main .registerform .s-safetywrp1,.g-main .registerform .s-safetywrp2,.g-main .registerform .s-safetywrp3{
+        width:auto;
+    }
+    .g-main .c-btntime { margin: 6px 0;}
+}
+
+.paypassword-tit{
+    position: absolute;
+    top: 30px;
+    left: 6px;
+}

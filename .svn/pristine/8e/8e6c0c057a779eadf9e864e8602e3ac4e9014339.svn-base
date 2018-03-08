@@ -1,0 +1,100 @@
+
+<h3 class="header smaller lighter blue mg-bottom20 mg-top12">编辑协议</h3>
+<form action="/manage/editAgreement" method="post">
+    <?php echo e(csrf_field()); ?>
+
+    <div class="g-backrealdetails clearfix bor-border">
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">协议名称：</p>
+            <p class="col-md-11">
+               <input type="text" name="name" id="name" value="<?php echo e($agree['name']); ?>">
+                <input type="hidden" name="id" value="<?php echo e($agree['id']); ?>">
+                <?php echo e($errors->first('name')); ?>
+
+            </p>
+        </div>
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">协议代号：</p>
+            <p class="col-md-11">
+                <input type="text" name="code_name" id="code_name" value="<?php echo e($agree['code_name']); ?>" readonly="readonly">
+                <?php echo e($errors->first('code_name')); ?>
+
+            </p>
+        </div>
+            <?php /*<tr>*/ ?>
+                <?php /*<td class="text-right">协议内容：</td>*/ ?>
+                <?php /*<td class="text-left">*/ ?>
+                    <?php /*<textarea name="content" class="content"><?php echo e($agree['content']); ?></textarea>*/ ?>
+                    <?php /*<?php echo e($errors->first('content')); ?>*/ ?>
+                <?php /*</td>*/ ?>
+            <?php /*</tr>*/ ?>
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">协议内容：</p>
+            <!--编辑器-->
+            <p class="clearfix col-md-8">
+                <script id="editor" type="text/plain" style="width:;height:300px;" name="content"><?php echo htmlspecialchars_decode($agree['content']); ?></script>
+                <?php /*<div class="wysiwyg-editor" id="editor1"><?php echo htmlspecialchars_decode($agree['content']); ?></div>
+                <textarea name="content" id="content" style="display: none"><?php echo htmlspecialchars_decode($agree['content']); ?></textarea>*/ ?>
+                <?php echo e($errors->first('content')); ?>
+
+            </p>
+        </div>
+
+            <?php /*<tr>
+                <td class="text-right"></td>
+                <td class="text-left">
+                    <button class="btn btn-primary sub_article btn-sm" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>提交</button>
+                </td>
+            </tr>*/ ?>
+
+        <div class="col-xs-12">
+            <div class="clearfix row bg-backf5 padding20 mg-margin12">
+                <div class="col-xs-12">
+                    <div class="col-md-1 text-right"></div>
+                    <div class="col-md-10"><button class="btn btn-primary btn-sm" type="submit">提交</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="space col-xs-12"></div>
+        <div class="col-xs-12">
+            <div class="col-md-1 text-right"></div>
+            <div class="col-md-10"><a href="javascript:history.back()">返回</a>　　<a href=""></a></div>
+        </div>
+        <div class="col-xs-12 space">
+
+        </div>
+    </div>
+</form>
+
+
+<!-- basic scripts -->
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('datepicker', 'plugins/ace/js/date-time/bootstrap-datepicker.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('custom', 'plugins/ace/js/jquery-ui.custom.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('touch-punch', 'plugins/ace/js/jquery.ui.touch-punch.min.js'); ?>
+
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('chosen', 'plugins/ace/js/chosen.jquery.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('autosize', 'plugins/ace/js/jquery.autosize.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('inputlimiter', 'plugins/ace/js/jquery.inputlimiter.1.3.1.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('maskedinput', 'plugins/ace/js/jquery.maskedinput.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('hotkeys', 'plugins/ace/js/jquery.hotkeys.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('wysiwyg', 'plugins/ace/js/bootstrap-wysiwyg.min.js'); ?>
+
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('dataTab', 'plugins/ace/js/dataTab.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('jquery_dataTables', 'plugins/ace/js/jquery.dataTables.bootstrap.js'); ?>
+
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('addarticle', 'js/doc/addarticle.js'); ?>
+
+<?php echo Theme::widget('ueditor')->render(); ?>

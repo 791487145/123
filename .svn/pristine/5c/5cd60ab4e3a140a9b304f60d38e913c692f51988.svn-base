@@ -1,0 +1,372 @@
+<div class="g-headertop ">
+    <div class="container clearfix">
+        <div class="row">
+            <?php if(Auth::check()): ?>
+            <div class="col-xs-12 col-left col-right">
+                <div class="pull-left p-space">
+                    <?php if(Theme::get('site_config')['site_name']): ?>
+                    <?php echo Theme::get('site_config')['site_name']; ?>
+
+                    <?php else: ?>
+                        客客专业威客建站系统
+                    <?php endif; ?>
+                       HI~ <a href="/user/index"><?php echo Auth::User()->name; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/user/messageList/1"><i class="fa fa-envelope-o"></i> 消息<?php if(Theme::get('message_count') > 0): ?>(<?php echo Theme::get('message_count'); ?>)<?php endif; ?></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo url('logout'); ?>">退出</a>
+                </div>
+                <div class="pull-right">
+                    <ul class="pull-left g-taskbarlist hidden-sm hidden-xs">
+                        <li class="pull-left g-taskbarli"><a class="g-taskbar1 g-taskbarbor" href="/user/myTasksList">我是雇主 <i
+                                        class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <div><a class="cor-blue2f" href="/task/create">发布任务</a></div>
+                                <div><a class="cor-blue2f" href="/user/myTasksList">我发布的任务<span class="red"><?php if(Theme::get('my_task') > 0): ?><?php echo Theme::get('my_task'); ?> <?php endif; ?></span></a></div>
+                            </div>
+                        </li>
+                        <li class="pull-left g-taskbarli"><a class="g-taskbar2 g-taskbarbor" href="/user/acceptTasksList">我是威客 <i class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <div><a class="cor-blue2f" href="/user/switchUrl">我的店铺</a></div>
+                                <div><a class="cor-blue2f" href="/user/myTask">我的任务<span class="red"><?php if(Theme::get('my_focus_task') > 0): ?><?php echo Theme::get('my_focus_task'); ?> <?php endif; ?></span></a></div>
+                            </div>
+                        </li>
+                        <li class="pull-left"><a class="g-taskbarbor" <?php if(!empty(Theme::get('help_center'))): ?>href="/article/aboutUs/<?php echo Theme::get('help_center'); ?>"<?php endif; ?>>帮助中心</a></li>
+                        <li class="pull-left g-taskbarli"><a class="g-nomdright g-taskbarbor" href="javascript:;">分类导航 <i
+                                        class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <?php if(!empty(Theme::get('task_cate'))): ?>
+                                    <?php foreach(Theme::get('task_cate') as $k => $v): ?>
+                                        <?php if(isset($v['pid']) && $v['pid'] == 0): ?>
+                                            <div><a class="cor-blue2f" href="/task?category=<?php echo $v['id']; ?>"><?php echo $v['name']; ?></a></div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <?php else: ?>
+            <div class="col-xs-12 col-left col-right">
+                <div class="pull-left">
+                    <?php if(Theme::get('site_config')['site_name'] ): ?>
+                    <?php echo Theme::get('site_config')['site_name']; ?>
+
+                    <?php else: ?>
+                    客客专业威客建站系统
+                    <?php endif; ?>
+                    
+                </div>
+                <div class="pull-right">
+                    <div class="pull-left">HI~</a>请 [<a href="<?php echo url('login'); ?>">登录</a>] [<a href="<?php echo url('register'); ?>">免费注册</a>]</div>
+                    <ul class="pull-left g-taskbarlist hidden-sm hidden-xs">
+                        <li class="pull-left g-taskbarli"><a class="g-taskbar1 g-taskbarbor" href="/user/myTasksList">我是雇主 <i
+                                        class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <div><a class="cor-blue2f" href="/task/create">发布任务</a></div>
+                                <div><a class="cor-blue2f" href="/user/myTasksList">我发布的任务<span class="red"><?php if(Theme::get('my_task') > 0 ): ?><?php echo Theme::get('my_task'); ?> <?php endif; ?></span></a></div>
+                            </div>
+                        </li>
+                        <li class="pull-left g-taskbarli"><a class="g-taskbar2 g-taskbarbor" href="/user/acceptTasksList">我是威客 <i class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <div><a class="cor-blue2f" href="/user/switchUrl">我的空间</a></div>
+                                <div><a class="cor-blue2f" href="/user/myTask">我的任务<span class="red"><?php if(Theme::get('my_focus_task') > 0): ?><?php echo Theme::get('my_focus_task'); ?> <?php endif; ?></span></a></div>
+                            </div>
+                        </li>
+                        <li class="pull-left"><a class="g-taskbarbor" <?php if(!empty(Theme::get('help_center'))): ?>href="/article/aboutUs/<?php echo Theme::get('help_center'); ?>"<?php endif; ?>>帮助中心</a></li>
+                        <li class="pull-left g-taskbarli"><a class="g-nomdright g-taskbarbor" href="javascript:;">分类导航 <i
+                                        class="fa fa-caret-down"></i></a>
+                            <div class="g-taskbardown1">
+                                <?php if(!empty(Theme::get('task_cate'))): ?>
+                                    <?php foreach(Theme::get('task_cate') as $k => $v): ?>
+                                        <?php if(isset($v['pid']) && $v['pid'] == 0): ?>
+                                            <div><a class="cor-blue2f" href="/task?category=<?php echo $v['id']; ?>"><?php echo $v['name']; ?></a></div>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<div class="g-taskhead">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-left col-right">
+                <div class="col-lg-3 col-md-6 col-sm-6 hidden-xs">
+                    <div class="row">
+                        <a href="<?php echo CommonClass::homePage(); ?>">
+                            <?php if(Theme::get('site_config')['site_logo_1']): ?>
+                                <img src="<?php echo url(Theme::get('site_config')['site_logo_1']); ?>" class="img-responsive wrap-side-img">
+                            <?php else: ?>
+                                <img src="<?php echo Theme::asset()->url('images/sign-logo.png'); ?>" class="img-responsive wrap-side-img">
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-12 hidden-sm visible-xs-block">
+                    <div class="text-center">
+                        <?php if(Theme::get('site_config')['site_logo_1']): ?>
+                        <img src="<?php echo url(Theme::get('site_config')['site_logo_1']); ?>">
+                        <?php else: ?>
+                        <img src="<?php echo Theme::asset()->url('images/sign-logo.png'); ?>">
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 hidden-xs">
+                    <div class="g-tasksearch row">
+                        <form action="/task" method="get" class="switchSearch" />
+                            <div class="btn-group search-aBtn" role="group">
+                                <a href="javascript:;" type="button" class="btn btn-default dropdown-toggle search-btn-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    找任务
+                                  <?php /*<span class="fa fa-angle-down"></span>*/ ?>
+                                </a>
+                                <span class="fa fa-angle-down"></span>
+                                <ul class="dropdown-menu search-btn-select" aria-labelledby="dLabel">
+                                    <li value="1">
+                                        <a href="javascript:void(0)" url="/task" onclick="switchSearch(this)">找任务</a>
+                                    </li>
+                                    <li value="2">
+                                        <a href="javascript:void(0)" url="/bre/service" onclick="switchSearch(this)">找服务商</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <i class="fa fa-search"></i>
+                            <input type="text" class="input-boxshaw" placeholder="输入关键词" value="<?php if(!empty(request('keywords'))): ?><?php echo request('keywords'); ?><?php endif; ?>"/>
+                            <button>搜索</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-3 claerfix hidden-sm hidden-xs hidden-md">
+                    <div class="row">
+                        <div class="g-taskhdbg1">实名认证</div>
+                        <div class="g-taskhdbg2">担保交易</div>
+                        <div class="g-taskhdbg3">全额退款</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="header-top header-show">
+    <div class="container clearfix">
+        <div class="row">
+            <div class="col-xs-12 col-left col-right">
+                <nav class="navbar bg-blue navbar-default hov-nav" role="navigation">
+                    <div class="navbar-header pull-left g-logo hidden-xs">
+                        <a href="<?php echo CommonClass::homePage(); ?>" class="g-logo hidden-xs hidden-sm">
+                            <?php if(Theme::get('site_config')['site_logo_2']): ?>
+                                <img src="<?php echo url(Theme::get('site_config')['site_logo_2']); ?>" alt="kppw" width="200">
+                            <?php else: ?>
+                                <img src="<?php echo Theme::asset()->url('images/logo.png'); ?>" alt="kppw" width="200">
+                            <?php endif; ?>
+                        </a>
+
+                        <span class="hov-showdrop"><i class="fa fa-reorder cussor-pointer hidden-xs h-hovheader text-size14"></i>
+
+                        <ul class="sub nav-dex text-left hov-list">
+                            <?php $__empty_1 = true; foreach(Theme::get('task_cate') as $k => $v): $__empty_1 = false; ?>
+                                <?php if(isset($v['pid']) && $v['pid'] == 0 && $k < 5): ?>
+                                    <li>
+                                        <div class="u-navitem">
+                                            <h4>
+                                                <a href="/task?category=<?php echo $v['id']; ?>" class="text-size14 cor-white">
+                                                    <?php echo $v['name']; ?>
+
+                                                </a>
+                                            </h4>
+                                            <?php $__empty_2 = true; foreach($v['child_task_cate'] as $m => $n): $__empty_2 = false; ?>
+                                                <?php if($m < 3): ?>
+                                                    <a href="/task?category=<?php echo $n['id']; ?>" class="u-tit">
+                                                        <?php echo $n['name']; ?>
+
+                                                    </a>
+                                                <?php endif; ?>
+                                            <?php endforeach; if ($__empty_2): ?>
+                                            <?php endif; ?>
+                                        </div>
+                                        <?php if(!empty($v['child_task_cate']) && is_array($v['child_task_cate'])): ?>
+                                            <div class="g-subshow">
+                                                <div><?php echo $v['name']; ?></div>
+                                                <p>
+                                                    <?php foreach($v['child_task_cate'] as $key => $val): ?>
+                                                        <a href="/task?category=<?php echo $val['id']; ?>"><?php echo $val['name']; ?></a>&nbsp;&nbsp;|&nbsp;
+                                                    <?php endforeach; ?>
+                                                </p>
+                                            </div>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; if ($__empty_1): ?>
+                            <?php endif; ?>
+
+                        </ul>
+                        </span>
+                    </div>
+                    <div class="collapse navbar-collapse pull-right g-nav pd-left0" id="example-navbar-collapse">
+                        <div class="div-hover hidden-xs"></div>
+                        <ul class="nav navbar-nav overhide">
+                            <?php if(!empty(Theme::get('nav_list'))): ?>
+                                <?php if(count(Theme::get('nav_list')) > 4): ?>
+                                    <?php for($i=1;$i<5;$i++): ?>
+                                        <li <?php if(Theme::get('nav_list')[$i-1]['link_url'] == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                            <a class="text-center" href="<?php echo Theme::get('nav_list')[$i-1]['link_url']; ?>"
+                                               <?php if(Theme::get('nav_list')[$i-1]['is_new_window'] == 1): ?>target="_blank" <?php endif; ?> >
+                                                <?php echo Theme::get('nav_list')[$i-1]['title']; ?>
+
+                                            </a>
+                                        </li>
+                                    <?php endfor; ?>
+                                        <li class="new-homehead">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                                更多   <b class="caret"></b>
+                                            </a>
+                                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close50 z-navactive">
+                                        <?php for($i=5;$i<count(Theme::get('nav_list'))+1;$i++): ?>
+                                            <li <?php if(Theme::get('nav_list')[$i-1]['link_url'] == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                                <a class="text-center" href="<?php echo Theme::get('nav_list')[$i-1]['link_url']; ?>"
+                                                   <?php if(Theme::get('nav_list')[$i-1]['is_new_window'] == 1): ?>target="_blank" <?php endif; ?> >
+                                                    <?php echo Theme::get('nav_list')[$i-1]['title']; ?>
+
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        </ul>
+                                        </li>
+                                <?php else: ?>
+                                    <?php foreach(Theme::get('nav_list') as $m => $n): ?>
+                                        <?php if($n['is_show'] == 1): ?>
+                                            <li <?php if($n['link_url'] == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                                <a class="text-center" href="<?php echo $n['link_url']; ?>" <?php if($n['is_new_window'] == 1): ?>target="_blank" <?php endif; ?> >
+                                                    <?php echo $n['title']; ?>
+
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <li <?php if(CommonClass::homePage() == $_SERVER['REQUEST_URI']): ?> class="hActive"<?php endif; ?>><a  class="topborbtm" href="<?php echo CommonClass::homePage(); ?>" >首页</a></li>
+                                <li <?php if('/task' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>><a class="topborbtm" href="/task">任务大厅</a></li>
+                                <li <?php if('/bre/service' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>><a class="topborbtm" href="/bre/service">服务商</a></li>
+                                <li <?php if('/task/successCase' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>><a class="topborbtm" href="/task/successCase">成功案例</a></li>
+                                <li <?php if('/article' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>><a class="topborbtm" href="/article" > 资讯中心</a></li>
+                            <?php endif; ?>
+                            <li class="pd-navppd">
+                                <form class="navbar-form navbar-left hd-seachW" action="/task" role="search" method="get" class="switchSearch">
+                                    <div class="input-group input-group-btnInput">
+                                        <div class="input-group-btn search-aBtn">
+                                            <a type="button" class="search-btn-toggle btn btn-default dropdown-toggle f-click bg-white bor-radius2 hidden-xs hidden-sm" data-toggle="dropdown">
+                                                找任务
+                                                <?php /*<span class="caret"></span>*/ ?>
+                                            </a>
+                                            <span class="caret hidden-xs hidden-sm"></span>
+                                            <ul class="dropdown-menu s-listseed dropdown-yellow search-btn-select">
+                                                <li><a href="javascript:void(0)" url="/task" onclick="switchSearch(this)">找任务</a></li>
+                                                <li><a href="javascript:void(0)" url="/bre/service" onclick="switchSearch(this)">找服务商</a></li>
+                                            </ul>
+                                        </div><!-- /btn-group -->
+                                        <button type="submit" class="form-control-feedback fa fa-search s-navfonticon hidden-sm hidden-xs"></button>
+                                        <input type="text" name="keywords" class="input-boxshaw form-control-feedback-btn form-control bor-radius2 hidden-sm hidden-xs" value="<?php if(!empty(request('keywords'))): ?><?php echo request('keywords'); ?><?php endif; ?>">
+                                        <a href="/task/create" type="submit" class="btn btn-default f-click cor-blue bor-radius2 hidden-lg hidden-md">发布任务</a>
+                                    </div>
+                                    <span class="hidden-md hidden-xs hidden-sm">&nbsp;&nbsp;<span class="u-tit">或</span>&nbsp;&nbsp;
+                                    <a href="/task/create" type="submit" class="btn btn-default f-click cor-blue bor-radius2">发布任务</a></span>
+                                </form>
+                            </li>
+                            <li class="s-sign clearfix hidden-md hidden-xs hidden-sm navactiveImg">
+                                <?php if(Auth::check()): ?>
+                                    <a href="javascript:;" class="u-img topheadimg" data-toggle="dropdown" class="dropdown-toggle">
+                                        <img src="<?php if(!empty(Theme::get('avatar'))): ?> <?php echo url(Theme::get('avatar')); ?>
+
+                                        <?php else: ?> <?php echo Theme::asset()->url('images/default_avatar.png'); ?> <?php endif; ?>"
+                                             alt="..." class="img-circle" width="31" height="34">
+                                    </a>
+                                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                        <li>
+                                            <a href="<?php echo url('user/index'); ?>">
+                                                我的主页
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="<?php echo url('user/info'); ?>">
+                                                账号设置
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="<?php echo url('finance/list'); ?>">
+                                                财务管理
+                                            </a>
+                                        </li>
+
+                                        <li class="divider">
+                                            <a href="#"></a>
+                                        </li>
+
+                                        <li>
+                                            <a href="<?php echo url('logout'); ?>">
+                                                <i class="fa fa-sign-out fa-rotate-270"></i>
+                                                退出
+                                            </a>
+                                        </li>
+                                    </ul>
+                                <?php else: ?>
+                                    <a href="<?php echo url('login'); ?>" class="text-size14 pull-left">登录</a>
+                                    <a class="pull-left">|</a>
+                                    <a href="<?php echo url('register'); ?>" class="text-size14 pull-right">注册</a>
+                                <?php endif; ?>
+                            </li>
+                        </ul>
+                    </div>
+                    <?php /*导航 768px以下*/ ?>
+                    <div class="hidden-lg hidden-sm hidden-md">
+                        <div class="navbar-header">
+                            <button class="navbar-toggle pull-left" type="button" data-toggle="collapse"
+                                    data-target=".bs-js-navbar-scrollspy">
+                                <span class="sr-only">切换导航</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a href="/task/create" type="submit" class=" f-click bor-radius2 hidden-lg hidden-md cor-white f-click-btn">发布任务</a>
+                        </div>
+                        <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+                            <ul class="nav navbar-nav">
+                                <?php if(!empty(Theme::get('nav_list'))): ?>
+                                    <?php foreach(Theme::get('nav_list') as $m => $n): ?>
+                                        <?php if($n['is_show'] == 1): ?>
+                                            <li <?php if($n['link_url'] == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>><a href="<?php echo $n['link_url']; ?>" <?php if($n['is_new_window'] == 1): ?>target="_blank" <?php endif; ?> ><?php echo $n['title']; ?></a></li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li <?php if(CommonClass::homePage() == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                        <a href="<?php echo CommonClass::homePage(); ?>" >首页</a>
+                                    </li>
+                                    <li <?php if('/task' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                        <a href="/task" >任务大厅</a>
+                                    </li>
+                                    <li <?php if('/bre/service' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                        <a href="/bre/service" >服务商</a>
+                                    </li>
+                                    <li <?php if('/task/successCase' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                        <a href="/task/successCase" >成功案例</a>
+                                    </li>
+                                    <li <?php if('/article' == $_SERVER['REQUEST_URI']): ?> class="hActive" <?php endif; ?>>
+                                        <a href="/article">资讯中心</a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

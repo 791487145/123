@@ -1,0 +1,233 @@
+<div class="g-main g-message">
+        <h4 class="text-size16 cor-blue u-title">交易评价</h4>
+        <div class="space"></div>
+        <?php if($is_shop_open==1): ?>
+        <div class="clearfix hidden-xs">
+            <form action="/user/shopcommentowner" method="get" id="screen_form">
+                <div class="control-group pull-left">
+                    <label>
+                        <input name="type" type="radio" class="ace screen" value=0 <?php echo e((!isset($_GET['type']) || $_GET['type']=='0')?'checked':''); ?>>
+                        <span class="lbl"> 作品</span>
+                    </label>
+                    <label>
+                        <input name="type" type="radio" class="ace screen" value=1 <?php echo e((isset($_GET['type']) && $_GET['type']=='1')?'checked':''); ?>>
+                        <span class="lbl"> 服务</span>
+                    </label>
+                </div>
+                <div class=" pull-right">
+                    <select name="from" class="form-control btn-big screen">
+                        <option value="0" <?php echo e((!isset($_GET['from']) || $_GET['from']=='0')?'selected':''); ?>>我接受的评价</option>
+                        <option value="1" <?php echo e((isset($_GET['from']) && $_GET['from']=='1')?'selected':''); ?>>我做出的评价</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="space"></div>
+        <div class="g-tradevaluate">
+                <?php if($comments_toArray['total']>0): ?>
+                <?php foreach($comments_toArray['data'] as $k=>$v): ?>
+                <div class="clearfix ">
+                    <div class="col-sm-1 col-xs-3">
+                        <div class="row">
+                            <?php if(isset($_GET['type']) && $_GET['type']=='1'): ?>
+                                <?php if($v['type']==1): ?>
+                                <div class="g-valugood">
+                                <?php elseif($v['type']==2): ?>
+                                <div class="g-valuin">
+                                <?php elseif($v['type']==3): ?>
+                                <div class="g-valupoor">
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <?php if($v['type']==0): ?>
+                                <div class="g-valugood">
+                                <?php elseif($v['type']==1): ?>
+                                <div class="g-valuin">
+                                <?php elseif($v['type']==2): ?>
+                                <div class="g-valupoor">
+                                <?php endif; ?>
+                            <?php endif; ?>
+                                    <img class="img-responsive" src="<?php echo e($v['avatar']); ?>"  alt=''  onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/defauthead.png')); ?>',$(this))">
+
+                                <div class="g-valuimgbg"></div>
+                            </div>
+                            <div class="space-6"></div>
+                            <p class="text-center g-valuin p-space"><span class=" cor-blue2f"><?php echo e($v['user_name']); ?></span></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-11 col-xs-9 s-myborder">
+                        <div class="clearfix">
+                            <span class=" pull-left text-muted text-size12 cor-gray87 s-myname"><?php echo e((!empty($_GET['type']) && $_GET['type']==1)?'服务：':'作品：'); ?>
+
+                                <?php if(!empty($_GET['type']) && $_GET['type']==1): ?>
+                                <a target="_blank" class="cor-blue42" href="<?php echo e(URL('shop/buyservice',['id'=>$service[$k]['id']])); ?>">  <?php echo e($service[$k]['title']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成交价：￥<?php echo e($service[$k]['cash']); ?>
+
+                                <?php else: ?>
+                                <a target="_blank" class="cor-blue42" href="<?php echo e(URL('shop/buyGoods',['id'=>$v['goods_id']])); ?>">  <?php echo e($v['goods_name']); ?></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成交价：￥<?php echo e($v['goods_price']); ?>
+
+                                <?php endif; ?>
+                                </span>
+                            <a  class="pull-right cor-gray87 text-size12" >
+                                <?php echo e(date('Y-m-d',strtotime($v['created_at']))); ?>
+
+                            </a>
+                        </div>
+                        <div class="space-6"></div>
+                        <div class="p-space">
+                            <?php if(!empty($_GET['type']) && $_GET['type']==1): ?>
+                            <p class="cor-gray51 text-size14"><?php echo e($v['comment']); ?></p>
+                            <?php else: ?>
+                            <p class="cor-gray51 text-size14"><?php echo e($v['comment_desc']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="space-2"></div>
+                        <div class="clearfix">
+                        <span class="cor-gray87 z-hov">
+                            <?php if(!empty($_GET['type']) && $_GET['type']==1 && $_GET['from']==0): ?>
+                                本次终合评分：<span class="cor-orange"><?php echo e(round(($v['speed_score']+$v['quality_score']+$v['speed_score'])/3,1)); ?> </span><i class="u-evaico"></i>
+                            <?php else: ?>
+                                本次终合评分：<span class="cor-orange"><?php echo e(round(($v['speed_score']+$v['quality_score'])/2,1)); ?> </span><i class="u-evaico"></i>
+                            <?php endif; ?>
+                            <div class="u-recordstar b-border">
+                                <?php if(!empty($_GET['type']) && $_GET['type']==1 && $_GET['from']==0): ?>
+                                    <div>
+                                        工作速度：
+                                        <?php for($i=0;$i<$v['speed_score'];$i++): ?>
+                                            <span class="rec-active"></span>
+                                        <?php endfor; ?>
+                                        <?php for($i=0;$i<(5-$v['speed_score']);$i++): ?>
+                                            <span></span>
+                                        <?php endfor; ?>
+                                        <a class="cor-orange mg-left"><?php echo e($v['speed_score']); ?>分 </a>
+                                        <?php if($v['speed_score']>4 && $v['speed_score']<=5): ?>
+                                            - 速度很快
+                                        <?php elseif($v['speed_score']>3 && $v['speed_score']<=4): ?>
+                                            - 速度一般
+                                        <?php elseif($v['speed_score']>2 && $v['speed_score']<=3): ?>
+                                            - 速度较慢
+                                        <?php else: ?>
+                                            - 速度很慢
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="space-8"></div>
+                                    <div>
+                                        工作质量：
+                                        <?php for($i=0;$i<$v['quality_score'];$i++): ?>
+                                            <span class="rec-active"></span>
+                                        <?php endfor; ?>
+                                        <?php for($i=0;$i<(5-$v['quality_score']);$i++): ?>
+                                            <span></span>
+                                        <?php endfor; ?>
+                                        <a class="cor-orange mg-left"><?php echo e($v['quality_score']); ?>分 </a>
+                                        <?php if($v['quality_score']>4 && $v['quality_score']<=5): ?>
+                                            - 质量很好
+                                        <?php elseif($v['quality_score']>3 && $v['quality_score']<=4): ?>
+                                            - 质量一般
+                                        <?php elseif($v['quality_score']>2 && $v['quality_score']<=3): ?>
+                                            - 质量较差
+                                        <?php else: ?>
+                                            - 质量很差
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="space-8"></div>
+                                    <div>
+                                        工作态度：
+                                        <?php for($i=0;$i<$v['attitude_score'];$i++): ?>
+                                            <span class="rec-atv"></span>
+                                        <?php endfor; ?>
+                                        <?php for($i=0;$i<(5-$v['attitude_score']);$i++): ?>
+                                            <span></span>
+                                        <?php endfor; ?>
+                                        <a class="cor-orange mg-left"><?php echo e($v['attitude_score']); ?>分 </a>
+                                        <?php if($v['attitude_score']>4 && $v['attitude_score']<=5): ?>
+                                            - 态度很好
+                                        <?php elseif($v['attitude_score']>3 && $v['attitude_score']<=4): ?>
+                                            - 速度一般
+                                        <?php elseif($v['attitude_score']>2 && $v['attitude_score']<=3): ?>
+                                            - 态度较差
+                                        <?php else: ?>
+                                            - 态度很差
+                                        <?php endif; ?>
+                                    </div>
+                                <?php else: ?>
+                                    <div>
+                                        付款及时性：
+                                        <?php for($i=0;$i<$v['speed_score'];$i++): ?>
+                                            <span class="rec-active"></span>
+                                        <?php endfor; ?>
+                                        <?php for($i=0;$i<(5-$v['speed_score']);$i++): ?>
+                                            <span></span>
+                                        <?php endfor; ?>
+                                        <a class="cor-orange mg-left"><?php echo e($v['speed_score']); ?>分 </a>
+                                        <?php if($v['speed_score']>4 && $v['speed_score']<=5): ?>
+                                            - 速度很快
+                                        <?php elseif($v['speed_score']>3 && $v['speed_score']<=4): ?>
+                                            - 速度一般
+                                        <?php elseif($v['speed_score']>2 && $v['speed_score']<=3): ?>
+                                            - 速度较慢
+                                        <?php else: ?>
+                                            - 速度很慢
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="space-8"></div>
+                                    <div>
+                                        合作愉快度：
+                                        <?php for($i=0;$i<$v['quality_score'];$i++): ?>
+                                            <span class="rec-active"></span>
+                                        <?php endfor; ?>
+                                        <?php for($i=0;$i<(5-$v['quality_score']);$i++): ?>
+                                            <span></span>
+                                        <?php endfor; ?>
+                                        <a class="cor-orange mg-left"><?php echo e($v['quality_score']); ?>分 </a>
+                                        <?php if($v['quality_score']>4 && $v['quality_score']<=5): ?>
+                                            - 非常愉快
+                                        <?php elseif($v['quality_score']>3 && $v['quality_score']<=4): ?>
+                                            - 较为愉快
+                                        <?php elseif($v['quality_score']>2 && $v['quality_score']<=3): ?>
+                                            - 不愉快
+                                        <?php else: ?>
+                                            - 很不愉快
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="space-8"></div>
+                                <?php endif; ?>
+                            </div>
+                        </span>
+                        </div>
+                        <div class="g-userborbtm"></div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+                <div class="space"></div>
+                <div class="clearfix">
+                    <ul class="pagination pull-right">
+                        <?php echo $comments->appends($_GET)->render(); ?>
+
+                    </ul>
+                </div>
+                <?php else: ?>
+                <div class="g-nomessage">暂无信息哦 ！</div>
+                <?php endif; ?>
+
+        </div>
+        <?php /*<div class="g-nomessage">暂无信息哦 ！</div>*/ ?>
+        <?php else: ?>
+        <div class="row close-space-tip">
+            <div class="col-md-12 text-center">
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <img src="<?php echo Theme::asset()->url('images/close_space_tips.png'); ?>" >
+                <div class="space-10"></div>
+                <p class="text-size16 cor-gray87">您的店铺还没设置，暂不能发布服务！<a href="/user/shop">店铺设置</a></p>
+            </div>
+        </div>
+        <?php endif; ?>
+</div>
+
+
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('messages','css/usercenter/messages/messages.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('usercenter','css/usercenter/usercenter.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('ownercomment','js/doc/ownercomment.js'); ?>

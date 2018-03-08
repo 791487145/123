@@ -1,0 +1,933 @@
+body{
+	font-family: "Microsoft YaHei";
+}
+.now-position{
+    height: 44px;
+    line-height: 44px;
+    color: #888;
+	font-size:12px;
+}
+.personal-info{
+	position: relative;
+	width: 100%;
+	height: 195px;
+	background: url(../images/personal_back.png) center no-repeat #000;
+	/*padding: 40px 27px;*/
+	overflow: hidden;
+}
+.personal-info-back-pic{
+	width: 100%;
+	height: 100%;
+}
+.personal-info-words{
+	position: absolute;
+	top:43px;
+	left: 40px;
+}
+.change-back-img-btn{
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	cursor: pointer;
+	background: url(../images/personal_change_back.png) center no-repeat;
+}
+.personal-info-pic{
+	width: 104px;
+	height: 104px;
+	float: left;
+	margin: 5px 20px 5px 0;
+}
+.personal-info-block{
+	color: #fff;
+	margin-left: 124px;
+	width: 990px;
+}
+.personal-info-block-name{
+	position: relative;
+	height: 24px;
+	line-height: 24px;
+	margin-bottom: 15px;
+}
+.personal-info-block-name span{
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	position: relative;
+	top: 2px;
+	margin: 0 5px;
+}
+.personal-info-block-name h3{
+	margin: 0 5px 0 0;
+	display: inline-block;
+}
+.bank-attestation{
+	background: url(../images/bank-c.png) center no-repeat;
+}
+.bank-attestation-no{
+	background: url(../images/bank-h.png) center no-repeat;
+}
+.cd-card-attestation{
+	background: url(../images/realname-c.png) center no-repeat;
+}
+.cd-card-attestation-no{
+	background: url(../images/realname-h.png) center no-repeat;
+}
+.email-attestation{
+	background: url(../images/email-c.png) center no-repeat;
+}
+.email-attestation-no{
+	background: url(../images/email-h.png) center no-repeat;
+}
+.alipay-attestation{
+	background: url(../images/pay-c.png) center no-repeat;
+}
+.alipay-attestation-no{
+	background: url(../images/pay-h.png) center no-repeat;
+}
+.personal-tag{
+	height: 25px;
+	position: relative;
+	font-size:14px;
+}
+.personal-about {
+	font-size:14px;
+}
+.personal-tag span{
+	display: inline-block;
+	padding: 0 10px;
+	border: 1px solid #fff;
+	border-radius: 10px;
+	margin-left: 10px;
+}
+.personal-about span{
+	display: inline-block;
+	width:42px;
+	vertical-align: top;
+}
+.personal-about p{
+	display: inline-block;
+	width: 940px;
+}
+.personal-case-detail-list{
+	padding: 0  22px;
+	margin: 16px 15px;
+	height: 49px;
+	border-bottom: 1px solid #ebebeb;
+	background: #fff;
+}
+.personal-case-list, .personal-evaluate-detail{
+	display: inline-block;
+	height: 49px;
+	line-height: 29px;
+	font-size: 18px;
+	padding: 10px 10px;
+	margin-right:18px;
+}
+.personal-add-case-btn{
+	display: inline-block;
+	width: 108px;
+	height: 36px;
+	line-height: 36px;
+	color: #fff;
+	text-align: center;
+	float: right;
+	margin: 6px 20px 6px 0;
+	background: #2f55a0;
+	font-size: 14px;
+	border-radius: 3px;
+}
+.personal-add-case-btn:hover{
+	color: #fff;
+}
+.follow-me{
+	display: inline-block;
+	width: 75px;
+	height: 22px;
+	position: absolute;
+    top: 2px;
+    right: 0;
+    line-height: 20px;
+    border: 1px solid #ff9934;
+    color: #ff9934;
+    text-align: center;
+    font-size: 14px;
+}
+.follow-me:hover{
+	color: #ff9934;
+}
+.followed-me{
+	display: inline-block;
+	width: 75px;
+	height: 22px;
+	position: absolute;
+    top: 2px;
+    right: 0;
+    line-height: 20px;
+    border: 1px solid #1abc9c;
+    color: #1abc9c;
+    text-align: center;
+    font-size: 14px;
+}
+.followed-me:hover{
+	color: #1abc9c;
+}
+.follow-me i,.followed-me i{
+	height: 20px;
+	margin-right: 5px;
+	font-size: 12px;
+}
+.follow-me .glyphicon,.contact-me .glyphicon {
+	font-size:12px;
+	font-weight: normal;
+}
+.contact-me{
+	display: inline-block;
+	width: 75px;
+	height: 22px;
+	position: absolute;
+    top: -4px;
+    right: 0;
+    line-height: 20px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    opacity: .8;
+}
+.contact-me i{
+	height: 20px;
+	font-size: 16px;
+	margin-right: 5px;
+}
+
+.contact-me:hover{
+	color: #fff;
+	opacity: .8;
+}
+
+.case-list-item{
+	height:315px;
+	margin-bottom: 20px;
+}
+.case-list-item img{
+	width: 100%;
+	height: 202px;
+}
+.case-list-item-name{
+	background-color:  #f7f7f7;
+	height: 51px;
+	font-size: 14px;
+	padding: 15px 10px;
+	overflow: hidden;
+}
+.case-list-item-name p{
+	margin: 0;
+	width: 155px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.case-list-item-name span{
+	display: inline-block;
+	float: right;
+	color: #898989;
+}
+.case-list-item-admin{
+	background-color:  #f7f7f7;
+	height: 61px;
+	font-size: 14px;
+	padding: 13px 10px;
+	overflow: hidden;
+	border-bottom: 2px solid #f0f0f0;
+}
+.case-list-item-admin-info{
+	height: 35px;
+	float: left;
+	line-height: 35px;
+}
+.case-list-item-admin-info img{
+	width: 35px;
+	height: 35px;
+	margin-right: 5px;
+	display: inline-block;
+	margin-top: -25px;
+}
+.case-list-item-admin-info p{
+	display: inline-block;
+	margin: 0;
+	width: 120px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.case-list-item-admin span{
+	display: inline-block;
+	color: #999;
+	height: 35px;
+	line-height: 35px;
+}
+.case-list-item-admin span i{
+	color:#d9d9d9;
+}
+.case-list-item-admin span .fa-tag {
+	transform: rotateZ(90deg);
+}
+.case-page{
+	margin-bottom: 46px;
+}
+.dataTables_paginate  .case-page-list{
+	margin: 0 15px;
+}
+.case-page-list li a{
+	margin: 0 5px;
+}
+/*成功案例详情*/
+.personal-case-detail-main-area{
+	border: 1px solid #ebebeb;
+	background: #fff;
+	padding: 0;
+	margin: 20px 0 30px 0;
+}
+.personal-case-detail-title-name{
+	text-align: left;
+	height: 125px;
+	padding: 30px 0 15px 0;
+	margin: 0 20px;
+	border-bottom: 1px solid #ebebeb;
+}
+.personal-case-detail-title-name h4{
+	margin-top: 0;
+	margin-bottom: 20px;
+	font-weight: 800;
+}
+.personal-case-detail-tags{
+	display: inline-block;
+	height: 20px;
+	line-height: 15px;
+	border: 1px solid #c0c6d2;
+	color:  #898989;
+	padding: 2px 10px;
+	border-radius: 10px;
+	margin-right: 5px;
+}
+.personal-case-detail-time{
+	float: right;
+	color:  #898989;
+}
+.personal-case-detail-info-words{
+	padding: 40px 20px 0 20px;
+}
+.personal-case-detail-info-words p{
+	line-height: 22px;
+	text-indent: 28px;
+	margin-bottom: 35px;
+}
+.personal-case-detail-info-img{
+	text-align: center;
+	margin-bottom: 35px;
+}
+.personal-case-detail-info-img img{
+	display: inline-block;
+}
+.personal-case-detail-side-img{
+	padding: 18px 16px;
+	border: 1px solid #ebebeb;
+	background-color: #fff;
+}
+.personal-case-detail-about{
+	border: 1px solid #eaeaea;
+    background: #fff;
+    padding: 20px;
+}
+.personal-case-detail-about ul{
+	margin: 0 0 -1px 0;
+    overflow: hidden;
+    height: 629px;
+}
+.personal-case-detail-about li{
+	height: 126px;
+	border-bottom: 1px dashed #ccc;
+	padding: 20px 0;
+}
+.personal-case-detail-about li img{
+	width: 86px;
+	height: 86px;
+}
+.personal-case-detail-about-info{
+	padding-left: 20px;
+}
+.personal-case-detail-about-info p{
+	margin-bottom: 5px;
+}
+.personal-case-detail-about-info-name{
+	display: inline-block;
+	width: 120px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.contact-me-modal .modal-header{
+	padding: 10px 15px;
+	background: #ededed;
+	font-size: 14px;
+}
+.contact-me-modal .modal-header .close{
+	font-size: 24px;
+}
+.contact-me-modal .modal-body{
+	padding: 30px 50px 15px;
+}
+.contact-me-modal .modal-footer{
+	text-align: center;
+	border: none;
+	background: #fff;
+	padding: 0 50px 32px 50px;
+}
+.contact-me-modal .btn{
+	border-radius: 3px;
+	width: 108px;
+	height: 36px;
+	border:none;
+}
+.contact-me-modal .btn-primary{
+	background: #2f55a0!important;
+	/*margin-right:25px;*/
+	margin-right:15px;
+}
+.contact-me-modal .btn-default{
+	background: #ccc!important;
+}
+/*评价详情*/
+.personal-evaluate-area{
+	border: 1px solid #ebebeb;
+	background-color: #fff;
+	color: #898989;
+	margin: 0 15px 30px;
+}
+.personal-total-evaluate{
+	height: 90px;
+	border-bottom: 1px solid #ebebeb;
+	overflow: hidden;
+}
+.personal-total-evaluate-num{
+	width: 220px;
+	height: 52px;
+	float: left;
+	overflow: hidden;
+	padding-right: 40px;
+	margin: 19px 40px;
+	border-right: 1px solid #ebebeb;
+}
+.personal-evaluate-cicle-title{
+	float: left;
+	width: 52px;
+	height: 52px;
+	border: 1px solid #999;
+	border-radius: 50%;
+	font-size: 14px;
+	padding: 8px;
+	text-align: center;
+	line-height: 17px;
+}
+.personal-good-evaluate{
+	width: 123px;
+	height: 52px;
+	padding-left: 10px;
+	float: left;
+}
+.personal-good-evaluate p{
+	margin-bottom: 0;
+	height: 26px;
+	line-height: 18px;
+	font-size:14px;
+}
+.personal-good-evaluate p span{
+	font-size: 20px;
+	color: #ff9934;
+}
+.personal-total-evaluate-point{
+	float: left;
+	margin: 19px 0;
+	overflow: hidden;
+}
+.personal-evaluate-starts-list{
+	float: left;
+	height: 52px;
+	overflow: hidden;
+}
+.personal-evaluate-starts-item{
+	width: 130px;
+	height: 52px;
+	float: left;
+	margin-left: 30px;
+}
+.personal-evaluate-starts-item p {
+	font-size:14px;
+}
+.personal-star{
+	width: 130px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x ;
+}
+.personal-evaluate-star-base{
+	width: 80px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star.png) repeat-x left -52px;
+}
+.personal-evaluate-star-base-1{
+	width: 26px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x left -52px;
+}
+.personal-evaluate-star-base-2{
+	width: 52px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x left -52px;
+}
+.personal-evaluate-star-base-3{
+	width: 78px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x left -52px;
+}
+.personal-evaluate-star-base-4{
+	width: 104px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x left -52px;
+}
+.personal-evaluate-star-base-5{
+	width: 130px;
+	height: 18px;
+	display: inline-block;
+	background: url(../images/star1.png) repeat-x left -52px;
+}
+.personal-evaluate-list{
+	min-height: 555px;
+}
+.personal-evaluate-list ul{
+	margin: 0;
+}
+.personal-evaluate-list-item{
+	overflow: hidden;
+	padding: 30px 0 8px 0;
+	margin: 0 19px;
+	border-bottom: 1px dashed #ebebeb;
+}
+.personal-case-evaluate-words{
+	width: 920px;
+	float: left;
+}
+.personal-case-evaluate-words a{
+	color:#2f549f;
+}
+.personal-case-evaluate-words h5{
+	margin: 0;
+	font-size: 16px;
+}
+.personal-case-evaluate-words h5 span{
+	color: #ff9934;
+	padding-right: 15px;
+}
+.personal-case-evaluate-words p{
+	/*width: 100%;*/
+	height: 45px;
+	padding: 15px 0;
+	margin-bottom: 0;
+	line-height: 15px;
+	font-size: 12px;
+	color: #898989;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.personal-case-evaluate-person-time{
+	float: right;
+	color: #898989;
+}
+.personal-case-evaluate-person-time p{
+	line-height: 17px;
+	position: relative;
+}
+.personal-case-evaluate-person-time p span{
+	color: #ee5751;
+	padding-right:16px;
+}
+.personal-case-evaluate-person-time .p-space{
+	font-style: normal;
+	width:36px;
+	display: inline-block;
+	vertical-align: top;
+}
+.evaluate-flowers{
+	display: inline-block;
+	width: 15px;
+	height: 17px;
+	margin-right: 10px;
+	background: url(../images/flowers.png) center no-repeat;
+	position: relative;
+	top: 3px;
+}
+.personal-evaluate-page{
+	height: 49px;
+	padding: 8px 0;
+}
+.personal-evaluate-page li a{
+	margin: 0 5px;
+}
+/* 响应式 */
+@media (min-width: 992px) and (max-width: 1200px){
+	.personal-info{
+		width: 100%;
+		margin: 0;
+	}
+	.personal-info-back-pic{
+		width: 100%;
+	}
+	.personal-info-block{
+		width: 700px;
+	}
+	.personal-case-detail-list{
+		margin: 16px 15px;
+	}
+	.case-list-box{
+		margin: 0 15px;
+	}
+	/*.personal-about p{*/
+		/*width: 485px;*/
+	/*}*/
+	.personal-case-evaluate-words{
+		width: 75%;
+	}
+}
+@media (max-width: 991px) and (min-width: 769px) {
+	/*section{*/
+		/*margin: 15px 0 50px 0;*/
+	/*}*/
+	.personal-info{
+		margin: 0;
+	}
+	.personal-info-back-pic{
+		width: 100%;
+	}
+	.personal-info-block{
+		width: 500px;
+	}
+	.add-case.add-case992{
+		margin: 15px 0 0;
+	}
+	.add-case.add-case992 .col-sm-1{
+		width: 9.333333%;
+	}
+	.add-case.add-case992 .col-sm-11{
+		width: 90.66666667%;
+	}
+	.personal-case-detail-list{
+		margin: 16px 15px;
+	}
+	.personal-evaluate-area{
+		margin: 0 15px;
+	}
+	.case-list-box{
+		width: 100%;
+		margin: 0;
+		background: #0058dd;
+	}
+	.personal-case-evaluate-words{
+		width: 70%;
+	}
+	.personal-total-evaluate{
+		height:auto;
+	}
+	.personal-total-evaluate-num{
+		width: 100%;
+		margin: 0;
+		height: auto;
+		padding:15px;
+		border-right: none;
+	}
+	.personal-total-evaluate-point{
+		width: 100%;
+		margin: 0;
+		padding:0 15px 15px;
+		float: none;
+		overflow: hidden;
+	}
+	.personal-evaluate-starts-list{
+		width: 70%;
+		height:auto;
+	}
+	.personal-evaluate-starts-item{
+		width: 30%;
+		margin-left: 10px;
+	}
+}
+@media (max-width: 768px) and (min-width: 640px) {
+	/*section{*/
+		/*margin: 15px 0 50px 0;*/
+	/*}*/
+	.personal-info{
+		width: 100%;
+		margin: 0;
+		height:110px;
+		/*padding:4%;*/
+	}
+	.personal-info-back-pic{
+		width: 100%;
+		height:100%;
+	}
+	.personal-info-pic{
+		width: 60px;
+		height:60px;
+		position: relative;
+		top: -20px;
+	}
+	.personal-info-block{
+		width: 202%;
+		position: relative;
+		top: -81px;
+		overflow: hidden;
+		margin-left: 79px;
+	}
+	.personal-info-block-name{
+		margin-bottom: 8px;
+	}
+	.open-close-space-btn{
+		display: none;
+	}
+	.add-case.add-case992{
+		margin: 15px 0 0;
+	}
+	.add-case.add-case992 .col-sm-1{
+		width: 12.333333%;
+	}
+	.add-case.add-case992 .col-sm-11{
+		width: 87.66666667%;
+	}
+	.add-case.add-case992 .form-group .col-sm-offset-1 {
+		margin-left: 11%;
+	}
+	.task-select a:last-of-type(1),
+	.task-select a:last-of-type(2),
+	.task-select a:last-of-type(3),
+	.task-select a:last-of-type(4){
+		display: none;
+	}
+	.personal-case-detail-list{
+		margin: 16px 15px;
+	}
+	.personal-evaluate-area{
+		margin: 0 15px;
+	}
+	.case-list-box{
+		width: 100%;
+		margin: 0;
+		background: #0058dd;
+	}
+	.case-list-item img{
+		width: 100%;
+	}
+	.personal-total-evaluate{
+		height:auto;
+	}
+	.personal-total-evaluate-num{
+		width: 100%;
+		margin: 0;
+		height: auto;
+		padding:15px;
+		border-right: none;
+	}
+	.personal-total-evaluate-point{
+		width: 100%;
+		margin: 0;
+		padding:0 15px 15px;
+		float: none;
+		overflow: hidden;
+	}
+	.personal-evaluate-starts-list{
+		width: 70%;
+		height:auto;
+	}
+	.personal-evaluate-starts-item{
+		width: 30%;
+		margin-left: 10px;
+	}
+	.personal-evaluate-list-item{
+		margin: 0 15px;
+		padding:15px 0 8px;
+	}
+	.personal-case-evaluate-words{
+		width: 70%;
+	}
+	.personal-case-evaluate-person-time{
+		width: 28%;
+		text-align: left;
+	}
+	.personal-case-evaluate-words p{
+		width: 100%;
+	}
+}
+@media (max-width: 639px) and (min-width: 320px) {
+	.container{
+		width: 100%;
+	}
+	/*section{*/
+		/*margin: 15px 0 50px 0;*/
+	/*}*/
+	.personal-info{
+		/*width: 100%;*/
+		/*margin: 0 -5px;*/
+		height:110px;
+	}
+	.personal-info-back-pic{
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	.open-close-space-btn{
+		display: none;
+	}
+	.personal-info-words{
+		position: absolute;
+		left:5px;
+	}
+	.personal-info-block{
+		width:183%;
+		position: relative;
+		top:-11px;
+		margin-left: 100px;
+	}
+	.personal-info-block-name{
+		margin-bottom: 8px;
+	}
+	.add-case.add-case992{
+		margin: 15px 0 0;
+	}
+	.add-case.add-case992 .col-sm-1{
+		width: 12.333333%;
+	}
+	.add-case.add-case992 .col-sm-11{
+		width: 87.66666667%;
+	}
+	.add-case.add-case992 .form-group .col-sm-offset-1 {
+		margin-left: 11%;
+	}
+	.task-select a:last-of-type(1),
+	.task-select a:last-of-type(2),
+	.task-select a:last-of-type(3),
+	.task-select a:last-of-type(4){
+		display: none;
+	}
+	.personal-case-detail-list{
+		/*width: 100%;*/
+		margin: 16px 10px;
+	}
+	.personal-evaluate-area{
+		margin: 0 10px;
+	}
+	.case-list-box{
+		width: 100%;
+		margin: 0;
+		background: #0058dd;
+	}
+	.personal-add-case-btn{
+		display: none;
+	}
+	.personal-info-pic{
+		width: 60px;
+		height:60px;
+		position: relative;
+		top: -20px;
+		left: 20px;
+	}
+	.case-list-item{
+		height: auto;
+		overflow: hidden;
+	}
+	.case-list-item img{
+		width: 100%;
+		max-height: 150px;
+		height:auto;
+	}
+	.case-list-item-name{
+		padding:10px 5px 6px;
+		height:auto;
+		line-height: 1.2;
+	}
+	.case-list-item-admin{
+		padding:6px 5px;
+		height:auto;
+		line-height: 1.2;
+	}
+
+	.case-list-item-name p{
+		width: 100%;
+	}
+	.case-list-item-admin span{
+		width: 49.5%;
+		height:auto;
+		line-height: 1.5;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.personal-total-evaluate{
+		height:auto;
+	}
+	.personal-total-evaluate-num{
+		width: 100%;
+		margin: 0;
+		height: auto;
+		padding:15px;
+		border-right: none;
+	}
+	.personal-total-evaluate-point{
+		width: 100%;
+		margin: 0;
+		padding:0 15px 15px;
+		float: none;
+		overflow: hidden;
+	}
+	.personal-evaluate-starts-list{
+		width: 70%;
+		height:auto;
+	}
+	.personal-evaluate-starts-item{
+		margin-left: 10px;
+	}
+	.personal-evaluate-list-item{
+		margin: 0 5px;
+		padding:15px 0 8px;
+	}
+	.personal-case-evaluate-words{
+		width: 60%;
+	}
+	.personal-case-evaluate-person-time{
+		width: 36%;
+		text-align: right;
+	}
+	.personal-case-evaluate-person-time p:last-child span{
+		display: inline-block;
+		width: 100%;
+		white-space: nowrap;
+	}
+}
+
+.follow-contact-me{
+	top:2px;
+	right:81px;
+}
+@media (min-width: 992px) {
+	.serivce-caseList{
+		min-height: 270px;
+	}
+}
+

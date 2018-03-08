@@ -1,0 +1,316 @@
+
+    <div class="g-taskposition col-lg-12 col-left text-size12">
+            您的位置：首页 > 服务商
+    </div>
+    <div class="col-lg-9 col-left">
+            <div class="g-taskclassify g-serivceitem table-responsive">
+                <div class="col-md-12 col-xs-12 serivce-type">
+                    <div class="col-md-1 col-sm-2 col-xs-12 cor-gray51 text-size14">
+                        <div class="row">
+                            服务商分类
+                        </div>
+                    </div>
+                    <div class="col-lg-11 col-sm-10 col-xs-12">
+                        <a class="<?php echo (!isset($merge['category']) || $merge['category']==$pid)?'bg-blue':''; ?>" href="<?php echo URL('bre/service'); ?>">全部</a>
+                        <?php /*<a class="<?php echo (!isset($merge['category']) || $merge['category']==$pid)?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'keywords'),['category'=>0])); ?>">全部</a>*/ ?>
+                        <?php foreach(array_slice($category,0,7) as $v): ?>
+                            <a class="<?php echo (isset($merge['category']) && $merge['category']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['category'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                        <?php endforeach; ?>
+                        <?php if(count($category)>7): ?>
+                            <div class="pull-right select-fa-angle-down">
+                                <i class="fa fa-angle-down text-size14 show-next"></i>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php /*服务商筛选*/ ?>
+                <div class="col-md-12 col-xs-12 serivcelist-type">
+                    <div class="col-md-1 col-sm-2 col-xs-12 cor-gray51 text-size14">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <?php if(count($category)>7): ?>
+                        <div class="col-lg-11 col-sm-10  col-xs-12">
+                            <?php foreach(array_slice($category,7,(count($category)-7)) as $v): ?>
+                                <a class="<?php echo (isset($merge['category']) && $merge['category']==$v['id'])?'bg-blue':''; ?>"
+                                   href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['category'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="col-xs-12 clearfix task-area">
+
+                        <div class="col-md-1 col-sm-2 col-xs-12 cor-gray51 text-size14">
+                            <div class="row">
+                                服务商地区
+                            </div>
+                        </div>
+                        <div class="col-lg-11 col-sm-10 col-md-10 col-xs-12">
+                            <?php if(count($area)>7): ?>
+                                <div class="pull-right select-fa-angle-down">
+                                    <i class="fa fa-angle-down text-size14 show-next"></i>
+                                </div>
+                            <?php endif; ?>
+                                <?php if(isset($_GET['province'])): ?>
+                                    <a class="<?php echo ( $merge['province']==$area_pid)?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except(array_except($merge,['keywords','page']),['area','city','province']))); ?>">全部</a>
+                                    <?php foreach(array_slice($area,0,7) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['page','province']), ['city'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php elseif(isset($_GET['city'])): ?>
+                                    <a class="<?php echo ($merge['city']==$area_pid)?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['area','city','province','page']))); ?>">全部</a>
+                                    <?php foreach(array_slice($area,0,7) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['page','city']), ['area'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php elseif(isset($_GET['area'])): ?>
+                                    <a class="<?php echo (!isset($_GET['area']) && $merge['area']==$area_pid)?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['area','city','province','keywords','page']))); ?>">全部</a>
+                                    <?php foreach(array_slice($area,0,7) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['area'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <a class="bg-blue" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['area','city','keywords','page']),['province'=>0])); ?>">全部</a>
+                                    <?php foreach(array_slice($area,0,7) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['province'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                        </div>
+
+                </div>
+                <?php if(count($area)>7): ?>
+                    <div class="col-xs-12 clearfix service-area">
+                        <div class="row">
+                            <div class="col-lg-1 col-sm-2 col-md-2 cor-gray51 text-size14 col-xs-12">
+                                <div class="task-dq-label">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-sm-10 col-md-10 col-xs-12">
+                                <?php if(isset($_GET['province'])): ?>
+                                    <?php foreach(array_slice($area,7,(count($area)-7)) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['page','province']), ['city'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php elseif(isset($_GET['city'])): ?>
+                                    <?php foreach(array_slice($area,7,(count($area)-7)) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,['page','city']), ['area'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php elseif(isset($_GET['area'])): ?>
+                                    <?php foreach(array_slice($area,7,(count($area)-7)) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['area'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <?php foreach(array_slice($area,7,(count($area)-7)) as $v): ?>
+                                        <a class="<?php echo (isset($merge['area']) && $merge['area']==$v['id'])?'bg-blue':''; ?>" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['province'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="g-taskmain">
+                <div class="clearfix g-taskmainhd">
+                    <div class="pull-left">
+                        <a href="/bre/service" class="g-taskmact">综合</a>
+                        <span>|</span>
+                        <a class="g-taskmaintime"
+                           href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['employee_praise_rate'=>1])); ?>">
+                            好评数 <i class="glyphicon glyphicon-arrow-down"></i>
+                        </a>
+                        <?php /*<span>|</span>
+                        <a class="g-taskmaintime" href="<?php echo URL('bre/service').'?'.http_build_query(array_merge(array_except($merge,'page'), ['receive_task_num'=>1])); ?>">
+                            成交量 <i class="glyphicon glyphicon-arrow-down"></i>
+                        </a>*/ ?>
+                    </div>
+                    <div class="pull-left g-taskmaininp">
+                        <form method="get" action="<?php echo URL('bre/service').'?'.http_build_query($merge); ?>">
+                            <input type="text" name="service_name" placeholder="请输入关键字" <?php if(!empty($merge['service_name'])): ?>value="<?php echo e($merge['service_name']); ?>"<?php endif; ?>/>
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <ul class="g-taskmainlist">
+                    <?php if(!empty($list)): ?>
+                    <?php foreach($list as $item): ?>
+                    <li class="clearfix">
+                        <div class="col-sm-2 col-xs-2 m-serivcebox">
+                            <div class="row">
+                                <img src="<?php if($item->avatar): ?><?php echo URL($item->avatar); ?> <?php else: ?> <?php echo Theme::asset()->url('images/default_avatar.png'); ?> <?php endif; ?>" class="img-responsive" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))">
+                            </div>
+                            <?php if($item->is_recommend == 1 && $item->shop_status == 1 && $item->shopId): ?>
+                            <span class="u-serviceimgico">荐</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-sm-8 col-xs-10 nopdr">
+                            <div class="">
+                                <a class="cor-blue2f text-size18 text-blod "href="<?php if($item->shop_status == 1 && $item->shopId): ?> <?php echo url('shop/'.$item->shopId); ?> <?php else: ?><?php echo URL('bre/serviceEvaluateDetail/'.$item->id); ?><?php endif; ?>" target="_blank"><?php echo $item->name; ?>
+
+                                    <?php /*<span class="s-servicericon s-icob1"></span><span class="s-servicericon s-ico1"></span><span class="s-servicericon s-icoa1" ></span>*/ ?>
+                                    &nbsp;
+                                    <?php if(isset($item->auth) && $item->auth['bank'] == true): ?>
+                                        <span class="s-servicericon bank-attestation"></span>
+                                    <?php else: ?>
+                                        <span class="s-servicericon bank-attestation-no"></span>
+                                    <?php endif; ?>
+                                    <?php if(isset($item->auth) && $item->auth['realname'] == true): ?>
+                                        <span class="s-servicericon cd-card-attestation"></span>
+                                    <?php else: ?>
+                                        <span class="s-servicericon cd-card-attestation-no"></span>
+                                    <?php endif; ?>
+                                    <?php if($item->email_status == 2): ?>
+                                        <span class="s-servicericon email-attestation"></span>
+                                    <?php else: ?>
+                                        <span class="s-servicericon email-attestation-no"></span>
+                                    <?php endif; ?>
+                                    <?php if(isset($item->auth) && $item->auth['alipay'] == true): ?>
+                                        <span class="s-servicericon alipay-attestation"></span>
+                                    <?php else: ?>
+                                        <span class="s-servicericon alipay-attestation-no"></span>
+                                    <?php endif; ?>
+                                    <?php if(isset($item->auth) && $item->auth['enterprise'] == true): ?>
+                                    <span class="s-servicericon company-attestation"></span>
+                                    <?php else: ?>
+                                    <span class="s-servicericon company-attestation-no"></span>
+                                    <?php endif; ?>
+                                </a>
+                                <p class="p-space cor-gray87 hidden-xs">服务范围：
+                                    <?php if(empty($item->skill)): ?>
+                                        暂无标签
+                                    <?php else: ?>
+                                        <?php foreach($item->skill as $value): ?>
+                                        <?php echo $value; ?>&nbsp;&nbsp;
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </p>
+                                <p class="cor-gray87">好评数：<?php echo $item->employee_praise_rate; ?>个&nbsp;&nbsp;|&nbsp;&nbsp;好评率：<b class="cor-orange"><?php echo $item->percent; ?>%</b></p>
+                                <?php /*<p class="p-space cor-gray87 hidden-xs">
+                                    简介：<?php if(!empty($item->introduce)): ?><?php echo $item->introduce; ?><?php else: ?>这家伙很懒什么也没留下！<?php endif; ?>
+                                </p>*/ ?>
+                                <div class="space-4"></div>
+                                <?php /*<?php if($item->skill || $item->pre): ?>
+                                <div class="u-item serviceitem">
+                                    <span class="cor-gray87">标签：</span>
+                                    <?php if(!empty($item->skill)): ?>
+                                    <?php foreach($item->skill as $value): ?>
+                                        <a href="javascript:;" class="u-itmbtn"><?php echo $value; ?></a>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    <?php if($item->pre && $item->city): ?>
+                                        <a href="javascript:;" class="u-itmbtn"><?php echo $item->pre.$item->city; ?></a>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php if(empty($item->skill) && empty($item->pre)): ?><p class="p-space cor-gray87 hidden-xs">标签：暂无标签</p><?php endif; ?>*/ ?>
+                                    <?php if($item->pre && $item->city): ?>
+                                    <div class="u-item serviceitem cor-gray87"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;
+                                        <?php echo $item->pre.$item->city; ?>
+
+                                    </div>
+                                    <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php if($item->shop_status == 1 && $item->shopId): ?>
+                        <div class="col-sm-2 hidden-xs m-serivcebox1">
+                            <div class="row text-right">
+                                <?php /*<a href="<?php if(Auth::check() && Auth::User()->id == $item->id): ?> <?php echo url('user/personCase'); ?> <?php else: ?><?php echo URL('bre/serviceCaseList/'.$item->id); ?><?php endif; ?>" class="cor-white "><i class="fa fa-cube"></i>&nbsp;&nbsp;进入空间</a>*/ ?>
+                                <a class="g-toshopbtn" <?php if(Auth::check() && Auth::id() == $item->id): ?> href="<?php echo URL('/shop/manage/'.$item->shopId); ?>" <?php else: ?> href="<?php echo URL('/shop/'.$item->shopId); ?>" <?php endif; ?> target="_blank">进入店铺</a>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </li>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+            <div class="clearfix">
+                <div class="g-taskpaginfo"><?php if(!empty($page)): ?>显示<?php echo ($page - 1) * $paginate + 1; ?>~<?php echo $page * $paginate; ?>项<?php endif; ?> 共<?php echo $list->total(); ?>个服务商</div>
+                <div class="paginationwrap">
+                        <?php echo $list->render(); ?>
+
+                </div>
+            </div>
+    </div>
+    <div class="col-lg-3 g-secrivceside visible-lg-block g-secrivewrap col-left">
+        <div class="g-tasksidemand">
+            <div>
+                <?php if(count($rightAd)): ?>
+                <a href="<?php echo $rightAd[0]['ad_url']; ?>"><img src="<?php echo URL($rightAd[0]['ad_file']); ?>" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))" /></a>
+                <?php else: ?>
+                <img src="<?php echo Theme::asset()->url('images/mybg.png'); ?>" />
+                <?php endif; ?>
+            </div>
+            <form class="registerform" action="/task/create" method="get">
+            <div>
+                <div class="space-10"></div>
+                <b class="text-size16 cor-gray51">快速发布需求</b>
+                <div class="space-2"></div>
+                <p class="cor-gray87">快速发布，坐等服务商回复</p>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                    <i class="u-tasksideico1"></i>
+                    </span>
+                <select disabled readonly="true" name="type"><option value="1" >悬赏任务</option></select>
+                </div>
+                <div class="space-6"></div>
+                <div class="input-group">
+                            <span class="input-group-addon">
+                            <i class="u-tasksideico2"></i>
+                            </span>
+                    <input id="form-field-mask-2" class="form-control input-mask-phone" name="title"  type="text" placeholder="需求标题,如：logo设计" />
+                </div>
+                <div class="space-6"></div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                    <i class="u-tasksideico3"></i>
+                    </span>
+                    <input id="form-field-mask-3" class="form-control input-mask-phone" type="text"  name="phone" placeholder="手机号码" />
+                </div>
+                <div class="space-6"></div>
+                <button class="btn btn-block btn-primary bor-radius2 text-size14 btn-blue">发布需求</button>
+            </div>
+            </form>
+        </div>
+        <div class="space-10"></div>
+        <?php if(count($hotList)): ?>
+        <div class="g-tasksidelist">
+            <div class="clearfix g-tasksidelihd"><b class="pull-left cor-gray51 text-size14"><?php echo $targetName; ?></b><?php /*<a class="pull-right" href="">More></a>*/ ?></div>
+            <ul>
+                <?php foreach($hotList as $v): ?>
+                <li class="clearfix">
+                    <div class="media-left"><?php /*<img src="../../images/mybg.png">*/ ?><a href="<?php echo $v['url']; ?>"><img src="<?php echo URL($v['recommend_pic']); ?>" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))"></a></div>
+                    <div class="media-body g-tasksidelinfo">
+                        <a class="cor-gray51 p-space" href="<?php echo $v['url']; ?>"><?php echo $v['recommend_name']; ?></a>
+                        <div class="space-4"></div>
+                        <p class="cor-gray87">好评率：<b class="cor-orange"><?php echo $v['percent']*100; ?>%</b></p>
+                        <div class="space-12"></div>
+                        <a class="cor-gray87 visible-lg-block" href="<?php echo $v['url']; ?>">详情>></a>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+        <div class="space-14"></div>
+
+    </div>
+
+    <!--广告位-->
+    <?php if(count($ad)): ?>
+    <div class="for-advertise col-md-12 visible-lg-block" >
+            <a href="<?php echo $ad[0]['ad_url']; ?>"><img src="<?php echo URL($ad[0]['ad_file']); ?>" alt="" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))"></a>
+            <div class="space-10"></div>
+    </div>
+    <?php endif; ?>
+
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('service-task-css', 'css/taskbar/taskindex.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('service-css', 'css/service.css'); ?>
+
+
+
+
+
+
+
+

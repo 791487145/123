@@ -1,0 +1,122 @@
+<?php /*列表*/ ?>
+<h3 class="header smaller lighter blue mg-bottom20 mg-top12">奖品管理</h3>
+
+<div class="well">
+    <form class="form-inline search-group" role="form" action="<?php echo url('manage/addPrize'); ?>" method="post" enctype="multipart/form-data">
+        <?php echo csrf_field(); ?>
+
+        <div class="form-group search-list ">
+            <label for="name" class="">名称</label>
+            <input type="text" name="name" value="" >
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">图片</label>
+            <input type="file" name="icon" value="">
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">类型</label>
+            <select name="kind">
+                <option value="">请选择</option>
+                <?php foreach($type as $v): ?>
+                    <?php if($v['type'] == 'stdmode'): ?>
+                        <option value="<?php echo e($v['id']); ?>"><?php echo e($v['name']); ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">功能</label>
+            <select name="ability">
+                <option value="0">请选择</option>
+                <?php foreach($type as $v): ?>
+                <?php if($v['type'] == 'prop'): ?>
+                    <option value="<?php echo e($v['id']); ?>"><?php echo e($v['name']); ?></option>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+
+        </div>
+        <div class="space"></div>
+        <div class="form-group search-list">
+            <label for="namee" class="">价值（实物价值）</label>
+            <input type="text" name="price" value="">
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">金币兑换</label>
+            <input type="text" name="gold" value="">
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">兑换码标志</label>
+            <input type="text" name="sign" value="">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-sm">生成</button>
+        </div>
+        <div class="space"></div>
+       
+        <div class="">
+    
+        </div>
+    </form>
+</div>
+
+
+<div class="table-responsive">
+    <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>
+                <label>
+                    编号
+                </label>
+            </th>
+            <th>名称</th>
+            <th>图片</th>
+            <th>类型</th>
+            <th>实物价值</th>
+            <th>金币兑换数量</th>
+            <th>兑换码标志</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <?php if(!empty($prize)): ?>
+            <?php foreach($prize as $k=>$item): ?>
+                <tr>
+                    <td><?php echo $k+1; ?></td>
+                    <td><?php echo $item['name']; ?></td>
+                    <td><img src="/<?php echo $item['icon']; ?>" style="height:30px;"></td>
+                    <td><?php if($item['kind'] == 1): ?>实物 <?php else: ?> 道具 <?php endif; ?></td>
+                    <td><?php echo $item['price']; ?>元</td>
+                    <td><?php echo $item['gold']; ?></td>
+                    <td><?php echo $item['sign']; ?></td>
+                    <td>
+                        <a class="btn btn-xs btn-info" href="prizeDet/<?php echo e($item['id']); ?>">
+                            <i class="fa fa-edit bigger-120"></i>编辑
+                        </a>
+                        <a  href="prizeDel/<?php echo e($item['id']); ?>" title="删除" class="btn btn-xs btn-danger">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                        </a>
+                        
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
+<div class="col-xs-12">
+    <div class="dataTables_paginate paging_bootstrap row">
+        <ul class="pagination">
+           <?php echo $prize->render(); ?>
+
+        </ul>
+    </div>
+</div>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usePath()->add('questionlist', 'js/doc/questionlist.js'); ?>

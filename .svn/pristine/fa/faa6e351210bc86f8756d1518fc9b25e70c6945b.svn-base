@@ -1,0 +1,9 @@
+{
+	"name": "Employ",
+	"slug": "employ",
+	"namespace": "Employ",
+	"version": "1.0",
+	"author": "kppw",
+	"license": "MIT",
+	"description": "This is the Employ module"
+}

@@ -1,0 +1,9 @@
+{
+	"name": "Question",
+	"slug": "question",
+	"namespace": "Question",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Question module."
+}

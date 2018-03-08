@@ -1,0 +1,324 @@
+<?php /*<div class="well">
+	<h4 >普通用户资料</h4>
+</div>*/ ?>
+<h3 class="header smaller lighter blue mg-top12 mg-bottom20">编辑普通用户资料</h3>
+
+<form class="form-horizontal registerform" role="form" action="<?php echo url('manage/userEdit'); ?>" method="post">
+    <?php echo csrf_field(); ?>
+
+	<div class="g-backrealdetails clearfix bor-border">
+		<input type="hidden" name="uid" value="<?php echo $info['id']; ?>">
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 用户名：</p>
+			<p class="col-sm-4">
+				<input type="text" name="name" id="form-field-1" class="col-xs-10 col-sm-5" value="<?php echo $info['name']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 真实姓名：</p>
+			<p class="col-sm-4">
+				<input type="text" name="realname" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['realname']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 昵    称：</p>
+			<p class="col-sm-4">
+				<input type="text" name="nickname" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['nickname']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 性    别：</p>
+			<p class="col-sm-4">
+				<!-- <input type="text" name="sex" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['sex_str']; ?>"> -->
+				<select name="sex">
+					<option>选择性别</option>
+					<?php foreach($sex_arr as $sex_s): ?>
+						<option <?php if($info['sex'] == $sex_s['num']): ?> selected="selected" <?php endif; ?> value="<?php echo $sex_s['num']; ?>"><?php echo $sex_s['str']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 手机号码：</p>
+			<p class="col-sm-4">
+				<input type="text" name="mobile" id="form-field-1"   class="col-xs-10 col-sm-5" value="<?php echo $info['mobile']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 出生日期：</p>
+			<div class="col-sm-4">
+				<p class="input-group input-group-sm col-xs-10 col-sm-5">
+					<input type="text" disabled="disabled" id="datepicker" class="form-control hasDatepicker">
+					<!-- <input type="text" name="birthday" id="datepicker" class="form-control hasDatepicker"> -->
+				</p>
+			</div>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 年    龄：</p>
+			<p class="col-sm-4">
+				<input type="text" disabled="disabled" name="year_old" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['year_old']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 余    额：</p>
+			<p class="col-sm-4">
+				<input type="text" name="balance" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['balance']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 金    币：</p>
+			<p class="col-sm-4">
+				<input type="text" name="gold" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['gold']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p  class="col-sm-1 control-label no-padding-left">所在地：</p>
+			<div class="col-sm-6">
+				<div class="row">
+					<p class="col-sm-4">
+						<select name="province" id="province" class="form-control validform-select Validform_error" onchange="checkprovince(this)">
+							<option value="" id="province-back">请选择省份</option>
+							<?php foreach($province as $item): ?>
+								<option <?php if($info['province'] == $item['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item['id']; ?>"><?php echo $item['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+					<p class="col-sm-4">
+						<?php if(!empty($info['city'])): ?>
+						<select class="form-control  validform-select" name="city" id="city" onchange="checkcity(this)">
+						<?php else: ?>
+						<select class="form-control  validform-select" style="display: none;" name="city" id="city" onchange="checkcity(this)">
+						<?php endif; ?>
+							<option value="" id="city-back">请选择城市</option>
+							<?php foreach($province_city as $item1): ?>
+								<option <?php if($info['city'] == $item1['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item1['id']; ?>"><?php echo $item1['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+					<p class="col-sm-4">
+						<?php if(!empty($info['area'])): ?>
+						<select class="form-control  validform-select" name="area" id="area">
+						<?php else: ?>
+						<select class="form-control  validform-select" style="display:none;" name="area" id="area">
+						<?php endif; ?>
+							<option value="" id="city-back">请选择区域</option>
+							<?php foreach($city_area as $item2): ?>
+								<option <?php if($info['area'] == $item2['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item2['id']; ?>"><?php echo $item2['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+						
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 籍    贯：</p>
+			<p class="col-sm-4">
+				<input type="text" name="native_place" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['native_place']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p  class="col-sm-1 control-label no-padding-left">学校信息：</p>
+			<div class="col-sm-6">
+				<div class="row">
+					<p class="col-sm-4">
+						<select name="region" id="region" class="form-control validform-select Validform_error" onchange="checkregion(this)">
+							<option value="" id="region-back">请选择大区</option>
+							<?php foreach($region as $item3): ?>
+								<option <?php if($info['region'] == $item3['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item3['id']; ?>"><?php echo $item3['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+					<p class="col-sm-4">
+						<?php if(!empty($info['school_province'])): ?>
+						<select class="form-control  validform-select" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
+						<?php else: ?>
+						<select class="form-control  validform-select" style="display: none;" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
+						<?php endif; ?>
+							<option value="" id="school-province-back">请选择城市</option>
+							<?php foreach($region_province as $item4): ?>
+								<option <?php if($info['school_province'] == $item4['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item4['id']; ?>"><?php echo $item4['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+					<p class="col-sm-4">
+						<?php if(!empty($info['school'])): ?>
+						<select class="form-control  validform-select" name="school" id="school">
+						<?php else: ?>
+						<select class="form-control  validform-select" style="display: none;" name="school" id="school">
+						<?php endif; ?>
+							<option value="">请选择学校</option>
+							<?php foreach($province_school as $item5): ?>
+								<option <?php if($info['school'] == $item5['id']): ?>selected="selected"<?php endif; ?> value="<?php echo $item5['id']; ?>"><?php echo $item5['name']; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 系：</p>
+			<p class="col-sm-4">
+				<input type="text" name="system" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['system']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 专    业：</p>
+			<p class="col-sm-4">
+				<input type="text" name="majors" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['majors']; ?>">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 班    级：</p>
+			<p class="col-sm-4">
+				<input type="text" name="class" id="form-field-1"  class="col-xs-10 col-sm-5" value="<?php echo $info['class']; ?>">
+			</p>
+		</div>
+		<div class="col-xs-12">
+			<div class="clearfix row bg-backf5 padding20 mg-margin12">
+				<div class="col-xs-12">
+					<div class="col-md-1 text-right"></div>
+					<div class="col-md-10">
+						<button class="btn btn-primary btn-sm" type="submit">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <input type="hidden" name="change_ids" id="area-change" value="" /> -->
+		<?php /*<table id="sample-table-1" class="table table-striped table-bordered table-hover">
+	            <thead>
+	            <tr>
+	                <th >排序</th>
+	                <th width="50%" >名称</th>
+	                <th>操作</th>
+	            </tr>
+	            </thead>
+	            <tbody id="area_data_change">
+	            <?php foreach($province as $v): ?>
+	                <tr id="area-delete-<?php echo e($v['id']); ?>" area_id = "<?php echo e($v['id']); ?>">
+	
+	                    <td>
+	                        <input class="area-index" type="text" name="displayorder[<?php echo e($v['id']); ?>]" value="<?php echo e($v['displayorder']); ?>" area_id="<?php echo e($v['id']); ?>" onchange="area_change($(this))">
+	                    </td>
+	                    <td class="text-left">
+	                        <input type="text" name="name[<?php echo e($v['id']); ?>]" value="<?php echo e($v['name']); ?>" area_id="<?php echo e($v['id']); ?>" onchange="area_change($(this))">
+	                    </td>
+	                    <td width="40%">
+	                        <span class="btn  btn-sm btn-primary" area_id="<?php echo e($v['id']); ?>"  onclick="area_delete($(this))" >删除</span>
+	                    </td>
+	
+	                </tr>
+	            <?php endforeach; ?>
+	            </tbody>
+	        </table>*/ ?>
+		<?php /*<div class="space col-xs-12"></div>
+		<div class="col-xs-12">
+			<div class="col-md-1 text-right"></div>
+			<div class="col-md-10"><a href="">上一项</a>　　<a href="">下一项</a></div>
+		</div>*/ ?>
+	</div>
+</form>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('back-stage-css', 'css/backstage/backstage.css'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('validform-css', 'plugins/jquery/validform/css/style.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('validform-js', 'plugins/jquery/validform/js/Validform_v5.3.2_min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('datepicker-css', 'plugins/ace/css/datepicker.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('datepicker-js', 'plugins/ace/js/date-time/bootstrap-datepicker.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usePath()->add('userManage-js', 'js/userManage.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usePath()->add('main-js', 'js/main.js'); ?>
+
+<script>
+    /**
+     * 省级切换
+     * @param  obj
+     */
+    function checkprovince(obj){
+    	$('#city').hide();
+    	$('#area').hide();
+        var id = obj.value;
+        $('#province-back').val(0);
+        $.get('/manage/ajaxcity',{'id':id},function(data){
+            var html = '<option>请选择城市</option>';
+            // var area = '';
+            for(var i in data.province){
+                html+= "<option value=\""+data.province[i].id+"\">"+data.province[i].name+"<\/option>";
+                // area+= "<tr id='area-delete-"+data.province[i].id+"'  area_id=\""+data.province[i].id+"\"><td><input class=\"area-index\" type=\"text\" name=\"displayorder["+data.province[i].id+"]\" value=\""+data.province[i].displayorder+"\" area_id=\""+data.province[i].id+"\" onchange=\"area_change($(this))\"><\/td><td class=\"text-left\"><input type=\"text\" name=\"name["+data.province[i].id+"]\"  value=\""+ data.province[i].name+"\" area_id=\""+data.province[i].id+"\" onchange=\"area_change($(this))\"><\/td><td width=\"40%\"><span class=\"btn btn-sm btn-primary\" area_id=\""+data.province[i].id+"\" onclick=\"area_delete($(this))\">删除<\/span><\/td><\/tr>";
+            }
+            if(data.id!=0){
+                $('#province_check').html(html);
+            }else{
+                html = '<option value=\"\">城市</option>';
+                $('#province_check').html(html);
+            }
+            $('#city').html();
+            $('#city').html(html).show();
+            //替换数据列表
+            // $('#area_data_change').html(area);
+            // $('#area-change').attr('value','');
+        });
+    }
+    /**
+     * 市级切换
+     * @param  obj
+     */
+    function checkcity(obj){
+    	$('#area').hide();
+        var id = obj.value;
+        $('#city-back').attr('value',id);
+        $.get('/manage/ajaxarea',{'id':id},function(data){
+            var html = '<option>请选择区域<\/option>';
+            // var area = '';
+            for(var i in data){
+                html += "<option value=\""+data[i].id+"\">"+data[i].name+"<\/option>";
+                // area+= "<tr id='area-delete-"+data[i].id+"' area_id=\""+data[i].id+"\"><td><input class=\"area-index\" type=\"text\" name=\"displayorder["+data[i].id+"]\" value=\""+data[i].displayorder+"\" area_id=\""+data[i].id+"\" onchange=\"area_change($(this))\"><\/td><td class=\"text-left\"><input type=\"text\" name=\"name["+data[i].id+"]\" value=\""+ data[i].name+"\" area_id=\""+data[i].id+"\" onchange=\"area_change($(this))\"><\/td><td width=\"40%\"><span class=\"btn btn-sm btn-primary\" area_id=\""+data[i].id+"\" onclick=\"area_delete($(this))\">删除<\/span><\/td><\/tr>";
+            }
+            $('#area').html();
+            $('#area').html(html).show();
+            // $('#area_data_change').html(area);
+            // $('#area-change').attr('value','');
+        });
+    }
+
+    /**
+     * 大区切换
+     * @param  obj
+     */
+    function checkregion(obj){
+    	var id = obj.value;
+    	$('#school_province').hide();
+    	$('#school').hide();
+    	$.get('/manage/ajaxRegionProvince',{'id':id},function(data){
+    		var html = '<option>请选择省份<\/option>';
+    		$('#region-back').val(0);
+    		for(var i in data.region){
+    			html += "<option value=\""+data.region[i].id+"\">"+data.region[i].name+"<\/option>";
+    		}
+    		$('#school_province').html();
+    		$('#school_province').html(html).show();
+    	});
+    }
+
+    /**
+     * 学校省份切换
+     * @param  obj
+     */
+    function checkschoolprovince(obj){
+    	var id = obj.value;
+    	$('#school').hide();
+    	$('#school-province-back').attr('value',id);
+    	$.get('/manage/ajaxProvinceSchool',{'id':id},function(data){
+    		var html = '<option>请选择学校<\/option>';
+    		for(var i in data){
+    			html += "<option value=\""+data[i].id+"\">"+data[i].name+"<\/option>";
+    		}
+    		$('#school').html();
+    		$('#school').html(html).show();
+    	});
+    }
+</script>

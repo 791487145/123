@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html  class="no-js" lang="">
+<head>
+    <title><?php echo Theme::get('title'); ?></title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <?php /*<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">*/ ?>
+    <?php if(isset(Theme::get('basis_config')['css_adaptive']) && Theme::get('basis_config')['css_adaptive'] == 1): ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <?php else: ?>
+        <meta name="viewport" content="initial-scale=0.1">
+    <?php endif; ?>
+    <link rel="shortcut icon" href="<?php echo e(Theme::asset()->url('images/favicon.ico')); ?>" />
+    <meta property="qc:admins" content="232452016063535256654" />
+    <meta name="keywords" content="<?php echo Theme::get('keywords'); ?>">
+    <meta name="description" content="<?php echo Theme::get('description'); ?>">
+    <meta name="csrf-token" content="<?php echo csrf_token(); ?>">
+    <link rel="stylesheet" href="/themes/default/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/themes/default/assets/plugins/ace/css/ace.min.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/main.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/header.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/footer.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/sign/sign.css">
+    <link rel="stylesheet" href="/themes/default/assets/css/<?php echo Theme::get('color'); ?>/style.css">
+    <?php echo Theme::asset()->container('specific-css')->styles(); ?>
+
+    <?php echo Theme::asset()->container('custom-css')->styles(); ?>
+
+
+</head>
+<body>
+
+<?php echo Theme::content(); ?>
+
+
+<footer>
+    <?php echo Theme::partial('footer'); ?>
+
+</footer>
+
+<script type="text/javascript" src="/themes/default/assets/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/themes/default/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/themes/default/assets/js/common.js"></script>
+
+
+<?php echo Theme::asset()->container('specific-js')->scripts(); ?>
+
+<?php echo Theme::asset()->container('custom-js')->scripts(); ?>
+
+
+</body>
+</html>

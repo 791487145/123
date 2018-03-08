@@ -1,0 +1,31 @@
+
+<h3 class="header smaller lighter blue mg-top12 mg-bottom20">提交物流信息</h3>
+
+<form class="form-horizontal registerform" role="form" action="{!! url('manage/finishDistribution') !!}" method="post">
+    {!! csrf_field() !!}
+	<div class="g-backrealdetails clearfix bor-border">
+		<input type="hidden" name="record_id" value="{!! $logistics_id !!}">
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 快递公司：</p>
+			<p class="col-sm-4">
+				<input type="text" name="logistics_company" id="form-field-1" class="col-xs-10 col-sm-5" value="{!! $logistics_company !!}">
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 快递单号：</p>
+			<p class="col-sm-4">
+				<input type="text" name="logistics_number" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $logistics_number !!}">
+			</p>
+		</div>
+		<div class="col-xs-12">
+			<div class="clearfix row bg-backf5 padding20 mg-margin12">
+				<div class="col-xs-12">
+					<div class="col-md-1 text-right"></div>
+					<div class="col-md-10">
+						<button class="btn btn-primary btn-sm" type="submit">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

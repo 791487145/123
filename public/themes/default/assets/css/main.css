@@ -1,0 +1,33 @@
+.sign-main-container {
+    width: 250px;
+    margin: 0 auto;
+}
+.focuside {
+    padding:0;
+}
+.pagination li a,.pagination li span {
+	margin-left: 8px;
+	border-radius: 2px!important;
+	font-size: 14px;
+	font-family: 'Arial';
+}
+.pagination>li>a {
+	color: #686868;
+	background-color: #fff;
+}
+.pagination>.disabled>span {
+    background-color: #f2f2f2;
+}
+textarea{
+    resize: none;
+}
+
+@media screen and (min-width: 1200px){
+    .container{
+        width: 1220px;
+    }
+}
+.col-left{
+    padding-left: 10px;
+    padding-right: 10px;
+}

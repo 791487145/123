@@ -1,0 +1,89 @@
+<?php /*列表*/ ?>
+<h3 class="header smaller lighter blue mg-bottom20 mg-top12">推广财务管理</h3>
+
+<div class="well">
+    <form class="form-inline search-group" role="form" action="<?php echo e(URL('manage/promoteFinance')); ?>" method="get">
+        <div class="form-group search-list ">
+            <label for="name" class="">推广人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input type="text" name="from_name" <?php if(isset($merge['from_name'])): ?>value="<?php echo $merge['from_name']; ?>" <?php endif; ?>>
+        </div>
+        <div class="form-group search-list">
+            <label for="namee" class="">被推广人　</label>
+            <input type="text" name="to_name" <?php if(isset($merge['to_name'])): ?>value="<?php echo $merge['to_name']; ?>"<?php endif; ?>>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-sm">搜索</button>
+        </div>
+        <div class="space"></div>
+        <div class="form-group  ">
+            <label for="namee" class="">推广时间　</label>
+            <div class="input-daterange input-group">
+                <input type="text" name="start" class="input-sm form-control" value="<?php echo e((!empty($_GET['start']))?$_GET['start']:''); ?>">
+                <span class="input-group-addon"><i class="fa fa-exchange"></i></span>
+                <input type="text" name="end" class="input-sm form-control" value="<?php echo e((!empty($_GET['end']))?$_GET['end']:''); ?>">
+            </div>
+        </div>
+        <div class="">
+
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>
+                <label>
+                    编号
+                </label>
+            </th>
+            <th>推广人</th>
+            <th>被推广人</th>
+
+            <th>
+                推广金额
+            </th>
+            <th>推广时间</th>
+            <th>推广事件</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <?php if(!empty($list->toArray()['data'])): ?>
+            <?php foreach($list as $item): ?>
+                <tr>
+                    <td><?php echo $item->id; ?></td>
+                    <td><?php echo $item->from_name; ?></td>
+                    <td><?php echo $item->to_name; ?></td>
+                    <td>￥<?php echo $item->price; ?></td>
+                    <td>
+                        <?php echo $item->updated_at; ?>
+
+                    </td>
+                    <td><?php if($item->type == 1): ?>邀请注册<?php endif; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="dataTables_paginate paging_bootstrap row">
+            <?php echo $list->appends($merge)->render(); ?>
+
+        </div>
+    </div>
+</div>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('datepicker-css', 'plugins/ace/css/datepicker.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('datepicker-js', 'plugins/ace/js/date-time/bootstrap-datepicker.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usePath()->add('questionlist', 'js/doc/questionlist.js'); ?>

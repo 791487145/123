@@ -1,0 +1,27 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserGameGroupModel extends Model
+{
+    const SERVER_WX = 1;//微信
+
+    const CATEGORY_ONE = 1;//1v1
+    const CATEGORY_FIVE = 2;//5v5
+
+    protected $table = 'user_game_group';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','set','num','category','server','created_at'
+    ];
+
+    public $timestamps = false;
+
+
+
+
+}

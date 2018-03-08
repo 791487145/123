@@ -1,0 +1,165 @@
+
+        <h3 class="header smaller lighter blue mg-top12 mg-bottom20">广告管理</h3>
+        <?php /*<div class="widget-box">*/ ?>
+        <div class="">
+
+            <?php /*<div class="widget-header widget-header-flat">
+                <h5 class="widget-title">搜索</h5>
+            </div>*/ ?>
+
+                <form class="form-inline "  role="form" action="/advertisement/adList" method="get">
+                <?php /*    <div class="widget-main">*/ ?>
+
+                    <div class="well">
+                        <div class="form-group search-list width285">
+                            <label for="">广告名称</label><input type="text" id="ad_name" name="ad_name" value="<?php if(isset($ad_name)): ?><?php echo $ad_name; ?><?php endif; ?>">
+                        </div>
+                        <div class="form-group search-list width285">
+                            <label for="">广告位置</label>
+                            <select name="target_id">
+                                <option value="0">全部</option>
+                                <?php foreach($adTargetInfo as $adTargetInfoV): ?>
+                                    <option value="<?php echo $adTargetInfoV->target_id; ?>" <?php if($adTargetInfoV->target_id == $ad_target_id): ?>selected="selected"<?php endif; ?>><?php echo $adTargetInfoV->name; ?></option>
+                                <?php endforeach; ?>
+                                </select>
+                        </div>
+                        <div class="form-group search-list width285">
+                            <label for="">广告类型</label>
+                            <select name="is_open">
+                                <option value="0">全部</option>
+                                <option value="1">开启</option>
+                                <option value="2">关闭</option>
+                            </select>
+                        </div>
+                        <div class="space"></div>
+                        <div class="form-group search-list width285">
+                            <label for="">结果排序</label>
+                            <select name="by">
+                                <option value="id" <?php if(isset($by) && $by == 'id'): ?>selected="selected"<?php endif; ?>>默认排序</option>
+                                <option value="created_at" <?php if(isset($by) && $by == 'created_at'): ?>selected="selected"<?php endif; ?>>时间</option>
+                            </select>
+                            <select name="order">
+                                <option value="asc" <?php if(isset($order) && $order == 'asc'): ?>selected="selected"<?php endif; ?>>递增</option>
+                                <option value="desc" <?php if(isset($order) && $order == 'desc'): ?>selected="selected"<?php endif; ?>>递减</option>
+                            </select>
+
+
+                        </div>
+                        <div class="form-group search-list width285">
+                            <label for="">显示条数</label>
+                            <select name="paginate">
+                                <option value="10" <?php if(isset($paginate) && $paginate == 10): ?>selected="selected"<?php endif; ?>>10条</option>
+                                <option value="20" <?php if(isset($paginate) && $paginate == 20): ?>selected="selected"<?php endif; ?>>20条</option>
+                                <option value="30" <?php if(isset($paginate) && $paginate == 30): ?>selected="selected"<?php endif; ?>>30条</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group search-list">
+                            <button type="submit" class="btn btn-primary btn-sm">搜索</button>
+                        </div>
+                    </div>
+                </form>
+        <?php /*<div class="well h4 blue">广告列表</div>*/ ?>
+        <div>
+            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+
+                <tr>
+                    <th>
+                        广告名称
+                    </th>
+                    <th>位置</th>
+                    <th>起始时间</th>
+                    <th>截止时间</th>
+                    <th>编辑时间</th>
+                    <th>是否可用</th>
+                    <th>操作</th>
+                </tr>
+
+
+                <tbody>
+                <?php foreach($adList as $adListV ): ?>
+                    <tr>
+                        <td class="">
+                            <?php echo $adListV->ad_name; ?>
+
+                        </td>
+
+                        <td>
+                            <?php echo $adListV->name; ?>
+
+                        </td>
+                        <td>
+                            <?php if($adListV->start_time != '0000-00-00 00:00:00'): ?>
+                                <?php echo $adListV->start_time; ?>
+
+                            <?php else: ?>
+                                永久有效
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if($adListV->end_time == '0000-00-00 00:00:00'): ?>
+                                永久有效
+                            <?php elseif(strtotime($adListV->end_time) <= time()): ?>
+                                <?php echo $adListV->end_time; ?>(<span style="color:red">已过期</span>)
+                            <?php else: ?>
+                                <?php echo $adListV->end_time; ?>
+
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php echo $adListV->created_at; ?>
+
+                        </td>
+                        <td>
+                            <?php if($adListV->is_open == '1'): ?>
+                                开启
+                            <?php elseif($adListV->is_open == '2'): ?>
+                                关闭
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <div class="hidden-sm hidden-xs btn-group">
+                                <a class="btn btn-xs btn-info" href="/advertisement/update/<?php echo $adListV->id; ?>">
+                                    <i class="fa fa-edit bigger-120"></i>编辑
+                                </a>
+                                <a title="删除" class="btn btn-xs btn-danger" href="/advertisement/deleteInfo/<?php echo $adListV->id; ?>">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="dataTables_info row" id="sample-table-2_info" role="status" aria-live="polite">
+                        <a href="/advertisement/insert"><button class="btn btn-sm btn-primary">添加广告</button></a>
+                    </div>
+                </div>
+                <div class="space-10 col-xs-12"></div>
+                <div class="col-xs-12">
+                    <div class="dataTables_paginate paging_bootstrap text-right row">
+                        <?php echo $adList->render(); ?>
+
+                    </div>
+                </div>
+            </div>
+        <?php /*<div class="row">
+            <div class="col-sm-6">
+                <div class="dataTables_info" id="sample-table-2_info">
+                    <a href="/advertisement/insert"><button class="btn btn-sm btn-primary">添加广告</button></a>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="dataTables_paginate paging_bootstrap text-right">
+                    <?php echo $adList->render(); ?>
+
+                </div>
+            </div>
+        </div>*/ ?>
+    </div>
+</div>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>

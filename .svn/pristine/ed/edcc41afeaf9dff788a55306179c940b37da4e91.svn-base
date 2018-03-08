@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><?php echo strip_tags(Theme::get('title'),'<img>'); ?></title>
+    <meta name="keywords" style="display:none;" content="<?php echo Theme::get('keywords'); ?>">
+    <meta name="description" content="<?php echo Theme::get('description'); ?>">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <?php if(Theme::get('engine_status')==1): ?>
+    <meta name="robots" content="noindex,follow">
+    <?php endif; ?>
+    <?php if(Theme::get('basis_config')['css_adaptive'] == 1): ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <?php else: ?>
+        <meta name="viewport" content="initial-scale=0.1">
+    <?php endif; ?>
+    <meta property="qc:admins" content="232452016063535256654" />
+    <meta property="wb:webmaster" content="19a842dd7cc33de3" />
+    <link rel="shortcut icon" href="<?php echo e(Theme::asset()->url('images/favicon.ico')); ?>" />
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="stylesheet" href="/themes/quietgreen/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <?php echo Theme::asset()->container('specific-css')->styles(); ?>
+
+    <link rel="stylesheet" href="/themes/quietgreen/assets/plugins/ace/css/ace.min.css">
+    <link rel="stylesheet" href="/themes/quietgreen/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/themes/quietgreen/assets/css/index/common.css"/>
+    <link rel="stylesheet" href="/themes/quietgreen/assets/css/index/case.css"/>
+    <?php echo Theme::asset()->container('old-css')->styles(); ?>
+
+    <?php /*<link rel="stylesheet" href="/themes/default/assets/css/main.css">*/ ?>
+    <link rel="stylesheet" href="/themes/default/assets/css/header.css">
+    <?php /*<link rel="stylesheet" href="/themes/default/assets/css/footer.css">*/ ?>
+
+    <?php /*<link rel="stylesheet" href="../../assets/plugins/bootstrap/css/bootstrap.min.css"/>*/ ?>
+    <?php /*<link rel="stylesheet" href="../../assets/plugins/ace/css/ace.min.css">*/ ?>
+    <?php /*<link rel="stylesheet" href="../../assets/css/font-awesome.min.css"/>*/ ?>
+    <?php /*<link rel="stylesheet" href="../../assets/css/index/common.css"/>*/ ?>
+
+    <link rel="stylesheet" href="/themes/quietgreen/assets/css/<?php echo Theme::get('color'); ?>/style.css">
+    <?php echo Theme::asset()->container('custom-css')->styles(); ?>
+
+    <?php /*<script src="/themes/default/assets/plugins/ace/js/ace-extra.min.js"></script>*/ ?>
+</head>
+<body>
+<?php echo Theme::partial('header'); ?>
+
+
+<?php echo Theme::content(); ?>
+
+
+<footer>
+    <?php echo Theme::partial('footer'); ?>
+
+</footer>
+
+<script src="/themes/quietgreen/assets/plugins/jquery/jquery.min.js"></script>
+<script src="/themes/quietgreen/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<?php /*<script src="/themes/default/assets/plugins/ace/js/ace.min.js"></script>*/ ?>
+<?php /*<script src="/themes/default/assets/plugins/ace/js/ace-elements.min.js"></script>*/ ?>
+<script src="/themes/quietgreen/assets/js/common.js"></script>
+<script src="/themes/quietgreen/assets/js/index.js"></script>
+
+<?php /*<script src="/themes/default/assets/js/nav.js"></script>*/ ?>
+
+<?php echo Theme::asset()->container('specific-js')->scripts(); ?>
+
+
+<?php echo Theme::asset()->container('custom-js')->scripts(); ?>
+
+<?php echo Theme::asset()->container('cistom-css')->scripts(); ?>
+
+</body>
+

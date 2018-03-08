@@ -1,0 +1,80 @@
+<?php
+namespace App\Modules\Manage\Http\Controllers;
+
+use App\Http\Controllers\ManageController;
+use App\Http\Requests;
+use App\Modules\Manage\Model\BookModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Theme;
+
+class LiteratureController extends ManageController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->initTheme('manage');
+
+    }
+
+    //书籍列表
+    public function bookList(Request $request)
+    {
+        $this->theme->setTitle('书籍列表');
+        $bookList = BookModel::orderBy('id','desc');
+        $re = $request->all();
+        if ($request->get('book_name')) {//书籍名称
+            $bookList = $bookList->where('book_name', $request->get('book_name'));
+        }
+        if ($request->get('author')) {//作者
+            $bookList = $bookList->where('author', $request->get('author'));
+        }
+        if ($request->get('book_type')) {//书籍类型
+            $bookList = $bookList->where('book_type', $request->get('book_type'));
+        }
+        if ($request->get('type')) {//发布类型
+            $bookList = $bookList->where('type', $request->get('type'));
+        }
+        if ($request->get('book_status')) {//书籍状态
+            $bookList = $bookList->where('book_status', $request->get('book_status'));
+        }
+        if($request->get('start')){
+            $start = date('Y-m-d H:i:s',strtotime($request->get('start')));
+            $bookList = $bookList->where('created_at','>',$start);
+        }
+        if($request->get('end')){
+            $end = date('Y-m-d H:i:s',strtotime($request->get('end')));
+            $bookList = $bookList->where('created_at','<',$end);
+        }
+
+        $bookList = $bookList->paginate(20);
+        $data = [
+            'book' => $bookList,
+            'request' => $re
+        ];
+        $data['book_status'] = [
+            ['id' => "1" ,'name' => '待审核'],
+            ['id' => "2" ,'name' => '未通过'],
+            ['id' => "3" ,'name' => '未支付'],
+            ['id' => "4" ,'name' => '创作中'],
+            ['id' => "5" ,'name' => '已完结'],
+        ];
+        $data['type'] = [
+            ['id' => "1" ,'name' => '官方发布'],
+            ['id' => "2" ,'name' => '用户发布'],
+        ];
+        return $this->theme->scope('manage.bookList', $data)->render();
+    }
+
+    //书籍详情
+    public function bookDetail($id)
+    {
+        $book = BookModel::where('id',$id)->where('')->first()->toArray();
+    }
+
+
+
+}
+
+

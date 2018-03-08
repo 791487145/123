@@ -1,0 +1,33 @@
+<script>
+    var uploadRule = '<?php echo CommonClass::attachmentUnserialize(); ?>';
+    uploadRule = JSON.parse(uploadRule);
+    var extensions = '';
+    for(var i in uploadRule.extensions)
+    {
+        extensions += uploadRule.extensions+',';
+    }
+    <?php if(isset($maxFiles)): ?>
+        var maxFiles = <?php echo e($maxFiles); ?>;
+    <?php else: ?>
+        var maxFiles = 3;
+    <?php endif; ?>
+    <?php if(isset($initimage)): ?>
+        var initimage = <?php echo $initimage; ?> ;
+    <?php else: ?>
+        var initimage = 3;
+    <?php endif; ?>
+</script>
+
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('issuetask','plugins/ace/css/dropzone.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('dropzone','plugins/ace/js/dropzone.min.js'); ?>
+
+<?php if(isset($initjs)): ?>
+    <?php foreach($initjs as $v): ?>
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('upload','js/'.$v); ?>
+
+    <?php endforeach; ?>
+<?php else: ?>
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('upload','js/upload.js'); ?>
+
+<?php endif; ?>

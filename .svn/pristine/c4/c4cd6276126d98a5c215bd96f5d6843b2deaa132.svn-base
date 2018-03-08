@@ -1,0 +1,203 @@
+{
+    "Advertisement": {
+        "name": "Advertisement",
+        "slug": "advertisement",
+        "namespace": "Advertisement",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Advertisement module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Api": {
+        "name": "Api",
+        "slug": "api",
+        "namespace": "Api",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Api module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Article": {
+        "name": "Article",
+        "slug": "article",
+        "namespace": "Article",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Article module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Bre": {
+        "name": "Bre",
+        "slug": "bre",
+        "namespace": "Bre",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Bre module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Employ": {
+        "name": "Employ",
+        "slug": "employ",
+        "namespace": "Employ",
+        "version": "1.0",
+        "author": "kppw",
+        "license": "MIT",
+        "description": "This is the Employ module",
+        "enabled": true,
+        "order": 9001
+    },
+    "Finance": {
+        "name": "Finance",
+        "slug": "finance",
+        "namespace": "Finance",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Finance module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Im": {
+        "name": "Im",
+        "slug": "im",
+        "namespace": "Im",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Im module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Install": {
+        "name": "Install",
+        "slug": "install",
+        "namespace": "Install",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Install module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Manage": {
+        "name": "Manage",
+        "slug": "manage",
+        "namespace": "Manage",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Manage module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Order": {
+        "name": "Order",
+        "slug": "order",
+        "namespace": "Order",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Order module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Pay": {
+        "name": "Pay",
+        "slug": "pay",
+        "namespace": "Pay",
+        "version": "1.0",
+        "description": "This is the description for the Pay module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Question": {
+        "name": "Question",
+        "slug": "question",
+        "namespace": "Question",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Question module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Shop": {
+        "name": "Shop",
+        "slug": "shop",
+        "namespace": "Shop",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Shop module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Substation": {
+        "name": "Substation",
+        "slug": "substation",
+        "namespace": "Substation",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Substation module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Task": {
+        "name": "Task",
+        "slug": "task",
+        "namespace": "Task",
+        "version": "1.0",
+        "description": "This is the description for the Task module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Test": {
+        "name": "Test",
+        "slug": "test",
+        "namespace": "Test",
+        "version": "1.0",
+        "description": "This is the description for the Test module.",
+        "order": 9001,
+        "enabled": true
+    },
+    "User": {
+        "name": "User",
+        "slug": "user",
+        "namespace": "User",
+        "version": "1.0",
+        "description": "This is the description for the User module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Vipshop": {
+        "name": "Vipshop",
+        "slug": "vipshop",
+        "namespace": "Vipshop",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Vipshop module.",
+        "enabled": true,
+        "order": 9001
+    },
+    "Wechat": {
+        "name": "Wechat",
+        "slug": "wechat",
+        "namespace": "Wechat",
+        "version": "1.0",
+        "author": " ",
+        "license": "MIT",
+        "description": "This is the description for the Wechat module.",
+        "enabled": true,
+        "order": 9001
+    }
+}

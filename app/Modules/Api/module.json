@@ -1,0 +1,9 @@
+{
+	"name": "Api",
+	"slug": "api",
+	"namespace": "Api",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Api module."
+}

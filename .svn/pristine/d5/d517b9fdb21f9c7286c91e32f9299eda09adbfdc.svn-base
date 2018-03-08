@@ -1,0 +1,44 @@
+﻿<?php foreach(Theme::get('manageMenu') as $v): ?>
+    <li class="<?php echo e(in_array($v['id'],Theme::get('menu_ids'))?'active':''); ?>">
+        <a href="<?php echo empty($v['route'])?'javaascript:;':url($v['route']); ?>" class="<?php echo empty($v['_child'])?'':'dropdown-toggle'; ?>">
+            <i class="menu-icon fa <?php echo e((!empty(Theme::get('menuIcon')[$v['name']]))?Theme::get('menuIcon')[$v['name']]:'fa-line-chart'); ?>"></i>
+            <span class="menu-text"> <?php echo $v['name']; ?> </span>
+            <?php if(!empty($v['_child'])): ?>
+            <b class="arrow fa fa-angle-down"></b>
+            <?php endif; ?>
+        </a>
+        <b class="arrow"></b>
+        <?php if(!empty($v['_child'])): ?>
+        <ul class="submenu">
+            <?php foreach($v['_child'] as $value): ?>
+            <li class="<?php echo e(in_array($value['id'],Theme::get('menu_ids'))?'active':''); ?>">
+                <a href="<?php echo (empty($value['route']) && !empty($value['_child']))?'javaascript:;':url($value['route']); ?>" class="<?php echo empty($value['_child'])?'':'dropdown-toggle'; ?>">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    <?php echo e($value['name']); ?>
+
+                    <?php if(!empty($value['_child'])): ?>
+                        <b class="arrow fa fa-angle-down"></b>
+                    <?php endif; ?>
+                </a>
+                <b class="arrow"></b>
+                <?php if(!empty($value['_child'])): ?>
+                <ul class="submenu">
+                    <?php foreach($value['_child'] as $menus): ?>
+                    <li class="<?php echo e(in_array($menus['id'],Theme::get('menu_ids'))?'active':''); ?>">
+                        <a href="<?php echo empty($menus['route'])?'javaascript:;':url($menus['route']); ?>" >
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            <?php echo e($menus['name']); ?>
+
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+

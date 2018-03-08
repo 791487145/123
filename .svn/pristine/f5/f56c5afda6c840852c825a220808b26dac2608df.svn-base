@@ -1,0 +1,9 @@
+{
+	"name": "Im",
+	"slug": "im",
+	"namespace": "Im",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Im module."
+}

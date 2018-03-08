@@ -1,0 +1,86 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Modules\Manage\Model\SystemTasksModel;
+use App\Modules\User\Model\UserBalanceModel;
+class UserSystemTaskModel extends Model
+{
+    const TASK_STATUS_COMPLATE = 4;//已领取
+    const TASK_STATUS_FAIL = 3;//失效
+
+    protected $table = 'user_system_tasks';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','uid','need_num','completed_num','deadline','systerm_task_id','systerm_task_type','status','created_at','updated_at'
+    ];
+
+    public $timestamps = true;
+
+    //用户完成相关任务调用  任务类型 systerm_task_type 同system_task表的type ：10-推荐会员  11-发布任务  12-完成任务  13-参与偶发任务  14-参与红包
+    static function completed($uid,$type)
+    {
+        // $typeArr = array('10'=>'推荐会员','11'=>'发布任务','12'=>'接收任务','13'=>'参与偶发任务','14'=>'参与红包');
+        $typeArr = array('10','11','12','13','14');
+
+        if(!in_array($type,$typeArr)) return array('code'=>'-1','msg'=>'无效的调用类型');
+
+        $user_system_task = self::where('uid',$uid)->where('status','1')->where('systerm_task_type',$type)->first();
+        if(!$user_system_task) return array('code'=>'-2','msg'=>'用户尚未参与该活动');
+        
+        $completed_num = $user_system_task['completed_num'] + 1;
+
+        if($completed_num == $user_system_task['need_num']) {
+            $data = array('status'=>'2','completed_num'=>$completed_num);
+        }
+        else {
+            $data = array('completed_num'=>$completed_num);
+        }
+
+        $u_s_t_res = self::where('id',$user_system_task['id'])->update($data);
+
+        if(!$u_s_t_res)  return array('code'=>'-3','msg'=>'网络错误');
+
+        return array('code'=>'200','msg'=>'success');
+    }
+
+    //用户完成多个相关任务调用  任务类型 systerm_task_type 同system_task表的type ：10-推荐会员  11-发布任务  12-完成任务  13-参与偶发任务  14-参与红包
+    static function systemTasksCompleted($uid,$type)
+    {
+        $typeArr = array('10','11','12','13','14');
+        if(!in_array($type,$typeArr)) return array('code'=>'-1','msg'=>'无效的调用类型');
+
+        $user_system_task = self::where('uid',$uid)->where('status','1')->where('systerm_task_type',$type)->get();
+        if($user_system_task->isEmpty()) return array('code'=>'-2','msg'=>'用户尚未参与该活动');
+
+        $completed_num = $user_system_task[0]['completed_num'] + 1;
+        $data1 = array('status'=>'2','completed_num'=>$completed_num);
+        $data2 = array('completed_num'=>$completed_num);
+
+        foreach($user_system_task as $single)
+        {
+            if($single['completed_num'] == $completed_num){
+                $array1[] = $single['id'];
+            }else{
+                $array2[] = $single['id'];
+            }
+        }
+
+        //任务完成
+        if(isset($array1))
+        {
+            $u_s_t_res1 = self::whereIn('id',$array1)->update($data1);
+            if(!$u_s_t_res1) return array('code' => '-3','msg' => '网络错误');
+        }
+        
+        //任务未完成
+        if(isset($array2))
+        {
+            $u_s_t_res2 = self::whereIn('id',$array2)->update($data2);
+            if(!$u_s_t_res2) return array('code' => '-4','msg' => '网络错误');
+        }
+    }
+}

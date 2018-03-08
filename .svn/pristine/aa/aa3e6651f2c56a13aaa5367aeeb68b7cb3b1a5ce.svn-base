@@ -1,0 +1,9 @@
+{
+	"name": "Wechat",
+	"slug": "wechat",
+	"namespace": "Wechat",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Wechat module."
+}

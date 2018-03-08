@@ -1,0 +1,9 @@
+{
+	"name": "Order",
+	"slug": "order",
+	"namespace": "Order",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Order module."
+}

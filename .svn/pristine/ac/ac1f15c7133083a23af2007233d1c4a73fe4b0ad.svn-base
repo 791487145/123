@@ -1,0 +1,118 @@
+<?php /*<div class="space-2"></div>
+<div class="page-header">
+    <h1>
+        交易维权
+    </h1>
+</div><!-- /.page-header -->*/ ?>
+<h3 class="header smaller lighter blue mg-bottom20 mg-top12">交易维权</h3>
+<?php /*<div class="alert alert-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;稿件维权#<?php echo e($report['id']); ?></div>*/ ?>
+<div class="g-backrealdetails clearfix bor-border">
+    <form action="/manage/handleRights" method="post">
+        <?php echo e(csrf_field()); ?>
+
+        <input type="hidden" name="id" value="<?php echo e($report['id']); ?>" />
+        <?php /*<div class="bankAuth-bottom clearfix col-xs-12">*/ ?>
+            <?php /*<p class="col-md-1 text-right">所属稿件</p>*/ ?>
+            <?php /*<p class="col-md-11"><span class="text-primary">#<?php echo e($work['id']); ?></span></p>*/ ?>
+        <?php /*</div>*/ ?>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">所属任务</p>
+            <p class="col-md-11"><span class="text-primary"><?php echo e($task['title']); ?></span></p>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">维权发起人</p>
+            <p class="col-md-11">
+                <span class="text-primary"><?php echo e($from_user['nickname']); ?></span>
+                <?php if(!empty($from_user['mobile'])): ?>
+                    <span class="text-danger">手机号码</span> : <?php echo e($from_user['mobile']); ?>
+
+                <?php endif; ?>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">维权对象</p>
+            <p class="col-md-11">
+                <span class="text-primary"><?php echo e($to_user['nickname']); ?></span>
+
+                <?php if(!empty($to_user['mobile'])): ?>
+                    <span class="text-danger">手机号码</span> : <?php echo e($to_user['mobile']); ?>
+
+                <?php endif; ?>
+            </p>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">申请维权时间</p>
+            <p class="col-md-11"><?php echo e($report['created_at']); ?></p>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">状态</p>
+            <p class="col-md-11"><?php echo e(($report['status']==0)?'未处理':'已处理'); ?></p>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">维权说明</p>
+            <p class="col-md-11"><?php echo e($report['desc']); ?></p>
+        </div>
+
+        <?php /*<div class="bankAuth-bottom clearfix col-xs-12">*/ ?>
+            <?php /*<p class="col-md-1 text-right">维权附件</p>*/ ?>
+            <?php /*<?php if(!empty($attachment)): ?>*/ ?>
+                <?php /*<?php foreach($attachment as $v): ?>*/ ?>
+                    <?php /*<p class="col-md-11">*/ ?>
+                        <?php /*<a href="<?php echo e(URL('manage/download',['id'=>$v['id']])); ?>"><?php echo e($v['name']); ?></a>*/ ?>
+                    <?php /*</p>*/ ?>
+                <?php /*<?php endforeach; ?>*/ ?>
+            <?php /*<?php else: ?>*/ ?>
+            <?php /*<p class="col-md-11">未提交附件</p>*/ ?>
+            <?php /*<?php endif; ?>*/ ?>
+        <?php /*</div>*/ ?>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">维权处理方案</p>
+            <div class="col-md-11">
+                <p>稿件可分佣金<?php echo e($task['bounty']); ?>,请在这个范围内分配。</p>
+                <?php if($report['status']==0): ?>
+                    <?php if($report['role']==0): ?>
+                        <p>雇主 (<?php echo e($to_user['nickname']); ?>) 获得 <input type="text" name="owner_bounty"/>元，威客 (<?php echo e($from_user['nickname']); ?>) 获得 <input type="text" name="worker_bounty" />元</p>
+                    <?php endif; ?>
+                    <?php if($report['role']==1): ?>
+                        <p>雇主 (<?php echo e($from_user['nickname']); ?>) 获得 <input type="text" name="owner_bounty" />元，威客 (<?php echo e($to_user['nickname']); ?>) 获得 <input type="text" name="worker_bounty"  />元</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="clearfix row bg-backf5 padding20 mg-margin12">
+                <div class="col-xs-12">
+                    <div class="col-md-1 text-right"></div>
+                    <div class="col-md-10">
+                        <?php if($report['status']==0): ?>
+                            <button id="gritter-center" class="btn btn-primary btn-sm">
+                                处理维权
+                            </button>
+                            　　<?php endif; ?>
+                        <a class="btn btn-danger btn-sm" href="<?php echo e(url('/manage/rightsList')); ?>">返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space col-xs-12"></div>
+        <div class="col-xs-12">
+            <div class="col-md-1 text-right"></div>
+            <?php if(is_numeric($preId)): ?>
+                <a href="<?php echo e(URL('manage/rightsDetail/'.$preId)); ?>">上一项</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <?php endif; ?>
+            <?php if(is_numeric($nextId)): ?>
+                <a href="<?php echo e(URL('manage/rightsDetail/'.$nextId)); ?>">下一项</a>
+            <?php endif; ?>
+        </div>
+        <div class="col-xs-12 space"></div>
+    </form>
+</div>
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('backstage', 'css/backstage/backstage.css'); ?>
+

@@ -1,0 +1,9 @@
+{
+	"name": "Advertisement",
+	"slug": "advertisement",
+	"namespace": "Advertisement",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Advertisement module."
+}

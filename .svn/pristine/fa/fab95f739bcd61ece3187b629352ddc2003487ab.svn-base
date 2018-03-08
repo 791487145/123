@@ -1,0 +1,153 @@
+<div class="g-main g-usershop">
+    <h4 class="text-size16 cor-blue2f u-title">发布服务</h4>
+    <div class="space-22"></div>
+    <?php if($is_shop_open ==1): ?>
+        <?php if($trade_rate != 0): ?>
+            <div class="alert g-alertreal clearfix" role="alert">
+                <i class="fa fa-lightbulb-o pull-left no-height"></i>
+                <span class="text-size12">小贴士：服务佣金是<?php echo $trade_rate; ?>%，成功上架后也会有提示哦！</span>
+            </div>
+        <?php endif; ?>
+    <form action="<?php echo e(URL('user/serviceUpdate')); ?>" method="post" enctype="multipart/form-data" id="form">
+        <?php echo e(csrf_field()); ?>
+
+        <div class="g-userimgup profile-users g-usershopform">
+        <div class="clearfix g-userimgupbor task-casehid"><p class="pull-left h5 cor-gray51">服务分类</p>
+            <p class="g-userimgupinp g-userimgupbor-validform">
+                <select name="firstCate" onchange="getCate(this.value, 'secondCate')">
+                    <?php if(!empty($arr_cate)): ?>
+                        <?php foreach($arr_cate as $item): ?>
+                            <option value="<?php echo $item['id']; ?>"><?php echo $item['name']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+                <select name="secondCate"  id="secondCate">
+                    <?php if(!empty($arrCateSecond)): ?>
+                        <?php foreach($arrCateSecond as $item): ?>
+                        <option value="<?php echo $item['id']; ?>"><?php echo $item['name']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </p>
+        </div>
+        <div class="clearfix g-userimgupbor task-casehid"><p class="pull-left h5 cor-gray51">服务名称</p>
+            <p class="g-userimgupinp g-userimgupbor-validform">
+                <input class="inputxt Validform_error input-large" type="text"  name="title" value="" datatype="*5-25" nullmsg="服务名称不能为空" errormsg="请填写5-25个字符">&nbsp;&nbsp;&nbsp;
+            </p>
+        </div>
+        <div class="clearfix g-userimgupbor task-casehid"><p class="pull-left h5 cor-gray51">服务描述</p>
+            <p class="g-userimgupinp g-userimgupbor-validform">
+                <script id="editor"  type="text/plain"></script>
+                <input type="hidden" name="desc" id="discription-edit" datatype="*1-5000" nullmsg="服务描述不能为空" errormsg="字数超过限制,最多500字" >
+            </p>
+        </div>
+        <div class="clearfix g-userimgupbor g-usershopprice"><p class="pull-left h5 cor-gray51">服务价格</p>
+            <p class="g-userimgupinp g-userimgupbor-validform">
+                <input class="inputxt Validform_error input-large" type="text" datatype="decimal" name="cash"  value=""  nullmsg="请填写服务价格" ajaxurl="<?php echo e(URL('user/servicecashvalid')); ?>" id="bounty">
+                &nbsp;&nbsp;元
+            </p>
+        </div>
+        <div class="clearfix g-userimgupbor" data-placement="right" href="#">
+            <p class="pull-left h5 cor-gray51"><span>服务封面</span></p>
+
+            <div class="memberdiv pull-left">
+                <div class="position-relative">
+                    <input name="cover" type="file" id="id-input-file-6"/>
+                </div>
+            </div>
+            <div class="pull-left cor-gray87 visible-lg-block">
+                <p>1. 封面是店铺展示方式的重要入口</p>
+
+                <p>2. 优秀的服务封面更能吸引客户关注</p>
+
+                <p>3. 尺寸必须为450*450像素,大小不超过3M，请保持图片清晰，能够体现卖点</p>
+
+            </div>
+
+        </div>
+        <?php /*<div class="clearfix g-userimgupbor g-usershopup g-usershopbts"><p class="pull-left h5 cor-gray51">上传附件</p>*/ ?>
+            <?php /*<div class="g-userimgupinp g-userimgupbor-validform">*/ ?>
+                <?php /*<!--文件上传-->*/ ?>
+                <?php /*<div  class="dropzone clearfix" id="dropzone"  url="<?php echo e(URL('task/fileUpload')); ?>" deleteurl="<?php echo e(URL('task/fileDelet')); ?>">*/ ?>
+                    <?php /*<div class="fallback">*/ ?>
+                        <?php /*<input name="file" type="file" multiple="" />*/ ?>
+                    <?php /*</div>*/ ?>
+                <?php /*</div>*/ ?>
+            <?php /*</div>*/ ?>
+            <?php /*<div id="file_update"></div>*/ ?>
+            <?php /*<div class="space-4"></div>*/ ?>
+        <?php /*</div>*/ ?>
+        <?php if($is_open ==1): ?>
+        <div class="clearfix g-userimgupbor g-usershoptj"><p class="pull-left h5 cor-gray51">推荐设置</p>
+            <p class="g-userimgupinp g-userimgupbor-validform">
+                <label>
+                    <input name="is_recommend" class="ace ace-checkbox-2" type="checkbox" value="<?php echo e($service['id']); ?>">
+                    <span class="lbl"> 推荐到威客商城 <span class="cor-orange">（增值服务 <?php echo e($service['price'].'元'.'/'.$map[$recommend_service_unit]); ?>）</span></span>
+                </label>
+            </p>
+        </div>
+        <?php endif; ?>
+        <div class="space-20"></div>
+        <button type="submit" class="btn btn-primary btn-imp btn-blue g-usershopbtn">提交服务</button><a class="text-size14 g-usershopback text-under" href="<?php echo e(URL('user/serviceList')); ?>">返回</a>
+    </div>
+    </form>
+    <?php elseif($is_shop_open == 2): ?>
+        <div class="row close-space-tip">
+            <div class="col-md-12 text-center">
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <img src="<?php echo Theme::asset()->url('images/close_space_tips.png'); ?>" >
+                <div class="space-10"></div>
+                <p class="text-size16 cor-gray87">您的店铺已关闭，暂不能发布服务！<a href="/shop/manage/<?php echo $shop_id; ?>">开启店铺</a></p>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="row close-space-tip">
+            <div class="col-md-12 text-center">
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <div class="space-30"></div>
+                <img src="<?php echo Theme::asset()->url('images/close_space_tips.png'); ?>" >
+                <div class="space-10"></div>
+                <p class="text-size16 cor-gray87">您的店铺还没设置，暂不能发布服务！<a href="/user/shop">店铺设置</a></p>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('webui-css', 'plugins/jquery/css/jquery.webui-popover.min.css'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('validform-css', 'plugins/jquery/validform/css/style.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('usercenter-css', 'css/usercenter/usercenter.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('realname-css', 'css/usercenter/realname/realname.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('shop-css', 'css/usercenter/shop/shop.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('validform-js', 'plugins/jquery/validform/js/Validform_v5.3.2_min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('ace-min-js', 'plugins/ace/js/ace.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('ace-elements-js', 'plugins/ace/js/ace-elements.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usePath()->add('realname-js', 'js/realnameauth.js'); ?>
+
+
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('froala_editor', 'plugins/ace/css/datepicker.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('bootstrap-datepicker','plugins/ace/js/date-time/bootstrap-datepicker.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('assetdetail','js/assetdetail.js'); ?>
+
+<?php if($is_shop_open==1): ?>
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('issuetask','plugins/ace/css/dropzone.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('dropzone','plugins/ace/js/dropzone.min.js'); ?>
+
+
+<?php echo Theme::widget('ueditor')->render(); ?>
+
+<?php endif; ?>
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('serviceCreate','js/doc/serviceCreate.js'); ?>

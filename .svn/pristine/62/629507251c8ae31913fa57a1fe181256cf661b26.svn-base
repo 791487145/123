@@ -1,0 +1,9 @@
+{
+	"name": "Install",
+	"slug": "install",
+	"namespace": "Install",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Install module."
+}

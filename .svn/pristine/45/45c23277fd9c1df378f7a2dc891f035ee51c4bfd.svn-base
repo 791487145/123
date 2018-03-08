@@ -1,0 +1,105 @@
+
+<form action="#" method="post">
+    <?php echo e(csrf_field()); ?>
+
+        <?php /*<div class="space-6"></div>*/ ?>
+       <?php /* <div class="well h4 blue">自定义导航</div>*/ ?>
+        <h3 class="header smaller lighter blue mg-bottom20 mg-top12">自定义导航</h3>
+        <div>
+            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="">
+                        <?php /*<label>*/ ?>
+                        <?php /*<input type="checkbox" class="ace" />*/ ?>
+                        <?php /*<span class="lbl"></span>*/ ?>
+                        标题
+                        <?php /*</label>*/ ?>
+                    </th>
+                    <th>链接</th>
+                    <th>排序</th>
+                    <th>新窗口打开</th>
+                    <th>显示模式</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <?php if(!empty($nav_list)): ?>
+                    <?php foreach($nav_list as $item): ?>
+                        <tr>
+                            <td class="">
+                                <?php /*<label>*/ ?>
+                                <?php /*<input type="checkbox" name="id_<?php echo $item->id; ?>" class="ace" value="<?php echo $item->id; ?>"/>*/ ?>
+                                <?php /*<span class="lbl"></span>*/ ?>
+                                <?php echo $item->title; ?>
+
+                                <?php /*</label>*/ ?>
+                            </td>
+
+                            <td>
+                                <?php echo $item->link_url; ?>
+
+                            </td>
+                            <td>
+                                <?php echo $item->sort; ?>
+
+                            </td>
+                            <td>
+                                <?php if($item->is_new_window == 1): ?>是<?php else: ?>否<?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if($item->is_show == 1): ?>显示<?php else: ?>隐藏<?php endif; ?>
+                            </td>
+                            <td>
+                                <div class="hidden-sm hidden-xs btn-group">
+                                    <a class="btn btn-xs btn-info" href="/manage/editNav/<?php echo $item->id; ?>">
+                                        <i class="fa fa-edit bigger-120"></i>编辑
+                                    </a>
+                                    <a title="删除" class="btn btn-xs btn-danger" href="/manage/deleteNav/<?php echo $item->id; ?>" >
+                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                    </a>
+                                    <?php /*<a title="设为首页" class="btn btn-xs btn-success" href="/manage/isFirst/<?php echo $item->id; ?>" >
+                                        <i class="ace-icon fa fa-search bigger-120"></i>设为首页
+                                    </a>*/ ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+
+    <div class="col-xs-12">
+        <div class="dataTables_info row" id="sample-table-2_info">
+            <a href="/manage/addNav" class="btn btn-primary btn-sm">添加</a>
+        </div>
+    </div>
+    <div class="space-10 col-xs-12"></div>
+    <div class="col-xs-12">
+        <?php /* <div class="dataTables_paginate paging_simple_numbers" id="dynamic-table_paginate">
+            <?php echo $realname->render(); ?>
+
+        </div>*/ ?>
+        <div class="dataTables_paginate paging_bootstrap row" id="dynamic-table_paginate">
+            <?php if(!empty($nav_list)): ?><?php echo $nav_list->render(); ?><?php endif; ?>
+        </div>
+    </div>
+        <?php /*<div class="row">
+            <div class="col-sm-6">
+                <div class="dataTables_info" id="sample-table-2_info">
+                    <a href="/manage/addNav" class="btn btn-primary btn-sm">添加</a>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="dataTables_paginate paging_bootstrap" id="dynamic-table_paginate">
+                    <?php if(!empty($nav_list)): ?><?php echo $nav_list->render(); ?><?php endif; ?>
+                </div>
+            </div>
+        </div>*/ ?>
+</form>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>
+
+<!-- basic scripts -->

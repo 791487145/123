@@ -1,0 +1,56 @@
+<div class="g-main">
+    <h4 class="text-size16 cor-blue u-title">我的粉丝</h4>
+    <div class="space-20"></div>
+    <ul class="row s-myul">
+        <?php if($focus_data['total']>0): ?>
+            <?php foreach($focus_data['data'] as $v): ?>
+                <li class="col-lg-6 " id="focus-remove-<?php echo e($v['id']); ?>">
+                    <div class="media-left">
+                        <div class="s-myimg">
+                            <img class=" pull-left img-responsive" src="<?php echo e($domain.'/'.$v['avatar']); ?>" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/defauthead.png')); ?>',$(this))">
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <div class="clearfix">
+                            <?php if(!in_array($v['uid'],$my_focus_ids)): ?>
+                            <a href="/bre/serviceCaseList/<?php echo e($v['focus_uid']); ?>" class=" pull-left text-muted text-size16 cor-blue s-myname"><?php echo e($v['nickname']); ?></a><a class="pull-right s-mtcutbtn" uid="<?php echo e($v['uid']); ?>" type="1" onclick="doFocus($(this))">关注他</a>
+                            <?php else: ?>
+                            <a href="/bre/serviceCaseList/<?php echo e($v['focus_uid']); ?>" class=" pull-left text-muted text-size16 cor-blue s-myname"><?php echo e($v['nickname']); ?></a><a class="pull-right s-mtcutbtn" uid="<?php echo e($v['uid']); ?>" type="2" onclick="doFocus($(this))">取消关注</a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="space-4"></div>
+                        <div>
+                            <p class="cor-gray97">好评率<?php echo e(CommonClass::applauseRate($v['uid'])); ?>%</p>
+                        </div>
+                        <div class="space-2"></div>
+                        <div>
+                            <?php if(count($v['tagsfans'])<=3): ?>
+                                <?php foreach($v['tagsfans'] as $value): ?>
+                                    <a class="s-mybtn" href="javscript:;"><?php echo e($value['tag_name']); ?></a>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <?php foreach(array_slice($v['tagsfans'],0,3) as $value): ?>
+                                    <a class="s-mybtn" href="javscript:;"><?php echo e($value['tag_name']); ?></a>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="g-nomessage">暂无粉丝哦 ！</div>
+        <?php endif; ?>
+    </ul>
+    <div class="clearfix">
+        <ul class="pagination pull-right">
+            <?php echo $focus->appends($_GET)->render(); ?>
+
+        </ul>
+    </div>
+</div>
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('detail','css/usercenter/finance/finance-detail.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('userfocus','js/doc/userfocus.js'); ?>
+
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('messages', 'css/usercenter/messages/messages.css'); ?>

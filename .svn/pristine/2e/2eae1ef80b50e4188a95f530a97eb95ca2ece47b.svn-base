@@ -1,0 +1,274 @@
+<?php
+namespace App\Modules\Manage\Http\Controllers;
+
+use App\Modules\Manage\Model\UserActiveModel;
+use App\Modules\Manage\Model\UserActiveTeamModel;
+use App\Modules\Manage\Model\UserGameModel;
+use App\Modules\User\Model\UserBalanceModel;
+use App\Http\Controllers\ManageController;
+use App\Modules\Finance\Model\FinancialModel;
+use App\Modules\Manage\Model\MessageTemplateModel;
+use App\Modules\Manage\Model\PunishGradeModel;
+use App\Modules\Manage\Model\PunishModel;
+use App\Modules\Manage\Model\UserSystemTaskModel;
+use App\Modules\Task\Model\TaskAttachmentModel;
+use App\Modules\Task\Model\TaskExtraModel;
+use App\Modules\Task\Model\TaskExtraSeoModel;
+use App\Modules\Task\Model\TaskModel;
+use App\Modules\Task\Model\TaskTypeModel;
+use App\Modules\Task\Model\WorkCommentModel;
+use App\Modules\Task\Model\WorkModel;
+use App\Modules\User\Model\AttachmentModel;
+use App\Modules\User\Model\MessageReceiveModel;
+use App\Modules\User\Model\UserDetailModel;
+use App\Modules\User\Model\UserModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Theme;
+use Illuminate\Support\Facades\Redis;
+
+class GameController extends ManageController
+{
+
+    protected $page = 20;   //分页信息
+    protected $all = 999;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->initTheme('manage');
+        //$this->theme->setTitle('参赛详情');
+        //$this->theme->set('manageType', 'task');
+    }
+
+    /**
+     * 单人列表
+     * @param Request $request
+     * @return mixed
+     */
+    public function single(Request $request)
+    {
+        $param = array();
+        $param['group_id'] = $request->input('group_id',$this->all);
+
+        $userActive = new UserActiveModel();
+
+        if($param['group_id'] != $this->all){//未分组
+            $userActive = $userActive->where('group_id',$param['group_id']);
+        }
+
+        $user_active = $userActive->where('pid',0)
+                    ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+                    ->where('active_type',1)
+                    ->where('user_active.type','=',1)
+                    ->leftJoin('users','users.id','=','user_active.uid')
+                    ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+                    ->select('user_active.id','user_active.created_at','user_active.group_id','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+                    ->orderBy('id','desc')
+                    ->paginate($this->page);
+
+        foreach($user_active as $value){
+            if($value->group_id == 0){
+                $value->group_id = '未分组';
+            }
+        }
+
+        $data = array(
+            'singles' => $user_active,
+            'param' => $param
+        );
+
+        return $this->theme->scope('manage.gameSingleList', $data)->render();
+    }
+
+    //单人赛编辑
+    public function singleEdit($id,Request $request)
+    {
+        $user_active = UserActiveModel::where('user_active.id', $id)
+            ->leftJoin('users', 'users.id', '=', 'user_active.uid')
+            ->leftJoin('user_game_info', 'user_game_info.uid', '=', 'user_active.uid')
+            ->select('user_active.id', 'user_active.created_at', 'user_active.group_id', 'user_active.uid', 'user_game_info.game_name', 'user_game_info.game_server', 'users.name')
+            ->first();
+
+        if ($user_active->group_id == 0) {
+            $user_active->group_id = '未分组';
+        }
+
+        if ($request->isMethod('post')) {
+            $param = [
+                'game_name' => $user_active->game_name,
+                'game_server' => $user_active->game_server
+            ];
+            $date = $request->except('_token');
+            $array = array_diff($date, $param);
+
+            if (!empty($array)) {
+                UserGameModel::where('uid', $user_active['uid'])->update($array);
+            }
+            return  redirect('manage/game/single');
+        }
+
+        $data = array(
+            'user_active' => $user_active,
+        );
+
+        return $this->theme->scope('manage.gameSingelDetail', $data)->render();
+
+    }
+
+    //团队列表
+    public function team($type,Request $request)
+    {
+        $param['report_status'] = $request->input('report_status',$this->all);
+
+        $userActiveTeam = new UserActiveTeamModel();
+
+        if($param['report_status'] != $this->all){
+            $userActiveTeam = UserActiveTeamModel::where('report_status',$param['report_status']);
+        }
+
+        if($type == 0){
+            $userActiveTeam = $userActiveTeam->where('remark','');
+        }
+
+        if($type == 1){
+            $userActiveTeam = $userActiveTeam->where('remark',5);
+        }
+
+        $user_active_teams = $userActiveTeam->orderBy('id','asc')->paginate($this->page);
+
+        foreach($user_active_teams as $user_active_team){
+
+            if($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+                $user_active_team->report_status = '已报名';
+            }else{
+                $user_active_team->report_status = '未报名';
+            }
+
+            $user_active_team->total = UserActiveModel::where('pid',$user_active_team->id)->count();
+            if($user_active_team->remark == 5){
+                $user_active_team->total = 5;
+            }
+
+        }
+
+        $data = array(
+            'teams' => $user_active_teams,
+            'param' => $param,
+            'type' => $type
+        );
+        return $this->theme->scope('manage.gameTeamList', $data)->render();
+    }
+
+    //删除
+    public function teamDel(Request $request)
+    {
+        $id = $request->input('id');
+        $ret = UserActiveTeamModel::whereId($id)->delete();
+        if ($ret) {
+            return $id;
+        }
+        return 0;
+    }
+
+    //团队详情
+    public function teamDetail($id)
+    {
+        $user_active_team = UserActiveTeamModel::whereId($id)->select('id','team_name','logo','report_status','captain_id')->first();
+
+        $user_active_team->report_status = '未报名';
+        if($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+            $user_active_team->report_status = '已报名';
+        }
+
+        $user_active_team->total = UserActiveModel::where('pid',$user_active_team->id)->count();
+
+        $user_actives = UserActiveModel::where('pid',$id)
+                ->leftJoin('users', 'users.id', '=', 'user_active.uid')
+                ->leftJoin('user_game_info', 'user_game_info.uid', '=', 'user_active.uid')
+                ->select('user_active.id', 'user_active.uid', 'user_game_info.game_name', 'user_game_info.game_server', 'users.name')
+                ->orderBy('id','asc')
+                ->get();
+
+        foreach($user_actives as $user_active){
+            $user_active->identify = "队员";
+            if($user_active_team->captain_id == $user_active->uid){
+                $user_active->identify = "队长";
+            }
+        }
+
+        if($user_active_team->total == 0){
+            UserActiveTeamModel::where('id',$id)->delete();
+        }
+
+        $data = array(
+            'user_active_team' => $user_active_team,
+            'user_actives' => $user_actives
+        );
+        return $this->theme->scope('manage.gameTeamDetail', $data)->render();
+    }
+
+    //添加战队
+    public function teamAdd(Request $request)
+    {
+        if($request->isMethod("post")){
+            $data = $request->except('_token','pic');
+            $file = $request->file('pic');
+
+            $data['logo'] = 'uploads/game/moren/ZDlogo_01.png';
+            if(!empty($file)){
+                $result = \FileClass::uploadFile($file,'game');
+                $result = json_decode($result,true);
+                $data['logo'] = $result['data']['url'];
+            }
+            $ret = UserActiveTeamModel::createOne($data);
+
+            return  redirect('manage/game/team/0');
+        }
+
+        return $this->theme->scope('manage.gameTeamAdd')->render();
+    }
+
+    public function teamEdit($id,Request $request)
+    {
+        $user_active_team = UserActiveTeamModel::whereId($id)->first();
+
+        if($request->isMethod("post")){
+            $data = $request->except('_token','pic');
+            $file = $request->file('pic');
+
+            if(!empty($file)){
+                $result = \FileClass::uploadFile($file,'game');
+                $result = json_decode($result,true);
+                $data['logo'] = $result['data']['url'];
+            }
+
+            UserActiveTeamModel::whereId($id)->update($data);
+            return  redirect('manage/game/team/1');
+        }
+
+        $data = array(
+            'user_active_team' => $user_active_team,
+        );
+        return $this->theme->scope('manage.gameTeamEdit', $data)->render();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

@@ -1,0 +1,499 @@
+<?php
+namespace App\Modules\Manage\Http\Controllers;
+
+use App\Http\Controllers\ManageController;
+use App\Http\Requests;
+use App\Modules\Manage\Model\SjlmGoodsModel;
+use App\Modules\Manage\Model\SystemTasksModel;
+use App\Modules\User\Model\PromoteModel;
+use App\Modules\User\Model\PromoteTypeModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Modules\Manage\Model\InvitationCodeModel;
+use App\Modules\Manage\Model\UserGradeModel;
+use Illuminate\Support\Facades\DB;
+use App\Modules\Manage\Model\SignModel;
+use App\Modules\Manage\Model\SignPrizeModel;
+
+class PromoteController extends ManageController
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->initTheme('manage');
+
+    }
+
+    
+    public function promoteRelation(Request $request)
+    {
+        $merge = $request->all();
+        $list = PromoteModel::whereRaw('1=1');
+        
+        if($request->get('from_name')){
+            $list = $list->where('from.name','like','%'.$request->get('from_name').'%');
+        }
+        
+        if($request->get('to_name')){
+            $list = $list->where('to.name','like','%'.$request->get('to_name').'%');
+        }
+        
+        if($request->get('start')){
+            $start = date('Y-m-d H:i:s',strtotime($request->get('start')));
+            $list = $list->where('promote.created_at', '>',$start);
+        }
+        if($request->get('end')){
+            $end = date('Y-m-d H:i:s',strtotime($request->get('end')));
+            $list = $list->where('promote.created_at', '<',$end);
+        }
+        $list = $list->leftJoin('users as from','from.id','=','promote.from_uid')
+            ->leftJoin('users as to','to.id','=','promote.to_uid')
+            ->select('promote.*','from.name as from_name','to.name as to_name')
+            ->orderBy('promote.created_at','DESC')->paginate(20);
+        $data = array(
+            'merge' => $merge,
+            'list' => $list
+        );
+        $this->theme->setTitle('推广关系');
+        return $this->theme->scope('manage.entendrelation',$data)->render();
+    }
+
+    
+    public function promoteFinance(Request $request)
+    {
+        $list = PromoteModel::where('promote.status',2);
+        $merge = $request->all();
+        
+        if($request->get('from_name')){
+            $list = $list->where('from.name','like','%'.$request->get('from_name').'%');
+        }
+        
+        if($request->get('to_name')){
+            $list = $list->where('to.name','like','%'.$request->get('to_name').'%');
+        }
+        
+        if($request->get('start')){
+            $start = date('Y-m-d H:i:s',strtotime($request->get('start')));
+            $list = $list->where('promote.created_at', '>',$start);
+        }
+        if($request->get('end')){
+            $end = date('Y-m-d H:i:s',strtotime($request->get('end')));
+            $list = $list->where('promote.created_at', '<',$end);
+        }
+        $list = $list->leftJoin('users as from','from.id','=','promote.from_uid')
+            ->leftJoin('users as to','to.id','=','promote.to_uid')
+            ->select('promote.*','from.name as from_name','to.name as to_name')
+            ->orderBy('promote.created_at','DESC')->paginate(10);
+        $data = array(
+            'merge' => $merge,
+            'list' => $list
+        );
+        $this->theme->setTitle('推广财务');
+
+        return $this->theme->scope('manage.entendfinance',$data)->render();
+    }
+
+
+    //推广配置
+    public function promoteConfig()
+    {
+        $promoteType = PromoteTypeModel::where('code_name','ZHUCETUIGUANG')->first();
+        $extend = SystemTasksModel::where('status','valid')
+                                  ->where('type','10')
+                                  ->where('reward_type','1')
+                                  ->orderBy('amount','asc')
+                                  ->select('id','name','amount','time_limit','reward_amount')
+                                  ->get();
+
+        $data = array(
+            'promote_type' => $promoteType,
+            'extend'   =>  $extend,
+        );
+        $this->theme->setTitle('推广配置');
+        return $this->theme->scope('manage.entendConfig',$data)->render();
+    }
+
+    //添加推广人数收益
+    public function addExtendProfit(Request $request)
+    {
+        $data = $request->except('_token');
+        $data['type'] = 10;
+        $data['reward_type'] = 1;
+        $data['create_at'] = date('Y-d-m H:i:s');
+        $info = SystemTasksModel::insert($data);
+        $return = $info ? '操作成功' : '操作失败';
+        return redirect()->back()->with(['error'=>$return]);
+    }
+
+    //推广人数收益详情
+    public function extendProfitDet($id)
+    {
+        $extend = SystemTasksModel::whereId($id)
+                                  ->where('status','valid')
+                                  ->select('id','name','amount','time_limit','reward_amount')
+                                  ->first();
+        if($extend['id'] == true){
+            $data = [
+                'extend'   =>  $extend,
+            ];
+            return $this->theme->scope('manage.extendProfitDet',$data)->render();
+        }
+        return redirect()->back()->with(['error'=>'该信息不存在']);
+    }
+
+    //修改推广人数收益
+    public function ExtendProfitUpdate(Request $request)
+    {
+        $data = $request->except('_token');
+        $data['updated_at'] = date('Y-d-m H:i:s');
+        $info = SystemTasksModel::whereId($data['id'])->update($data);
+        $return = $info ? '操作成功' : '操作失败';
+        return redirect('manage/promoteConfig')->with(['error'=>$return]);
+    }
+
+    //删除推广人数收益
+    public function deleteExtendProfit($id)
+    {
+        $info = SystemTasksModel::whereId($id)->update(['status'=>'invalid','updated_at'=>date('Y-d-m H:i:s')]);
+        $return = $info ? '操作成功' : '操作失败';
+        return redirect()->back()->with(['error'=>$return]);
+    }
+
+    public function postPromoteConfig(Request $request)
+    {
+        $data = $request->except('_token');
+        $arr = array(
+            'is_open' => $data['is_open'],
+            'finish_conditions' => $data['finish_conditions'],
+            'price' => $data['price']
+        );
+        $res = PromoteTypeModel::where('code_name','ZHUCETUIGUANG')->update($arr);
+        if($res){
+            return redirect('/manage/promoteConfig')->with(array('message' => '操作成功'));
+        }else{
+            return redirect('/manage/promoteConfig')->with(array('message' => '操作失败'));
+        }
+    }
+    
+    //激活码列表页
+    public function invitationList(Request $request)
+    {
+        $this->theme->setTitle('激活码管理');
+        $all_code = InvitationCodeModel::where('status','=','valid')->paginate(30);
+        $data = [
+            'all_code' => $all_code,
+        ];
+        return $this->theme->scope('manage.invitationList',$data)->render();
+    }
+
+    //邀请码生成页
+    public function invitation(Request $request)
+    {
+        return $this->theme->scope('manage.invitation')->render();
+    }
+
+    /**
+     * 生成激活码
+     * @param Request $request
+     * param  $length 长度 (默认 8 )
+     * param  $number 个数  max(10000)
+     */
+    
+    public function createInvitation(Request $request)
+    {
+        $data = $request->all();
+        $str = array();
+        $data['number'] = $data['number'] <= 10000 ? $data['number'] : 10000;
+        for($i=0;$i<$data['number'];$i++){
+            $str[] = $this->mtrandStr($data['length']);
+        }
+        $newStr = array_unique($str);
+        $info = InvitationCodeModel::addInvitationCode($newStr);
+        if($info){
+            return redirect('/manage/invitation')->with(['message'=>'成功']);
+        }else{
+            return redirect('/manage/invitation')->with(['message'=>'失败']);
+        }
+
+    }
+
+    /**
+     * 随机生成字符串
+     * @param $length 长度
+     * @return string
+     */
+    public function mtrandStr($length)
+    {
+        $length = $length ? $length : 8;
+        $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+        $str = '';
+        for($i=0;$i<$length;$i++){
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+
+    //签到
+    public function getSign(Request $request)
+    {
+        $this->theme->setTitle('签到设置');
+        $sign = SignModel::where('end_time','>',date('Y-m-d H:i:s',time()))->paginate(20);
+        $data = [
+            'sign' => $sign,
+        ];
+        return $this->theme->scope('manage.signsetUp',$data)->render();        
+    }
+    
+    //添加签到周期
+    public function postAddSign(Request $request)
+    {
+        $data = $request->all();
+        $data['start_time'] = date('Y-m-d H:i:s',strtotime($data['start_time']));
+        $data['end_time'] = date('Y-m-d H:i:s',strtotime($data['end_time']));
+        unset($data['_token']);
+        $status = DB::transaction(function() use($data)
+        {
+            $sign_id = SignModel::insertGetId($data);
+            $days = explode(',',$data['winning_days']);
+            foreach($days as $v){
+                SignPrizeModel::insert(array('sign_id'=>$sign_id,'date'=>$v));
+            }
+        });
+        if(is_null($status)){
+            return redirect('/manage/sign')->with(['message'=>'操作成功']);
+        }else{
+            return redirect('/manage/sign')->with(['message'=>'操作失败']);
+        }
+    }
+
+    /**
+     * 签到详情
+     * @param int 
+     */
+    public function signDetail($id)
+    {
+        $this->theme->setTitle('签到设置');
+        $sign = SignModel::where('id',$id)->first();
+        $data = [
+            'sign' => $sign,
+        ];
+        return $this->theme->scope('manage.signDetail',$data)->render();
+    }
+
+    //修改签到
+    public function signUpdate(Request $request)
+    {
+        $data = $request->all();
+        $data['start_time'] = date('Y-m-d H:i:s',strtotime($data['start_time']));
+        $data['end_time'] = date('Y-m-d H:i:s',strtotime($data['end_time']));
+        unset($data['_token']);
+        $result = SignModel::where('id',$data['id'])->update($data);
+        if($result)
+            return redirect('/manage/sign')->with(['message'=>'操作成功']);
+        else
+            return redirect('/manage/sign')->with(['message'=>'操作失败']);
+    }
+    //添加签到奖品
+    public function addSignPrize(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        $result = SignPrizeModel::create($data);
+        if($result)
+            return redirect('/manage/signPrize/'.$data['sign_id'])->with(['message'=>'操作成功']);
+        else
+            return redirect('/manage/signPrize'.$data['sign_id'])->with(['message'=>'操作失败']);
+    }
+    //签到奖品管理
+    public function setupSignPrize($id)
+    {
+        $this->theme->setTitle('签到奖品');
+        $sign = SignModel::select('id','winning_days','start_time','end_time')->where('id',$id)->first();
+
+        $select = array(
+                'sign_prize.id',
+                'sign_prize.sign_id',
+                'sign_prize.date',
+                'sign_prize.goods_id',
+                'sjlm_goods.name',
+                'sjlm_goods.icon'
+            );
+        $sign_prize = SignPrizeModel::select($select)
+                ->where(array('sign_prize.sign_id'=>$id,'sign_prize.status'=>'valid'))
+                ->join('sjlm_goods','sign_prize.goods_id','=','sjlm_goods.id')
+                ->paginate(10);
+
+        $sjlm_goods = SjlmGoodsModel::select('id','name')->where('status','valid')->get();
+
+        $data = [
+            'sjlm_goods' => $sjlm_goods,
+            'sign'  => $sign,
+            'sign_prize' => $sign_prize,
+        ];
+        return $this->theme->scope('manage.signPrizeList',$data)->render();       
+    }
+
+    //删除签到奖品
+    public function signPrizeDel($id)
+    {
+        $data = SignPrizeModel::select('sign_id')->where('id',$id)->first();
+        $status = DB::transaction(function() use($id,$data)
+        {
+            SignPrizeModel::where('id',$id)->update(array('status'=>'invalid'));
+            $dateInfo = SignPrizeModel::select('date')
+                                      ->where('status','valid')
+                                      ->where('sign_id',$data['sign_id'])
+                                      ->get();
+
+            foreach($dateInfo as $v){
+                $info[] = $v['date'];
+            }
+
+            $date = implode(',',$info);
+            SignModel::where('id',$data['sign_id'])->update(array('winning_days'=>$date));
+        });
+
+        if(is_null($status)){
+            return redirect('/manage/signPrize/'.$data['sign_id'])->with(['message'=>'操作成功']);
+        }else{
+            return redirect('/manage/signPrize/'.$data['sign_id'])->with(['message'=>'操作失败']);
+        }
+    }
+
+    //签到奖品详情
+    public function signPrizeDetail($id)
+    {
+        $this->theme->setTitle('签到奖品详情');
+        $prize = SignPrizeModel::where('id',$id)->first();
+        $sjlm_goods = SjlmGoodsModel::select('id','name')->where('status','valid')->get();
+        $data = [
+            'sjlm_goods' => $sjlm_goods,
+            'prize' => $prize,
+        ];
+        return $this->theme->scope('manage.prizeDetail',$data)->render();      
+    }
+
+    //修改签到奖品
+    public function updateSignPrize(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        $result = SignPrizeModel::where('id',$data['id'])->update($data);
+        if($result)
+            return redirect('/manage/signPrize/'.$data['sign_id'])->with(['message'=>'操作成功']);
+        else
+            return redirect('/manage/signPrize/'.$data['sign_id'])->with(['message'=>'操作失败']);
+    }
+
+    //用户等级页
+    public function gradeList(Request $request)
+    {
+        $this->theme->setTitle('用户等级');
+        $grade = UserGradeModel::where('status','valid')->paginate(20);
+        $data = [
+            'grade' => $grade,
+        ];
+
+        return $this->theme->scope('manage.gradeList',$data)->render();        
+    }
+
+    //添加用户等级
+    public function postuerGrade(Request $request)
+    {
+        $data = $request->all();
+        if(!empty($data['grade_img'])){
+            $data['create_time'] = date('Y-m-d H:i:s');
+            $ext = $data['grade_img']->getClientOriginalExtension();
+            $filename = md5(date('Y-m-d-H-i-S').'-'.uniqid()).'.'.$ext;  
+            $filepath = 'uploads/grade/';
+            $result = $data['grade_img']->move($filepath,$filename);
+            if($result){
+                $data['grade_img'] = $filepath.$filename; 
+                unset($data['_token']);
+                $result = UserGradeModel::insert($data);
+                if($result){
+                    return redirect('/manage/grade')->with(['message'=>'操作成功']);
+                }else{
+                    unlink($data['grade_img']);
+                    return redirect('/manage/grade')->with(['message'=>'操作失败']);
+                }
+
+            }else{
+                return redirect('/manage/grade')->with(['message'=>'图片上传失败']);
+            }
+
+        }else{
+            return redirect('/manage/grade')->with(['message'=>'图片上传失败']);
+        }
+        
+    }
+
+    /**
+     *  删除用户等级
+     *  @param int 
+     */
+    public function gradeDel($id)
+    {
+        $re = UserGradeModel::where('id',$id)->update(array('status'=>'invalid'));
+        if($re)
+            return redirect('/manage/grade')->with(['message'=>'操作成功']);
+    }
+
+    /**
+     * 用户等级详情
+     * @param int 
+     */
+    public function gradeDetail($id)
+    {
+        $this->theme->setTitle('用户等级');
+        $grade = UserGradeModel::where('id',$id)->first();
+        $data = [
+            'grade' => $grade,
+        ];
+        return $this->theme->scope('manage.gradeDetail',$data)->render();
+    }
+    
+    //修改用户等级
+    public function gradeUpdate(Request $request)
+    {
+        $data = $request->all();
+        unset($data['_token']);
+        if(!empty($data['grade_img'])){
+            $grade_img = UserGradeModel::select('grade_img')->where('id',$data['id'])->first()->toArray();
+            //获取图片信息
+            $ext = $data['grade_img']->getClientOriginalExtension();
+            $filename = md5(date('Y-m-d-H-i-S').'-'.uniqid()).'.'.$ext;  
+            $filepath = 'uploads/grade/';
+            $result = $data['grade_img']->move($filepath,$filename);
+            if($result){
+                $data['grade_img'] = $filepath.$filename;
+                $result = UserGradeModel::where('id',$data['id'])->update($data);
+                if($result){
+                    if($grade_img['grade_img']){
+                        unlink($grade_img['grade_img']);
+                    }
+                    return redirect('/manage/grade')->with(['message'=>'操作成功']);
+                }else{
+                    unlink($data['grade_img']);
+                    return redirect('/manage/grade')->with(['message'=>'操作失败']);
+                }
+
+            }else{
+                return redirect('/manage/grade')->with(['message'=>'图片上传失败']);
+            }
+        } 
+
+        $result = UserGradeModel::where('id',$data['id'])->update($data);
+        if($result)
+            return redirect('/manage/grade')->with(['message'=>'操作成功']);
+        else
+            return redirect('/manage/grade')->with(['message'=>'操作失败']);
+        
+    }
+
+
+    
+
+}
+
+

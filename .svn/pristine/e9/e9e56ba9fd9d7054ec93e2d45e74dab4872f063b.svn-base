@@ -1,0 +1,21 @@
+
+<script>
+    var error = 0;
+    var success = 0;
+    <?php if(Session::has('error')): ?>
+         error = 1;
+        var message = '<?php echo e(Session::get('error')); ?>';
+    <?php endif; ?>
+
+    <?php if(Session::has('message')): ?>
+        success = 1;
+        var message = '<?php echo e(Session::get('message')); ?>';
+    <?php endif; ?>
+
+</script>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('gritter', 'plugins/ace/js/jquery.gritter.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('gritter_css', 'css/ace/jquery.gritter.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('gritter', 'js/doc/layer.js'); ?>

@@ -1,0 +1,335 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Modules\Manage\Model\UserSystemTaskModel;
+use App\Modules\Order\Model\SubOrderModel;
+use App\Modules\Task\Model\TaskDelayModel;
+use App\Modules\Task\Model\TaskModel;
+use App\Modules\Task\Model\WorkModel;
+use App\Modules\User\Model\UserBalanceModel;
+use App\Modules\User\Model\UserDetailModel;
+use App\Modules\User\Model\UserModel;
+use Illuminate\Http\Request;
+use App\Modules\Order\Model\OrderModel;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
+
+class ApiBaseController extends Controller
+{
+    const RET_SUCCESS = 1;
+    const RET_FILE = 0;
+    const TASK_EXPRESS = 1;
+    //const LIMIT_PAGE = 10;
+
+    public function formateResponse($code = 1000, $message = 'success', $data = null, $statusCode = 200)
+    {
+        $result['code'] = $code;
+        $result['message'] = $message;
+        if (isset($data)) {
+            $result['data'] = is_array($data) ? $data : json_decode($data, true);
+        } else {
+            $result['data'] = new \stdClass();
+        }
+
+        return new Response($result, $statusCode);
+    }
+
+    public function getIPLocSina($queryIP)
+    {
+        $url = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip=' . $queryIP;
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+        $location = curl_exec($ch);
+        $location = json_decode($location);
+        curl_close($ch);
+        $loc = "";
+        if ($location === FALSE) return "";
+        if (empty($location->desc)) {
+            $loc = $location->province . '-' . $location->city;
+        } else {
+            $loc = $location->desc;
+        }
+        return $loc;
+    }
+
+    /**base64转图片
+     * @param $base64
+     * @return mixed
+     */
+    static function uploadByBase64($base64,$path = 'task_proof')
+    {
+        $url = explode(',', $base64);
+        preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64, $result);
+
+        $data['size'] = base64_decode($result[0]);//大小
+        $data['type'] = $result[2];//后缀
+        $data['newName'] = OrderModel::randomCode(mt_rand(1,1000)).'.'.$data['type'];//图片名称
+
+        $time = date("Y-m-d");
+        if($path == 'task_proof'){
+            $savepath = 'uploads/'.$path.'/'.$time;
+        }
+        if($path == 'head_img'){
+            $savepath = 'uploads/'.$path;
+        }
+
+        $dir = iconv("UTF-8", "GBK", $savepath);
+        $data['url_path'] = $savepath.'/'.$data['newName'];//url
+
+        if (!file_exists($dir)){
+            mkdir ($dir,0777,true);
+        }
+
+        $ret = file_put_contents($data['url_path'], base64_decode($url[1]));
+
+        return $data;
+    }
+
+    /**
+     * 模拟请求
+     * @param $url(链接)
+     * @return mixed
+     */
+    static function curl($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        $res = curl_exec($curl);
+        curl_close($curl);
+        return $res;
+    }
+
+    /**时间显示
+     * @param $data 时间
+     * @return int|string
+     */
+    static function timeShow($data)
+    {
+        $time = strtotime("now");
+        $data = strtotime($data);
+        $param = floor(($time - $data) % 86400 / 3600);
+
+        if ($param == 24) {
+            $data = '1天前';
+        }
+        if (1< $param && $param< 24) {
+            $data = $param . '小时前';
+        }
+        if ($param <= 1) {
+          $data = '刚刚';
+        }
+
+        return $data;
+    }
+
+    /**
+     * 按概率获取随机数
+     * @param  [type] $proArr array('被获取的数值1'=>'概率1'，'被获取的数值2'=>'概率2')
+     * @return [type]         [description]
+     */
+    static function getRand($proArr){
+        $proB = [];
+        $node_a = 0;
+        $node_b = 0;
+        $result = 0;
+        foreach ($proArr as $key=>$proArrSingle){
+            $node_b += $proArrSingle;
+            $proB[$key] = array('begin'=>$node_a,'end'=>$node_b);
+            $node_a = $node_b;
+        }
+        $randNum = mt_rand(1,10000);
+        foreach($proB as $keyB=>$proBSingle){
+            if($randNum > $proBSingle['begin'] && ($randNum < $proBSingle['end'] || $randNum == $proBSingle['end'])){
+                $result = $keyB;
+                break;
+            }
+        }
+        unset($proArr);
+        return $result;
+    }
+
+    /**图片转base64
+     * @param $pic
+     * @return string
+     */
+    static function pictureChangeBase64($pic)
+    {
+        $pic =public_path().$pic;
+        if (file_exists($pic)) {
+            $app_img_file = $pic;
+            $img_info = getimagesize($app_img_file);
+            $fp = fopen($app_img_file, "r");
+
+            if ($fp) {
+                 $filesize = filesize($app_img_file);
+                 $content = fread($fp, $filesize);
+                 $file_content = chunk_split(base64_encode($content));
+                 switch ($img_info[2]) {
+                     case 1: $img_type = "gif";
+                         break;
+                     case 2: $img_type = "jpg";
+                         break;
+                     case 3: $img_type = "png";
+                         break;
+                 }
+
+                $img_base64 = 'data:image/' . $img_type . ';base64,' . $file_content;//合成图片的base64编码
+            }
+            fclose($fp);
+        }
+        self::uploadByBase64($img_base64);
+        return $img_base64;
+
+    }
+
+    /**数组键值改变
+     * @param $key键
+     * @param $arrays数组
+     * @return array
+     */
+    static function arrayKeyChange($key,$arrays)
+    {
+        foreach($arrays as $array){
+            $array = array_values($array);
+            $data[] = array_combine($key, $array);
+        }
+        return $data;
+    }
+
+    //刷新任务状态，手动自动完成
+    static function taskStatusChangeToTaskData($task_id)
+    {
+        $task = TaskModel::whereId($task_id)->first();
+        $time = strtotime("now");
+
+        if($task->status == TaskModel::TASK_NO_PAY && (strtotime($task->created_at) + 15*60) < $time){
+            TaskModel::whereId($task_id)->update(['status'=>TaskModel::TASK_FAIL]);
+            return true;
+        }
+
+        if($task->status == TaskModel::TASK_PUB && strtotime($task->work_time) < $time){
+            $sum = self::balanceFromTaskOrder($task_id);
+            UserBalanceModel::where('user_id',$task_id->uid)->increment('balance',$sum);
+            TaskModel::whereId($task_id)->update(['status'=>TaskModel::TASK_FAIL]);
+            return true;
+        }
+
+        if($task->status == TaskModel::TASK_APPLY_DELAY){
+            $taskDelay = TaskDelayModel::where('task_id',$task_id)->where('status',TaskDelayModel::TASK_DELAY_DOING)->first();
+            if(!is_null($taskDelay) && (strtotime($taskDelay->created_at) + 5 *60) < $time){
+                TaskDelayModel::whereId($taskDelay->id)->update(['status'=>TaskDelayModel::TASK_DELAY_AUTO_CONFIM]);
+                TaskModel::whereId($task_id)->update(['status'=>TaskModel::TASK_DOING,'work_time'=>date("Y-m-d H:i:s",(strtotime($task->work_time) + $taskDelay->delay_time * 60))]);
+            }
+            return true;
+        }
+
+        if($task->status == TaskModel::TASK_RECIEIVER_TRUE && (strtotime($task->checked_at) + 24*3600) < $time){
+            TaskModel::whereId($task_id)->update(['status'=> TaskModel::TASK_COMPLATE]);
+            $work = WorkModel::where('task_id',$task_id)->where('status',WorkModel::WORK_PUSH)->first();
+            $data = [
+                'work_id' => $work->id,
+                'task_id' => $task_id
+            ];
+            WorkModel::workCheck($data);
+            // 猎人任务完成客户端调用
+            $u_b_res = UserBalanceModel::contigencyCompleted($work->uid,"1");
+            //系统任务完成任务的调用  kppw_type 表ID : 12
+            $user_system_task = UserSystemTaskModel::where('uid',$work->id)->where('status','1')->where('systerm_task_type',12)->first();
+            if($user_system_task){
+                $u_s_t_res = UserSystemTaskModel::completed($work->id,12);
+            }
+            return true;
+        }
+
+    }
+
+    //每笔任务订单总金额
+    static function balanceFromTaskOrder($task_id)
+    {
+        $orders = OrderModel::where('task_id',$task_id)->first();
+        $data = SubOrderModel::findByOrderId($orders->id);
+        return $data['sum'];
+    }
+
+    //检验用户信息是否全面
+    static function userInfoComplateCheck($user,$type)
+    {
+        if($type == 'user_id' && !is_array($user)){
+            $user = UserModel::userInfo($user);
+            //dd($user);
+            if(empty($user->mobile) || empty($user->region) || empty($user->school_province) || empty($user->school)){
+                return false;
+            }
+            return $user;
+        }
+    }
+
+    /**获取某段时间内随机时间
+     * @param $begintime
+     * @param string $endtime
+     * @return bool|string
+     */
+    static function randomDate($begintime, $endtime="")
+    {
+        $begin = strtotime($begintime);
+        $end = $endtime == "" ? time() : strtotime($endtime);
+        $timestamp = rand($begin, $end);
+        return date("Y-m-d H:i:s", $timestamp);
+    }
+
+    static function juhecurl($idcard,$realname,$ispost = '0')
+    {
+        $url = 'http://op.juhe.cn/idcard/query';
+
+        $params = array(
+            'idcard' => $idcard,
+            'realname' => $realname,
+            'key' => 'eabddc58c02e06a2593bdbfe702f9ddd'
+          );
+
+        $params = http_build_query($params);
+
+        $httpInfo = array();
+        $ch = curl_init();
+     
+        curl_setopt( $ch, CURLOPT_HTTP_VERSION , CURL_HTTP_VERSION_1_1 );
+        curl_setopt( $ch, CURLOPT_USERAGENT , 'JuheData' );
+        curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT , 60 );
+        curl_setopt( $ch, CURLOPT_TIMEOUT , 60);
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER , true );
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        if( $ispost )
+        {
+            curl_setopt( $ch , CURLOPT_POST , true );
+            curl_setopt( $ch , CURLOPT_POSTFIELDS , $params );
+            curl_setopt( $ch , CURLOPT_URL , $url );
+        }
+        else
+        {
+            if($params){
+                curl_setopt( $ch , CURLOPT_URL , $url.'?'.$params );
+            }else{
+                curl_setopt( $ch , CURLOPT_URL , $url);
+            }
+        }
+        $response = curl_exec( $ch );
+        if ($response === FALSE) {
+            //echo "cURL Error: " . curl_error($ch);
+            return false;
+        }
+        $httpCode = curl_getinfo( $ch , CURLINFO_HTTP_CODE );
+        $httpInfo = array_merge( $httpInfo , curl_getinfo( $ch ) );
+        curl_close( $ch );
+
+        $response = json_decode($response,true);
+        return $response;
+    }
+}

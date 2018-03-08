@@ -1,0 +1,109 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+use App\Modules\Manage\Model\SystemTasksModel;
+
+class UserRodeFeeModel extends Model
+{
+    const TASK_STATUS_SUCCESS = 4;//已领取
+
+    protected $table = 'user_rode_fee';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','uid','rode_fee','need_num','completed_num','status','change_read','change_num','created_at','receive_time'
+    ];
+
+    public $timestamps = false;
+
+    /**
+     * [rodeFeeCompleted 完成回家路费调用]
+     * @param  [type] $uid [完成任务用户id]
+     * @return [type]      [json]
+     */
+    static function rodeFeeCompleted($uid)
+    {
+        $user_rode_fee = self::where('uid',$uid)->whereIn('status',array('1','2'))->select('need_num','completed_num')->first();
+
+        if(empty($user_rode_fee)) {
+            return array('code'=>'200','msg'=>'用户暂无该任务');
+        }
+
+        $completed_num = $user_rode_fee['completed_num'] + 1;
+
+        if($completed_num == $user_rode_fee['need_num']) {
+            $data = array('completed_num'=>$completed_num,'status'=>'2');
+        }
+        else {
+            $data = array('completed_num'=>$completed_num);
+        }
+
+        $u_r_f_res = self::where('uid',$uid)->update($data);
+
+        if(!$u_r_f_res){
+            return array('code'=>'-1','msg'=>'网络错误');
+        }
+    }
+
+    /**
+     * [calculNum 计算路费对应邀请人数]
+     * @param  [type] $fee [路费]
+     * @return [type]      [json]
+     */
+    static function calculNum($fee)
+    {
+        //获取所有的任务
+        $systemTasks = SystemTasksModel::where('status','valid')
+                                       ->where('type','10')
+                                       ->where('reward_type','1')
+                                       ->orderBy('amount','asc')
+                                       ->select('amount','reward_amount')
+                                       ->get();
+
+        $taskCount = count($systemTasks);
+        $lastKey = $taskCount-1;
+
+        //如果路费超过系统设定最奖赏，则需要邀请人数 暂时取 系统已有的最大邀请数量
+        if($fee > $systemTasks[$lastKey]['reward_amount']){
+            return array('code'=>'200','data'=>$systemTasks[$lastKey]['amount']);
+        }
+
+        if(!$systemTasks->isEmpty()){
+            $systemTasks = $systemTasks->toArray();
+            $reward = 0;
+
+            if($fee < $systemTasks[0]['reward_amount'] || $fee == $systemTasks[0]['reward_amount']){
+                $num_a = 0;
+                $num_b = $systemTasks[0]['amount'];
+                $rwd_a = 0;
+                $rwd_b = $systemTasks[0]['reward_amount'];
+            }
+
+            foreach ($systemTasks as $key => &$value) {
+                $value['total_reward'] = $reward + $value['reward_amount'];
+                if($fee > $reward && ($fee < $value['total_reward'] || $fee == $value['total_reward'])){
+                    $num_a = $systemTasks[$key-1]['amount'];
+                    $num_b = $value['amount'];
+                    $rwd_a = $systemTasks[$key-1]['total_reward'];
+                    $rwd_b = $value['total_reward'];
+                    break;
+                }
+                $reward = $reward + $value['reward_amount'];
+            }
+
+            $number = ceil($num_a + ($num_b - $num_a)*(($fee - $rwd_a)/($rwd_b - $rwd_a)));
+            return array('code'=>'200','data'=>$number);
+        }
+
+        return array('code'=>'-1','msg'=>'暂未开启该任务');
+    }
+
+    static function delSomeThingByUid($uid)
+    {
+        self::where('uid',$uid)->delete();
+        return true;
+    }
+}

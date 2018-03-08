@@ -1,0 +1,11 @@
+<?php /*<?php echo Theme::asset()->container('specific-css')->usepath()->add('gritter', 'plugins/ace/css/jquery.gritter.css'); ?>*/ ?>
+<?php /*<?php echo Theme::asset()->container('specific-js')->usepath()->add('gritter','plugins/ace/js/jquery.gritter.min.js'); ?>*/ ?>
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('bootstrap-editable','plugins/ace/js/x-editable/bootstrap-editable.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace-editable','plugins/ace/js/x-editable/ace-editable.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace','plugins/ace/js/ace.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace-elements','plugins/ace/js/ace-elements.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('more', 'js/doc/avatar.js'); ?>

@@ -1,0 +1,75 @@
+
+    <h3 class="header smaller lighter blue mg-top12 mg-bottom20">菜单管理</h3>
+    <div class="well blue">
+        <?php /*<h4>菜单列表</h4>*/ ?>
+
+        <select onchange="window.location=this.value;" style="float:left">
+            <?php foreach($icon_type as $v): ?>
+            <option value="/manage/icon/<?php echo e($v['type_name']); ?>" <?php echo e(($type==$v['type_name'])?'selected':''); ?>><?php echo e($v['describe']); ?></option>
+            <?php endforeach; ?>
+        </select>
+
+        <div style="float:left;margin-left:100px" >
+            <div class="dataTables_info" id="sample-table-2_info">
+                <a href="/manage/addIcon" class="btn  btn-primary btn-sm">添加模块</a>
+            </div>
+        </div>
+
+
+    </div>
+    <div>
+        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+            <thead>
+
+            <tr>
+                <th>编号</th>
+                <th>菜单名</th>
+                <th>菜单路由</th>
+                <th>描述</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+                <tbody>
+
+                    <?php if(!empty($icon)): ?>
+                        <?php foreach($icon as $v): ?>
+                            <tr>
+                                <td class="center">
+
+                                      <?php echo e($v['id']); ?>
+
+
+                                </td>
+
+                                <td>
+                                    <img src="/<?php echo e($v['icon_name']); ?>" style="width:50px"/>
+                                </td>
+
+                                <td>
+                                    <?php echo e($v['route']); ?>
+
+                                </td>
+
+                                <td>
+                                    <?php echo e($v['describe']); ?>
+
+                                </td>
+                                <td>
+                                    <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                        <a class="btn btn-xs btn-info" href="/manage/iconDetail/<?php echo e($v['id']); ?>">
+                                            <i class="fa fa-edit bigger-120"></i>编辑
+                                        </a>
+                                        <a  href="/manage/iconDel/<?php echo e($v['id']); ?>" title="删除" class="btn btn-xs btn-danger">
+                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+        </table>
+    </div>
+
+
+    <?php echo Theme::asset()->container('custom-css')->usePath()->add('back-stage-css', 'css/backstage/backstage.css'); ?>

@@ -1,0 +1,9 @@
+{
+	"name": "Manage",
+	"slug": "manage",
+	"namespace": "Manage",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Manage module."
+}

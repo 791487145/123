@@ -1,0 +1,60 @@
+
+<div class="widget-header mg-bottom20 mg-top12 widget-well">
+    <div class="widget-toolbar no-border pull-left no-padding">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="{!! url('manage/generalize_config') !!}" title="">修改推广配置</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--  /.page-header -->
+<form class="form-horizontal" role="form" method="post" action="{!! url('manage/generalize_configUp') !!}">
+    {!! csrf_field() !!}
+    <div class="g-backrealdetails clearfix bor-border interface">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="space-8 col-xs-12"></div>
+        <div class="form-group interface-bottom col-xs-12">
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1">1级推广金额</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1" class="col-xs-10 col-sm-4" name="one_sum" value="{!! $data->one_sum !!}">
+                <span class="help-inline col-xs-12 col-sm-8">
+                    <span class="middle">（单位：元）</span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group interface-bottom col-xs-12">
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1">2级推广金额</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1" class="col-xs-10 col-sm-4" name="two_sum" value="{!! $data->two_sum !!}">
+                <span class="help-inline col-xs-12 col-sm-8">
+                    <span class="middle">（单位：元）</span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group interface-bottom col-xs-12">
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1">3级推广金额</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1" class="col-xs-10 col-sm-4" name="three_sum" value="{!! $data->three_sum !!}">
+                <span class="help-inline col-xs-12 col-sm-8">
+                    <span class="middle">（单位：元）</span>
+                </span>
+            </div>
+        </div>
+
+        <input type="hidden" id="form-field-1" class="col-xs-10 col-sm-4" name="id" value="{!! $data->id !!}">
+        <div class="col-xs-12">
+            <div class="clearfix row bg-backf5 padding20 mg-margin12">
+                <div class="col-xs-12">
+                    <div class="col-sm-1 text-right"></div>
+                    <div class="col-sm-10"><button type="submit" class="btn btn-sm btn-primary">提交</button></div>
+                </div>
+            </div>
+        </div>
+</div>
+</form>
+
+
+
+
+{!! Theme::asset()->container('custom-css')->usePath()->add('back-stage-css', 'css/backstage/backstage.css') !!}

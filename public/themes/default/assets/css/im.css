@@ -1,0 +1,480 @@
+ul,input{
+    list-style: none;
+}
+.im p{
+    margin: 0;
+}
+.im a:hover{
+    text-decoration: none;
+}
+.im{
+    width: auto;
+    /*position: fixed;*/
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    font-size: 14px;
+    z-index: 1000;
+}
+.im .im-side,.im .im-side1,.im .im-side2{
+    border-radius: 5px;
+    bottom: 0;
+    right: 0;
+}
+.im-container{
+    height:597px;
+}
+.im .im-side,.im .im-side1,.im .im-side2 .imContact-info{
+    display: none;
+}
+.im .im-side{
+    width: 159px;
+    height: 597px;
+    padding: 6px;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    right: 898px;
+    z-index: 1000;
+}
+.im .im-side .im-side-itm{
+    height:38px;
+    padding: 5px;
+    cursor: pointer;
+}
+.im .im-side .im-side-itm:hover{
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.im .im-side .im-side-itm:hover .im-side1-title{
+    color: #515151;
+}
+.im .im-side .im-side-itm .im-side1-title{
+    height:28px;
+    line-height: 28px;
+    color: #fff;
+}
+.im .im-side .im-side-itm .im-side1-title .title-tit{
+    margin-left: 38px;
+    line-height: 28px;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    overflow : hidden;
+}
+.im .im-side1{
+    width: 625px;
+    height: 597px;
+    background: #f5f5f5;
+    margin-right: 8px;
+    border: 1px solid #eee;
+    position: fixed;
+    z-index: 1000;
+    right: 266px;
+}
+.im-wrapside{
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+.im .im-side .im-wrapside .im-side1-title{
+    color: #515151;
+}
+.mg-margin0{
+    margin: 0;
+}
+.mg-top12{
+    margin-top: 12px;
+}
+.mg-top18{
+    margin-top: 18px;
+}
+.pd-padding0{
+    padding: 0;
+}
+.cor-gury51{
+    color: #515151;
+}
+.cor-gury9c{
+    color: #9c9c9c;
+}
+.cor-guryC5{
+    color: #c5c5c5;
+}
+.f-size12{
+    font-size: 12px;
+}
+.f-size16{
+    font-size: 16px;
+}
+.f-size20{
+    font-size: 20px;
+}
+.f-size14{
+    font-size: 14px;
+}
+.im-side1 .im-side1-list1{
+    padding-left:20px ;
+    padding-bottom: 24px;
+}
+.im-side1 .im-side1-title{
+    margin-left: 63px;
+}
+.im-side1 .im-side1-colos{
+    padding-right: 10px;
+}
+.im-side1 .im-side1-colos a{
+    color: #b8b8b8;
+}
+.im-side1 .im-side1-title .title-tit{
+    margin-bottom: 10px;
+    margin-top: 4px;
+}
+.im-side1 .im-side1-list2{
+    height: 367px;
+    background: #fff;
+    padding:28px 20px 50px 20px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+.im-side1 .im-side1-list2 .im-dialog-bgf8{
+    background: #f0f8ff;
+    padding: 15px 18px;
+    margin-top: 10px;
+    display: block;
+}
+.im-side1 .im-side1-list2 .im-dialog-bgf0{
+    background: #eff0f3;
+}
+.im-side1 .im-side1-list3{
+    border-top: 1px solid #ededed;
+    background: #fff;
+    padding: 18px 10px 10px 20px;
+}
+.im-side1 .im-side1-list3 .im-side1-list3-input{
+    width: 100%;
+    height: 64px;
+    border: 0;
+    outline:none;
+    resize:none;
+}
+.im-side1 .im-side1-list3 .im-btn{
+    color: #fff;
+    padding: 8px 27px 8px 16px;
+    outline:none;
+    border: 0;
+    border-radius: 4px;
+}
+
+.im .im-side2{
+    border-radius: 5px;
+    position: fixed;
+    z-index: 1000;
+}
+.im-side2 .im-side1-list1{
+    
+    padding: 16px 17px;
+    border-radius: 5px 5px 0 0;
+    width: 265px;
+}
+.im-side2 .im-side1-list1 .im-side1-title{
+    position: relative;
+    margin-left: 78px;
+}
+.im-side2 .im-side1-list1 .im-side1-title .title-tit{
+    margin: 5px 0 12px 0;
+    cursor: pointer;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    overflow : hidden;
+}
+.im-side2 .im-side1-list1 .im-side1-title a{
+    color: #fff;
+}
+.im-side2 .im-side1-list1 .im-side1-title .im-colose-x{
+    position: absolute;
+    right: -8px;
+    top: -15px;
+}
+.im-side2 .im-side1-list2{
+    padding: 12px 15px;
+}
+.im-side2 .im-side1-list2 .im-seach{
+    position: relative;
+}
+.im-side2 .im-side1-list2 .im-seach .fa{
+    cursor: pointer;
+    color: #E3E3E3;
+    position: absolute;
+    z-index: 3;
+    top: 10px;
+}
+.im-side2 .im-side1-list2 .im-seach .search-close{
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    background: #2f549f;
+    right: 12px;
+    border-radius: 100%;
+}
+.im-side2 .im-side1-list2 .im-seach .search-btn{
+    left: 12px;
+}
+.im-side2 .im-side1-list2 .im-seach input{
+    border-color: #e3e3e3;
+    box-shadow: none;
+    width: 100%;
+    border-radius: 5px!important;
+    padding-left: 50px;
+
+}
+.im-side2 .im-side1-list2{
+    height: 458px;
+    overflow: hidden;
+    overflow-y: auto;
+    border-left: 1px solid #ededed;
+    border-right: 1px solid #ededed;
+    background: #fff;
+    width: 265px;
+}
+.im-side2 .im-side1-list2 .im-side-itm{
+    padding: 16px 0;
+    border-bottom: 1px solid #e3e3e3;
+    cursor: pointer;
+    width: 100%;
+}
+.im-side2 .im-side1-list2 .im-side-itm .im-side1-title{
+    padding-left: 63px;
+}
+.im-side2 .im-side1-list2 .im-side-itm .im-side1-title .title-tit{
+    margin-bottom: 4px;
+    margin-top: 6px;
+    text-overflow : ellipsis;
+    white-space : nowrap;
+    overflow : hidden;
+}
+.im-side2 .im-side1-list2 .im-side-itm:hover{
+    background: #f5f5f5;
+    border-bottom-color: #F5F5F5;
+    border-radius: 5px;
+    width: 100%;
+}
+.im-side2 .im-side1-list3{
+    width: 265px;
+    height: 44px;
+    line-height: 44px;
+    border-radius:5px ;
+    color: #fff;
+    text-align: center;
+    padding: 0 10px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+.im-side2 .im-side1-list3>a{
+    color: #fff;
+}
+.im .im-side2 .search-itm .im-side-itm .im-side1-title .title-tit{
+    margin-left: 38px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.im .im-side2 .search-itm .im-side-itm{
+    height:38px;
+    padding: 5px;
+    cursor: pointer;
+    border-bottom: 0;
+}
+.im .im-side2 .search-itm .im-side-itm .im-side1-title{
+    height:28px;
+    line-height: 28px;
+    padding-left: 0;
+}
+.no-search{
+    margin-top: 40px;
+    color:#E3E3E3;
+}
+.ds-none{
+    display: none;
+}
+.im .active{
+    display: block;
+}
+
+@keyframes shake {
+    2% {
+        transform: translate(0.5px, -1.5px) rotate(-0.5deg);
+    }
+    4% {
+        transform: translate(0.5px, 1.5px) rotate(1.5deg);
+    }
+    6% {
+        transform: translate(1.5px, 1.5px) rotate(1.5deg);
+    }
+    8% {
+        transform: translate(2.5px, 1.5px) rotate(0.5deg);
+    }
+    10% {
+        transform: translate(0.5px, 2.5px) rotate(0.5deg);
+    }
+    12% {
+        transform: translate(1.5px, 1.5px) rotate(0.5deg);
+    }
+    14% {
+        transform: translate(0.5px, 0.5px) rotate(0.5deg);
+    }
+    16% {
+        transform: translate(-1.5px, -0.5px) rotate(1.5deg);
+    }
+    18% {
+        transform: translate(0.5px, 0.5px) rotate(1.5deg);
+    }
+    20% {
+        transform: translate(2.5px, 2.5px) rotate(1.5deg);
+    }
+    22% {
+        transform: translate(0.5px, -1.5px) rotate(1.5deg);
+    }
+    24% {
+        transform: translate(-1.5px, 1.5px) rotate(-0.5deg);
+    }
+    26% {
+        transform: translate(1.5px, 0.5px) rotate(1.5deg);
+    }
+    28% {
+        transform: translate(-0.5px, -0.5px) rotate(-0.5deg);
+    }
+    30% {
+        transform: translate(1.5px, -0.5px) rotate(-0.5deg);
+    }
+    32% {
+        transform: translate(2.5px, -1.5px) rotate(1.5deg);
+    }
+    34% {
+        transform: translate(2.5px, 2.5px) rotate(-0.5deg);
+    }
+    36% {
+        transform: translate(0.5px, -1.5px) rotate(0.5deg);
+    }
+    38% {
+        transform: translate(2.5px, -0.5px) rotate(-0.5deg);
+    }
+    40% {
+        transform: translate(-0.5px, 2.5px) rotate(0.5deg);
+    }
+    42% {
+        transform: translate(-1.5px, 2.5px) rotate(0.5deg);
+    }
+    44% {
+        transform: translate(-1.5px, 1.5px) rotate(0.5deg);
+    }
+    46% {
+        transform: translate(1.5px, -0.5px) rotate(-0.5deg);
+    }
+    48% {
+        transform: translate(2.5px, -0.5px) rotate(0.5deg);
+    }
+    50% {
+        transform: translate(-1.5px, 1.5px) rotate(0.5deg);
+    }
+    52% {
+        transform: translate(-0.5px, 1.5px) rotate(0.5deg);
+    }
+    54% {
+        transform: translate(-1.5px, 1.5px) rotate(0.5deg);
+    }
+    56% {
+        transform: translate(0.5px, 2.5px) rotate(1.5deg);
+    }
+    58% {
+        transform: translate(2.5px, 2.5px) rotate(0.5deg);
+    }
+    60% {
+        transform: translate(2.5px, -1.5px) rotate(1.5deg);
+    }
+    62% {
+        transform: translate(-1.5px, 0.5px) rotate(1.5deg);
+    }
+    64% {
+        transform: translate(-1.5px, 1.5px) rotate(1.5deg);
+    }
+    66% {
+        transform: translate(0.5px, 2.5px) rotate(1.5deg);
+    }
+    68% {
+        transform: translate(2.5px, -1.5px) rotate(1.5deg);
+    }
+    70% {
+        transform: translate(2.5px, 2.5px) rotate(0.5deg);
+    }
+    72% {
+        transform: translate(-0.5px, -1.5px) rotate(1.5deg);
+    }
+    74% {
+        transform: translate(-1.5px, 2.5px) rotate(1.5deg);
+    }
+    76% {
+        transform: translate(-1.5px, 2.5px) rotate(1.5deg);
+    }
+    78% {
+        transform: translate(-1.5px, 2.5px) rotate(0.5deg);
+    }
+    80% {
+        transform: translate(-1.5px, 0.5px) rotate(-0.5deg);
+    }
+    82% {
+        transform: translate(-1.5px, 0.5px) rotate(-0.5deg);
+    }
+    84% {
+        transform: translate(-0.5px, 0.5px) rotate(1.5deg);
+    }
+    86% {
+        transform: translate(2.5px, 1.5px) rotate(0.5deg);
+    }
+    88% {
+        transform: translate(-1.5px, 0.5px) rotate(1.5deg);
+    }
+    90% {
+        transform: translate(-1.5px, -0.5px) rotate(-0.5deg);
+    }
+    92% {
+        transform: translate(-1.5px, -1.5px) rotate(1.5deg);
+    }
+    94% {
+        transform: translate(0.5px, 0.5px) rotate(-0.5deg);
+    }
+    96% {
+        transform: translate(2.5px, -0.5px) rotate(-0.5deg);
+    }
+    98% {
+        transform: translate(-1.5px, -1.5px) rotate(-0.5deg);
+    }
+    0%, 100% {
+        transform: translate(0, 0) rotate(0);
+    }
+}
+
+.result-container{
+    position: relative;
+}
+.shake-delay.shake-constant{
+    display: none;
+    position: absolute;
+    left: 50%;
+    margin-left: -37px;
+    animation-delay: 4s;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-name: shake;
+    animation-timing-function: ease-in-out;
+}
+.im-shake{
+    left: 0!important;
+    margin-left: 0!important;
+    display: block!important;
+}

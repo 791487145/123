@@ -1,0 +1,44 @@
+<div class="g-main clearfix">
+    <h4 class="text-size16 cor-blue u-title">技能标签</h4>
+    <div class="space-16"></div>
+    <p class="cor-gray97">选择一下您的标签吧，可输入选择哦！最多设置三个标签</p>
+    <div class="space-10"></div>
+    <form action="<?php echo e(URL('user/skillSave')); ?>" method="post" />
+        <input type="hidden" name="tags" id="tags" value=""/>
+        <?php echo csrf_field(); ?>
+
+        <div>
+            <select multiple="" class="chosen-select tag-input-style" id="form-field-select-4" data-placeholder="请选择标签...">
+                <?php foreach($hotTag as $v): ?>
+                    <option value="<?php echo e($v['id']); ?>" <?php echo e(in_array($v['id'],$tags)?'selected':''); ?> ><?php echo e($v['tag_name']); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <?php echo $errors->first('tags_name'); ?>
+
+        </div>
+        <div class="space-30"></div>
+        <div>
+            <button href="javascript:;" class="btn btn-primary btn-big btn-blue bor-radius2 btn-sm btn-imp" type="submit">保存</button>
+        </div>
+    </form>
+</div>
+<?php echo Theme::widget('popup')->render(); ?>
+
+
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('chosen','plugins/ace/css/chosen.css'); ?>
+
+
+<?php echo Theme::asset()->container('specific-css')->usepath()->add('detail','css/usercenter/finance/finance-detail.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace-extra','plugins/ace/js/ace-extra.min.js'); ?>
+
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('chosen','plugins/ace/js/chosen.jquery.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace-elements','plugins/ace/js/ace-elements.min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('ace.min','plugins/ace/js/ace.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('paypassword','js/doc/skill.js'); ?>
+
+<?php echo Theme::widget('avatar')->render(); ?>

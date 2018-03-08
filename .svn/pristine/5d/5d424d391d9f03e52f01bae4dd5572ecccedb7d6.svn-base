@@ -1,0 +1,721 @@
+<?php
+
+namespace App\Modules\Api\Http\Controllers;
+
+use App\Http\Requests;
+use App\Modules\User\Model\EnterpriseAuthModel;
+use Illuminate\Http\Request;
+use App\Http\Controllers\ApiBaseController;
+use App\Modules\User\Model\RealnameAuthModel;
+use App\Modules\User\Model\AuthRecordModel;
+use App\Modules\User\Model\UserDetailModel;
+use App\Modules\User\Model\BankAuthModel;
+use App\Modules\User\Model\DistrictModel;
+use App\Modules\User\Model\AlipayAuthModel;
+use App\Modules\Manage\Model\EducationAuthModel;
+
+use Validator;
+use DB;
+use Illuminate\Support\Facades\Crypt;
+
+class AuthController extends ApiBaseController
+{
+    //用户身份证号是否已认证
+    public function identityCardNum(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'card_number' => 'required|alpha_num|between:15,18',
+        ], [
+            'card_number.required' => '请输入身份证号码',
+            'card_number.alpha_num' => '请输入正确的身份证格式',
+            'card_number.between' => '身份证号码长度在:min - :max 位',
+        ]);
+        $error = $validator->errors()->all();
+        if (count($error)) return $this->formateResponse(1001, $error[0], $error);
+        $auth = RealnameAuthModel::where('card_number',$request->get('card_number'))->count();
+        if($auth > 0) return $this->formateResponse(1001,'该身份证号已经被认证，请检查');
+        return $this->formateResponse(1000,'身份证号未被认证');
+    }
+
+    //用户实名认证
+    // public function realnameAuth(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'realname' => 'required|string|between:2,5',
+    //         'card_number' => 'required|alpha_num|between:15,20',
+    //         'card_front_side' => 'required',
+    //         'card_back_dside' => 'required',
+    //     ], [
+
+    //         'realname.required' => '请输入真实姓名',
+    //         'card_number.required' => '请输入身份证号码',
+    //         'card_front_side.required' => '请上传身份证正面图片',
+    //         'card_back_dside.required' => '请上传身份证反面图片',
+    //         'realname.string' => '请输入正确的格式',
+    //         'realname.between' => '真实姓名:min - :max 个字符',
+    //         'card_number.alpha_num' => '请输入正确的身份证格式',
+    //         'card_number.between' => '身份证号码长度在:min - :max 位',
+    //     ]);
+    //     $error = $validator->errors()->all();
+    //     if (count($error))  return $this->formateResponse(1001, $error[0], $error);
+
+    //     $auth = RealnameAuthModel::where('card_number',$request->get('card_number'))->where('status','1')->count();
+    //     if($auth > 0) return $this->formateResponse(1001,'该身份证号已被认证，请检查');
+    //     $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+    //     $realnameauth = RealnameAuthModel::where('uid',$tokenInfo['uid'])->select('status')->first();
+    //     if($realnameauth){
+    //         if($realnameauth['status'] == 0){
+    //             return $this->formateResponse(1001,'认证审核中，请耐心等待');
+    //         }elseif($realnameauth['status'] == 1){
+    //             return $this->formateResponse(1001,'您已完成实名认证');
+    //         }
+    //     }
+
+    //     $card_front_side = $request->card_front_side;
+    //     $card_back_dside = $request->card_back_dside;
+
+    //     $realnameInfo = array(
+    //             'card_front_side' => $card_front_side,
+    //             'card_back_dside' => $card_back_dside,
+    //         );
+
+    //     $realnameInfo['validation_img'] = "";
+
+    //     $realnameInfo['uid'] = $tokenInfo['uid'];
+    //     $realnameInfo['username'] = $tokenInfo['name'];
+    //     $realnameInfo['realname'] = $request->get('realname');
+    //     $realnameInfo['card_number'] = $request->get('card_number');
+    //     $realnameInfo['created_at'] = date('Y-m-d H:i:s');
+    //     $realnameInfo['updated_at'] = date('Y-m-d H:i:s');
+    //     $realnameInfo['type'] = 1;
+
+    //     $res = DB::transaction(function () use ($realnameInfo) {
+    //         $realnameInfo = RealnameAuthModel::create($realnameInfo);
+    //         $data = [
+    //             'auth_id' => $realnameInfo->id,
+    //             'uid' => $realnameInfo->uid,
+    //             'username' => $realnameInfo->username,
+    //             'auth_code' => 'realname',
+    //             'auth_time' => date('Y-m-d H:i:s')
+    //         ];
+
+    //         AuthRecordModel::create($data);
+    //         return $realnameInfo;
+
+    //     });
+    //     if (!isset($res)) {
+    //         return $this->formateResponse(1001, '网络错误');
+    //     }
+
+    //     $returnArr = array(
+    //             'realname' => $request->get('realname'),
+    //             'card_number' => $request->get('card_number'),
+    //             'card_front_side' => $realnameInfo['card_front_side'],
+    //             'card_back_dside' => $realnameInfo['card_back_dside'],
+    //         );
+
+    //     return $this->formateResponse(1000, '提交成功，请耐心等待认证',$returnArr);
+    // }
+
+    // 用户实名认证
+    public function realnameAuth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'realname' => 'required|string|between:2,5',
+            'card_number' => 'required|alpha_num|between:15,20',
+        ], [
+
+            'realname.required' => '请输入真实姓名',
+            'card_number.required' => '请输入身份证号码',
+            'realname.string' => '请输入正确的格式',
+            'realname.between' => '真实姓名:min - :max 个字符',
+            'card_number.alpha_num' => '请输入正确的身份证格式',
+            'card_number.between' => '身份证号码长度在:min - :max 位',
+        ]);
+        $error = $validator->errors()->all();
+        if (count($error)) {
+            return $this->formateResponse(1001, $error[0], $error);
+        }
+
+        $auth = RealnameAuthModel::where('card_number',$request->get('card_number'))->where('status','1')->count();
+        if($auth > 0) {
+            return $this->formateResponse(1001,'该身份证号已被认证，请检查');
+        }
+
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $realnameauth = RealnameAuthModel::where('uid',$tokenInfo['uid'])->select('status')->first();
+        if($realnameauth){
+            return $this->formateResponse(1001,'您已完成实名认证');
+        }
+
+        $res = self::juhecurl($request->get('card_number'),$request->get('realname'));
+
+        if($res){
+            if($res['error_code']=='0'){
+                if($res['result']['res'] == '1'){
+                    // 验证成功
+                    $realnameInfo = array(
+                            'uid'           => $tokenInfo['uid'],
+                            'username'      => $tokenInfo['name'],
+                            'realname'      => $request->get('realname'),
+                            'card_number'   => $request->get('card_number'),
+                            'created_at'    => date('Y-m-d H:i:s'),
+                            'updated_at'    => date('Y-m-d H:i:s'),
+                            'type'          => '1',
+                            'status'        => '1',
+                            'auth_time'     => date('Y-m-d H:i:s'),
+                        );
+
+                    $realnameInfo = RealnameAuthModel::create($realnameInfo);
+
+                    $data = [
+                        'auth_id' => $realnameInfo->id,
+                        'uid' => $realnameInfo->uid,
+                        'username' => $realnameInfo->username,
+                        'auth_code' => 'realname',
+                        'auth_time' => date('Y-m-d H:i:s')
+                    ];
+
+                    AuthRecordModel::create($data);
+                    $card_number = substr($request->get('card_number'),'0','6').'********'.substr($request->get('card_number'),'-2');
+                    $returnArr = array(
+                            'realname'=>$request->get('realname'),
+                            'card_number'=>$card_number
+                        );
+
+                    $u_d_res = UserDetailModel::where('uid',$tokenInfo['uid'])->update(['realname'=>$request->get('realname')]);
+                    return $this->formateResponse(1000,'认证成功',$returnArr);
+                }else{
+                    return $this->formateResponse(1001,'身份证号码和真实姓名不一致');
+                }    
+            }else{
+                if($res['error_code'] == '210301'){
+                    return $this->formateResponse(1001,'无此身份证记录');
+                }elseif($res['error_code'] == '210304' || $res['error_code'] == '210306'){
+                    return $this->formateResponse(1001,'请输入有效信息');
+                }
+                return $this->formateResponse(1001,'网络错误');
+            }
+        }else{
+            return $this->formateResponse(1001,'网络错误');
+        }
+    }
+
+    //获取用户实名
+    public function realname(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $realnameauth = RealnameAuthModel::where('uid',$tokenInfo['uid'])->where('type','1')->where('status','1')->select('realname','card_number')->first();
+        if(!$realnameauth){
+            return $this->formateResponse(1001,'用户尚未完成实名认证');
+        }else{
+            $card_number = substr($realnameauth['card_number'],'0','6').'********'.substr($realnameauth['card_number'],'-2');
+            return $this->formateResponse(1000,'success',array('realname'=>$realnameauth['realname'],'card_number'=>$card_number));
+        }
+    }
+
+    //学生证认证
+    public function studentAuth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'student_number' => 'required',
+            'student_id_card' => 'required',
+        ], [
+            'student_number.required' => '请输入学号',
+            'student_id_card.required' => '请上传学生证图片',
+        ]);
+        $error = $validator->errors()->all();
+        if (count($error)) return $this->formateResponse(1001,$error[0], $error);
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $student = EducationAuthModel::where('student_number',$request->input('student_number'))->first();
+        if($student) return $this->formateResponse(1001,'该学生证号已被认证');
+        $realnameauth = RealnameAuthModel::where('uid',$tokenInfo['uid'])->where('status','1')->count();
+        if(!$realnameauth) return $this->formateResponse(1001,'尚未通过实名认证');
+        $educationauth = EducationAuthModel::where('uid',$tokenInfo['uid'])->select('status')->first();
+        if($educationauth){
+            if($educationauth['status'] == 1){
+                return $this->formateResponse(1001,'认证审核中，请耐心等待');
+            }elseif ($educationauth['status'] == 2) {
+                return $this->formateResponse(1001,'您已完成学生认证');
+            }
+        }
+        $student_id_card = $request->student_id_card;
+        // if($student_id_card){
+        //     $uploadMsg = self::uploadByBase64($student_id_card);
+        //     if(!$uploadMsg){
+        //         return $this->formateResponse(1001,'网络错误');
+        //     }else{
+        //         $student_id_card_url = $uploadMsg['url_path'];
+        //     }
+        // }
+
+        $data = array(
+                'uid' => $tokenInfo['uid'],
+                'student_number' => $request->input('student_number'),
+                'student_id_card' => $student_id_card,
+                'status' => '1',
+                'create_at' => date('Y-m-d H:i:s'),
+            );
+        $e_a_res = EducationAuthModel::create($data);
+        if(!$e_a_res) return $this->formateResponse(1001,'网络错误');
+
+        $returnArr = array(
+                'student_number' => $request->get('student_number'),
+                'student_id_card' => $request->get('student_id_card'),
+            );
+
+        return $this->formateResponse(1000,'提交成功，请耐心等待认证');
+    }
+
+    //获取学生证认证信息
+    public function studentCardInfo(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $studentCard = EducationAuthModel::where('uid',$tokenInfo['uid'])->where('status','2')->select('student_number','student_id_card')->first();
+        if(!$studentCard){
+            return $this->formateResponse('1001','尚未完成学生证认证');
+        }
+        $realnameauth = RealnameAuthModel::where('uid',$tokenInfo['uid'])->select('realname')->first();
+        $student_number = substr($studentCard['student_number'],'0','3').'****'.substr($studentCard['student_number'],'-2');
+        $returnArr = array(
+                'realname'=>$realnameauth['realname'],
+                'student_number'=>$student_number
+                //'student_img'=>$student_number
+            );
+        return $this->formateResponse('1000','success',$returnArr);
+    }
+
+    //用户绑定银行卡
+    public function bankAuth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'depositName' => 'required|string|between:4,20',
+            'bankname' => 'required|string|between:4,20',
+            'province' => 'required',
+            'city' => 'required',
+            'bankAccount' => 'required|alpha_num',
+            'confirmBankAccount' => 'required|same:bankAccount'
+        ], [
+            'depositName.required' => '请输入开户行名称',
+            'bankname.required' => '请选择开户银行',
+            'province.required' => '请选择开户省份',
+            'bankAccount.required' => '请输入银行卡号',
+            'confirmBankAccount.required' => '请输入确认银行卡号',
+            'city.required' => '请选择开户城市',
+            'depositName.between' => '开户行名称长度在 :min - :max 位',
+            'confirmBankAccount.same' => '确认银行卡号与银行卡号不一致'
+        ]);
+        
+        $error = $validator->errors()->all();
+        if (count($error)) {
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $userDetail = UserDetailModel::where('uid', $tokenInfo['uid'])->first();
+        
+        $depositArea = $request->get('province') . ',' . $request->get('city') . ',' . $request->get('area');
+        $bankAuthInfo = array();
+        $now = time();
+        $bankAuthInfo['uid'] = $tokenInfo['uid'];
+        $bankAuthInfo['username'] = $tokenInfo['name'];
+        $bankAuthInfo['realname'] = $userDetail['realname'];
+        $bankAuthInfo['bank_name'] = $request->get('bankname');
+        $bankAuthInfo['bank_account'] = $request->get('bankAccount');
+        $bankAuthInfo['deposit_name'] = $request->get('depositName');
+        $bankAuthInfo['deposit_area'] = $depositArea;
+        $bankAuthInfo['created_at'] = date('Y-m-d H:i:s', $now);
+        $bankAuthInfo['updated_at'] = date('Y-m-d H:i:s', $now);
+        $bankAuthInfo['status'] = 0;
+
+        $res = DB::transaction(function () use ($bankAuthInfo) {
+            $bankInfo = BankAuthModel::create($bankAuthInfo);
+            $data = [
+                'auth_id' => $bankInfo->id,
+                'uid' => $bankInfo->uid,
+                'username' => $bankInfo->username,
+                'auth_code' => 'bank',
+                'auth_time' => date('Y-m-d H:i:s')
+            ];
+
+            AuthRecordModel::create($data);
+            return $bankInfo;
+
+        });
+        if ($res) {
+            return $this->formateResponse(1000, 'success', ['auth_id' => Crypt::encrypt($res['id'])]);
+        } else {
+            return $this->formateResponse(1001, '网络错误');
+        }
+
+    }
+
+
+    
+    public function getBankAuth(Request $request)
+    {
+        $bankname = array(
+            '农业银行', '交通银行', '招商银行', '工商银行', '建设银行', '中国银行', '工商银行', '邮政储蓄银行', '民生银行', '浦发银行', '华夏银行'
+        );
+
+        return $this->formateResponse(1000, 'success', $bankname);
+    }
+
+
+    
+    public function bankAuthInfo(Request $request)
+    {
+        $bankAuthId = Crypt::decrypt($request->get('auth_id'));
+        if (!$bankAuthId) {
+            return $this->formateResponse(1001, '认证银行卡id信息传送错误');
+        }
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+
+        $authInfo = BankAuthModel::where('id', $bankAuthId)->where('uid', $tokenInfo['uid'])->first();
+        if (empty($authInfo)) {
+            return $this->formateResponse(1001, '传送数据错误');
+        }
+        $arrDistrict = explode(',', $authInfo->deposit_area);
+
+        $authInfo['districtname'] = DistrictModel::getDistrictName($arrDistrict);
+
+        return $this->formateResponse(1000, 'success', $authInfo);
+    }
+
+
+    
+    public function realnameAuthInfo(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $realnameInfo = RealnameAuthModel::where('uid', $tokenInfo['uid'])->orderBy('created_at', 'desc')->first();
+        if (empty($realnameInfo)) {
+            $status = 3;
+            $realname = '';
+            $card = '';
+        }else {
+            $status = $realnameInfo->status;
+            $realname = $realnameInfo->realname;
+            $card = \CommonClass::starReplace($realnameInfo->card_number, 4, 10);
+        }
+
+        $data = array(
+            'realname' => $realname,
+            'card_number' => $card,
+            'status' => $status
+        );
+
+        return $this->formateResponse(1000, 'success', $data);
+    }
+
+    //支付宝认证
+    public function alipayAuth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'alipayAccount' => 'required|string',
+        ], [
+            'alipayAccount.required' => '请输入支付宝账户',
+            'alipayAccount.string' => '请输入正确的支付宝账户格式',
+        ]);
+        $error = $validator->errors()->all();
+        if (count($error)) return $this->formateResponse(1001, $error[0], $error);
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $userDetail = UserDetailModel::select('realname')->where('uid', $tokenInfo['uid'])->first();
+        if ($userDetail['realname'] == '') return $this->formateResponse(1001, '请先进行实名认证');
+
+        $alipayAuthInfo = array();
+        $alipayAuthInfo['uid'] = $tokenInfo['uid'];
+        $alipayAuthInfo['username'] = $tokenInfo['name'];
+        $alipayAuthInfo['alipay_name'] = $userDetail['realname'];
+        $alipayAuthInfo['alipay_account'] = $request->get('alipayAccount');
+        $alipayAuthInfo['created_at'] = date('Y-m-d H:i:s');
+        $alipayAuthInfo['updated_at'] = date('Y-m-d H:i:s');
+        
+        $res = AlipayAuthModel::create($alipayAuthInfo);
+        if ($res) {
+            return $this->formateResponse(1000, '提交成功，请耐心等待');
+        } else {
+            return $this->formateResponse(1001, '网络错误');
+        }
+
+    }
+
+//    public function alipayAuth(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'alipayName' => 'required|string|between:2,10',
+//            'alipayAccount' => 'required|string',
+//            'confirmAlipayAccount' => 'required|same:alipayAccount'
+//        ], [
+//            'alipayName.required' => '请输入支付宝姓名',
+//            'alipayAccount.required' => '请输入支付宝账户',
+//            'confirmAlipayAccount.required' => '请确认支付宝账户',
+//            'alipayAccount.string' => '请输入正确的支付宝账户格式',
+//            'confirmAlipayAccount.same' => '确认账户与支付宝账户不匹配'
+//        ]);
+//
+//        $error = $validator->errors()->all();
+//        if (count($error)) return $this->formateResponse(1001, $error[0], $error);
+//        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+//        $userDetail = UserDetailModel::where('uid', $tokenInfo['uid'])->first();
+//        $alipayAuthInfo = array();
+//        $alipayAuthInfo['uid'] = $tokenInfo['uid'];
+//        $alipayAuthInfo['username'] = $tokenInfo['name'];
+//        $alipayAuthInfo['realname'] = $userDetail['realname'];
+//        $alipayAuthInfo['alipay_name'] = $request->get('alipayName');
+//        $alipayAuthInfo['alipay_account'] = $request->get('alipayAccount');
+//        $alipayAuthInfo['created_at'] = date('Y-m-d H:i:s');
+//        $alipayAuthInfo['updated_at'] = date('Y-m-d H:i:s');
+//        $alipayAuthInfo['status'] = 0;
+//
+//        $res = DB::transaction(function () use ($alipayAuthInfo) {
+//            $alipayInfo = AlipayAuthModel::create($alipayAuthInfo);
+//            $data = [
+//                'auth_id' => $alipayInfo->id,
+//                'uid' => $alipayInfo->uid,
+//                'username' => $alipayInfo->username,
+//                'auth_code' => 'alipay',
+//                'auth_time' => date('Y-m-d H:i:s')
+//            ];
+//
+//            AuthRecordModel::create($data);
+//            return $alipayInfo;
+//
+//        });
+//        if ($res) {
+//            return $this->formateResponse(1000, 'success', ['auth_id' => Crypt::encrypt($res['id'])]);
+//        } else {
+//            return $this->formateResponse(1001, '网络错误');
+//        }
+//
+//    }
+    
+    public function alipayAuthInfo(Request $request)
+    {
+        $alipayAuthId = Crypt::decrypt($request->get('auth_id'));
+        
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $alipayAuthInfo = AlipayAuthModel::where('id', $alipayAuthId)->where('uid', $tokenInfo['uid'])->first();
+
+        if (empty($alipayAuthInfo)) {
+            return $this->formateResponse(1001, '传送数据错误');
+        }
+
+        return $this->formateResponse(1000, 'success', $alipayAuthInfo);
+
+    }
+
+
+    
+    public function verifyAlipayAuthCash(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'cash' => 'required|numeric',
+            'auth_id' => 'required|string'
+        ], [
+            'cash.required' => '请输入打款金额',
+            'cash.numeric' => '请输入正确的格式',
+        ]);
+        
+        $error = $validator->errors()->all();
+        if (count($error))  return $this->formateResponse(1001,$error[0], $error);
+        $authId = Crypt::decrypt($request->get('auth_id'));
+        
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $alipayAuthInfo = AlipayAuthModel::where('uid', $tokenInfo['uid'])->where('id', $authId)->first();
+
+        if (empty($alipayAuthInfo)) {
+            return $this->formateResponse(1001, '传送数据错误');
+        }
+        
+        $view = array();
+        $view['alipayAuthInfo'] = $alipayAuthInfo;
+        $alipayAuthInfo->user_get_cash = $request->get('cash');
+        $alipayAuthInfo->auth_time = date('Y-m-d H:i:s');
+        if ($alipayAuthInfo['pay_to_user_cash'] == $request->get('cash')) {
+            $alipayAuthInfo->status = 2;
+            $res = $alipayAuthInfo->save();
+            if (!$res) {
+                return $this->formateResponse(1001, '支付宝认证状态更新失败');
+            }
+            return $this->formateResponse(1000, 'success');
+        } else {
+            $alipayAuthInfo->status = 3;
+            $res = $alipayAuthInfo->save();
+            if (!$res) {
+                return $this->formateResponse(1001, '网络错误');
+            }
+            return $this->formateResponse(1001, '支付宝认证金额失败');
+        }
+
+    }
+
+
+    
+    public function verifyBankAuthCash(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'cash' => 'required|numeric',
+            'auth_id' => 'required|string'
+        ], [
+            'cash.required' => '请输入打款金额',
+            'cash.numeric' => '请输入正确的格式',
+        ]);
+        
+        $error = $validator->errors()->all();
+        if (count($error)) {
+            return $this->formateResponse(1001, $error[0], $error);
+        }
+        $authId = Crypt::decrypt($request->get('auth_id'));
+        
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $bankAuthInfo = BankAuthModel::where('uid', $tokenInfo['uid'])->where('id', $authId)->first();
+
+        if (empty($bankAuthInfo)) {
+            return $this->formateResponse(1001, '传送数据错误');
+        }
+        
+        $bankAuthInfo->user_get_cash = $request->get('cash');
+        if ($bankAuthInfo['pay_to_user_cash'] == $request->get('cash')) {
+            $bankAuthInfo->auth_time = date('Y-m-d H:i:s');
+            $bankAuthInfo->status = 2;
+            $res = $bankAuthInfo->save();
+            if (!$res) {
+                return $this->formateResponse(1001, '银行卡认证状态更新失败');
+            }
+            return $this->formateResponse(1000, 'success');
+        } else {
+            $bankAuthInfo->status = 3;
+            $res = $bankAuthInfo->save();
+            if (!$res) {
+                return $this->formateResponse(1001, '银行卡认证状态更新失败');
+            }
+            return $this->formateResponse(1001, '银行卡认证金额失败');
+        }
+
+
+    }
+
+
+    
+    public function bankList(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $bankList = BankAuthModel::where('uid', $tokenInfo['uid'])->get()->toArray();
+        if (count($bankList)) {
+            foreach ($bankList as $k => $v) {
+                $bankList[$k]['id'] = Crypt::encrypt($bankList[$k]['id']);
+                $arrDistrict = explode(',', $bankList[$k]['deposit_area']);
+                $bankList[$k]['districtname'] = DistrictModel::getDistrictName($arrDistrict);
+            }
+        }
+        return $this->formateResponse('1000', '获取银行卡列表信息成功', $bankList);
+
+    }
+
+
+    
+    public function alipayList(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $alipayList = AlipayAuthModel::where('uid', $tokenInfo['uid'])->get()->toArray();
+        if (count($alipayList)) {
+            foreach ($alipayList as $k => $v) {
+                $alipayList[$k]['id'] = Crypt::encrypt($alipayList[$k]['id']);
+
+            }
+        }
+        return $this->formateResponse('1000', '获取支付宝列表信息成功', $alipayList);
+    }
+
+
+    
+    public function enterpriseAuthRestart(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->get('token')));
+        $uid = $tokenInfo['uid'];
+        $status = EnterpriseAuthModel::getEnterpriseAuthStatus($uid);
+        if ($status == 2) {
+            $res = EnterpriseAuthModel::removeEnterpriseAuth();
+            if ($res) {
+                return $this->formateResponse('1000', '删除原企业认证记录成功');
+            } else {
+                return $this->formateResponse('1001', '网络错误');
+            }
+        } else {
+            return $this->formateResponse('1001', '没有进行企业认证失败的记录');
+        }
+
+    }
+
+    
+    public function enterpriseAuth(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'company_name' => 'required',
+            'cate_id' => 'required',
+            'employee_num' => 'required',
+            'business_license' => 'required',
+            'begin_at' => 'required',
+            'province' => 'required',
+            'city' => 'required',
+            'address' => 'required',
+            'file_id' => 'required'
+        ], [
+            'company_name.required' => '请输入公司名称',
+            'cate_id.required' => '请输入所属行业二级分类id',
+            'employee_num.required' => '请输入员工人数',
+            'business_license.required' => '请确认营业执照',
+            'begin_at.required' => '请输入开始经营年数',
+            'province.required' => '请输入经营地址省级id',
+            'city.required' => '请输入经营地址市级id',
+            'address.required' => '请输入经营地址详细地址',
+            'file_id.required' => '请上传相关资质'
+        ]);
+        
+        $error = $validator->errors()->all();
+        if (count($error)) {
+            return $this->formateResponse(1001, $error[0], $error);
+        }
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+        $uid = $tokenInfo['uid'];
+        
+        $r = EnterpriseAuthModel::where('uid',$uid)->first();
+        if(!empty($r)){
+            return $this->formateResponse(1003, '已经进行过认证');
+        }
+        $companyInfo = array(
+            'uid'              => $uid,
+            'company_name'     => $request->get('company_name'),
+            'cate_id'          => $request->get('cate_id'),
+            'employee_num'     => $request->get('employee_num'),
+            'business_license' => $request->get('business_license'),
+            'begin_at'         => date('Y-m-d H:i:s',strtotime($request->get('start'))),
+            'website'          => $request->get('website'),
+            'province'         => $request->get('province'),
+            'city'             => $request->get('city'),
+            'area'             => 0,
+            'address'          => $request->get('address'),
+            'status'           => 0,
+            'created_at'       => date('Y-m-d H:i:s'),
+            'updated_at'       => date('Y-m-d H:i:s'),
+        );
+        $authRecordInfo = array(
+            'uid'       => $uid,
+            'auth_code' => 'enterprise',
+            'status'    => 0
+        );
+        $fileId = !empty($request->get('file_id')) ? $request->get('file_id') : '';
+        if(!empty($fileId)){
+            $fileId = explode(',',$fileId);
+        }
+        $res = EnterpriseAuthModel::createEnterpriseAuth($companyInfo,$authRecordInfo,$fileId);
+        if ($res) {
+            return $this->formateResponse(1000, '保存成功');
+        } else {
+            return $this->formateResponse(1001, '网络错误');
+        }
+
+        
+
+
+    }
+}

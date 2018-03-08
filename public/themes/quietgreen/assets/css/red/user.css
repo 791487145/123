@@ -1,0 +1,141 @@
+/* finance-layout */
+/* 侧栏 */
+.panel .g-active {
+    color: #db4a39 !important;
+    border-left: 5px solid #db4a39 !important;
+}
+.g-wrap1:hover{
+    color: #db4a39 !important;
+    border-left: 5px solid #db4a39 !important;
+}
+/*右侧内容共用部分*/
+.g-main .u-title{
+    border-bottom: 3px solid #db4a39;
+}
+
+.g-main .pagination>li.active>a, .pagination>li.active>a:hover{
+    background: #db4a39;
+}
+/*时间轴修改*/
+.wizard-steps li.active .title {
+    color:#db4a39;
+}
+.panel .g-active .s-baseicon {
+    background: url("../../images/sideicon-google.png") no-repeat;
+}
+.panel .g-active .s-accounticon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -83px;
+}
+.panel .g-active .s-approveicon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -56px;
+}
+.panel .g-active .s-focusicon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -107px;
+}
+.s-sideicon {
+    background: url("../../images/finace-icon-red.png") no-repeat 0 -38px!important;
+}
+.panel .s-baseicon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -28px;
+}
+.panel .s-accounticon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -160px;
+}
+.panel .s-approveicon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -183px;
+}
+.panel .s-focusicon {
+    background: url("../../images/sideicon-google.png") no-repeat 0 -133px;
+}
+.g-tradingico{
+    background: url('../../images/tradingico-google.png') no-repeat!important;
+}
+.panel .s-myiconwrp1{
+    background: url("../../images/my-icon-Google.png") no-repeat;
+    background-position: 0 -22px;
+}
+.panel .s-myiconwrp2{
+    background: url("../../images/my-icon-Google.png") no-repeat;
+    background-position: 0 -65px;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp1{
+    background: url("../../images/my-icon-Google.png") no-repeat;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp2{
+    background: url("../../images/my-icon-Google.png") no-repeat;
+    background-position: 0 -46px;
+}
+/* 银行卡绑定 */
+.wizard-steps li.active .step {
+    background-color:#db4a39;
+}
+.wizard-steps li.active::before {
+    border-color:#db4a39;
+}
+
+/* usercenter */
+.g-releasetask .g-reletaskhd a:hover {
+    color:#db4a39;
+}
+.g-releasetask .g-reletaskhd .cor-blue2f {
+    color:#db4a39;
+}
+.g-releasechart:hover i{
+    color: #db4a39;
+}
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before {
+    border-color: #db4a39;
+}
+.g-userhintbtn a {
+    background-color: #db4a39;
+}
+.g-usertitname a {
+    color:#db4a39;
+}
+.nav-tabs .active a,.nav-tabs li a:hover {
+    color: #db4a39!important;
+}
+.g-userlisthead {
+    border-bottom: 3px solid #db4a39;
+}
+/* userCenterCase */
+.personal-add-case-btn{
+    background: #db4a39;
+}
+.personal-active{
+    color: #db4a39;
+    border-bottom: 2px solid #db4a39;
+}
+.personal-case-list, .personal-evaluate-detail{
+    color: #db4a39;
+}
+
+.paging_bootstrap .pager>li>a:hover,.paging_bootstrap .pagination>li>a:hover{
+    color: #db4a39;
+}
+.personal-case-detail-list-active .personal-active{
+    color:#db4a39;
+}
+/* finance-recharge */
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before{
+    border-color:#db4a39 ;
+}
+.g-recharge .m-radio .lbl span:hover{
+    border-color: #db4a39;
+}
+
+.m-radio input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color:#db4a39;
+}
+
+.hov-blue1b:hover {
+    background-color: #db4a39;
+}
+.nav-usercenter-top .z-navactive .user-menu li a:hover{
+    color:#fff!important;
+}
+.g-userimgup .u-userimgupbtn{
+    background:#db4a39 !important;
+}

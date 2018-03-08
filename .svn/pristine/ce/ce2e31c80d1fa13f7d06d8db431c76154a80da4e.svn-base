@@ -1,0 +1,125 @@
+<div class="container">
+        <div class="row">
+            <div class="col-md-12 col-left">
+                <!-- 所在位置 -->
+                <div class="now-position text-size12">
+                    您的位置：首页 > 资讯中心
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- main -->
+            <div class="col-md-9 col-left">
+                <!-- 顶部banner -->
+                <?php if(count($ad)): ?>
+                <div class="col-md-12 news-main-banner">
+                    <?php /*<img src="<?php echo Theme::asset()->url('images/news_pic_banner.png'); ?>" alt="">*/ ?>
+                    <a href="<?php echo $ad[0]['ad_url']; ?>"><img src="<?php echo URL($ad[0]['ad_file']); ?>" alt=""></a>
+                </div>
+                <?php endif; ?>
+                <!-- 新闻内容 -->
+                <div class="col-md-12 news-main-area">
+                    <div class="news-detail-title-name">
+                        <h2><?php echo e($info['title']); ?></h2>
+                        <div>
+                            <span>发布时间：<?php echo e($info['created_at']); ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span>阅读量：<?php if(!empty( $info['view_times'])): ?><?php echo e($info['view_times']); ?><?php else: ?> 0 <?php endif; ?>次</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="bdsharebuttonbox" data-tag="share_1" style="display: inline-block;vertical-align: bottom;">
+                                <div class="shop-sharewrap">
+                                    <!-- JiaThis Button BEGIN -->
+                                    <div class="jiathis_style">
+                                        <span class="jiathis_txt">分享：&nbsp;</span>
+                                        <a class="jiathis_button_tsina"></a>
+                                        <a class="jiathis_button_weixin"></a>
+                                        <a class="jiathis_button_qzone"></a>
+                                        <a class="jiathis_button_tqq"></a>
+                                        <a class="jiathis_button_cqq"></a>
+                                        <a class="jiathis_button_douban"></a>
+                                    </div>
+                                    <script type="text/javascript" >
+                                        var jiathis_config={
+                                            summary:"",
+                                            shortUrl:false,
+                                            hideMore:false
+                                        }
+                                    </script>
+                                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+                                    <!-- JiaThis Button END --></div>
+                                <div class="shop-share"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-detail-info-words">
+                        <?php echo htmlspecialchars_decode($info['content']); ?>
+
+                        <div class="news-line"></div>
+                    </div>
+
+                    <div class="col-md-12 news-up-down-page">
+                        <div class="col-md-6 news-up-page">
+                            <span>上一篇：</span>
+                            <a href="<?php echo URL('article/'.$prev['id']); ?>" title=""><?php echo e($prev['title']); ?></a>
+                        </div>
+                        <div class="col-md-6 news-down-page">
+                            <a href="<?php echo URL('article/'.$next['id']); ?>" title=""><?php echo e($next['title']); ?></a>
+                            <span>下一篇：</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 相关资讯 -->
+                <div class="col-md-12 relevant-news">
+                    <div class="relevant-news-title">
+                        <h5>相关资讯</h5>
+                        <a href="<?php echo URL('article'); ?>"> More ></a>
+                    </div>
+                    <ul class="relevant-news-list">
+                        <?php if(!empty($relatedList)): ?>
+                        <?php foreach($relatedList as $v): ?>
+                        <li>
+                            <a href="<?php echo URL('article/'.$v->id); ?>" title="" class="relevant-news-words">
+                                <?php echo e($v['title']); ?>
+
+                            </a>
+                            <span class="relevant-news-time"><?php echo e($v['created_at']); ?></span>
+                        </li>
+                       <?php endforeach; ?>
+                            <?php endif; ?>
+                    </ul>
+                </div>
+
+            </div>
+            <!-- side -->
+            <div class="col-md-3 g-taskside visible-lg-block visible-md-block col-left">
+                <!-- 快速发布需求 -->
+
+                <div class="g-tasksidemand">
+                    <?php if(count($rightAd)): ?>
+                    <a href="<?php echo $rightAd[0]['ad_url']; ?>"><img src="<?php echo URL($rightAd[0]['ad_file']); ?>" alt=""></a>
+                    <?php else: ?>
+                    <img src="<?php echo Theme::asset()->url('images/news_pic_side.png'); ?>" alt="">
+                    <?php endif; ?>
+                    </div>
+                <!-- 最新动态 -->
+                <?php if(count($hotlist)): ?>
+                <div class="col-md-12 latest-news">
+                    <div class="latest-news-title">
+                        <h5><?php echo $targetName; ?></h5>
+                        <a href="<?php echo URL('article'); ?>">More ></a>
+                    </div>
+                    <ul class="latest-news-list">
+                        <?php foreach($hotlist as $v): ?>
+                        <li><a href="<?php echo $v['url']; ?>" title=""class="latest-news-words">
+                                <?php echo e($v['recommend_name']); ?>
+
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+
+                    </ul>
+                </div>
+                <?php endif; ?>
+                <div class="space-10 col-md-12"></div>
+            </div>
+        </div>
+    </div>
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('news','css/news.css'); ?>

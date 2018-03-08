@@ -1,0 +1,1 @@
+<div>{!! $errorMsg !!}</div>

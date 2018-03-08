@@ -1,0 +1,80 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="alink">
+                <?php if(!empty(Theme::get('article_cate'))): ?>
+                    <?php foreach(Theme::get('article_cate') as $item): ?>
+                        <a target="_blank" href="/article/aboutUs/<?php echo $item['id']; ?>"><?php echo $item['cate_name']; ?></a>
+                        <a class="oSpan">|</a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            <p class="addres">
+                地址：<?php echo Theme::get('site_config')['company_address']; ?>
+
+            </p>
+        </div>
+        <div class="col-xs-4">
+            <p class="phone">
+                <?php echo Theme::get('site_config')['phone']; ?>
+
+            </p>
+            <p class="email">
+                Email：<?php echo Theme::get('site_config')['Email']; ?>
+
+            </p>
+        </div>
+        <div class="col-lg-3 focusus visible-lg-block hidden-sm hidden-md hidden-xs col-left">
+            <div class="clearfix">
+                <?php if(Theme::get('site_config')['wechat']['wechat_switch'] == 1): ?>
+                    <div class="foc foc-bg">
+                        <a class="focususwx foc-wx" href=""></a>
+                        <div class="foc-ewm">
+                            <div class="foc-ewm-arrow1"></div>
+                            <div class="foc-ewm-arrow2"></div>
+                            <img src="<?php echo url(Theme::get('site_config')['wechat']['wechat_pic']); ?>"
+                                 alt="" width="100" height="100">
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if(Theme::get('site_config')['tencent']['tencent_switch'] == 1): ?>
+                    <div class="foc">
+                        <a class="focususqq" href="<?php echo Theme::get('site_config')['tencent']['tencent_url']; ?>"
+                           target="_blank">
+
+                        </a>
+                    </div>
+                <?php endif; ?>
+                <?php if(Theme::get('site_config')['sina']['sina_switch'] == 1): ?>
+                    <div class="foc">
+                        <a class="focususwb" href="<?php echo Theme::get('site_config')['sina']['sina_url']; ?>"
+                           target="_blank">
+
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container">
+        <p><?php echo config('kppw.kppw_powered_by'); ?><?php echo config('kppw.kppw_version'); ?>
+
+            <?php echo Theme::get('site_config')['copyright']; ?><?php echo Theme::get('site_config')['record_number']; ?></p>
+    </div>
+</div>
+
+<?php echo Theme::get('site_config')['statistic_code']; ?>
+
+<?php echo Theme::widget('popup')->render(); ?>
+
+<?php /*<?php echo Theme::widget('statement')->render(); ?>*/ ?>
+<?php if(Theme::get('is_IM_open') == 1): ?>
+    <?php echo Theme::widget('im',
+    array('attention' => Theme::get('attention'),
+    'ImIp' => Theme::get('basis_config')['IM_config']['IM_ip'],
+    'ImPort' => Theme::get('basis_config')['IM_config']['IM_port']))->render(); ?>
+
+<?php endif; ?>

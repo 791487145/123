@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Modules\Manage\Model\ManagerModel;
+use App\Modules\Manage\Model\UserGameLogModel;
+use App\Modules\Manage\Model\UserGameModel;
+use Closure;
+use Illuminate\Support\Facades\Session;
+use App\Modules\Manage\Model\SystemLogModel;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Crypt;
+use App\Modules\Manage\Model\Role;
+class GameLog
+{
+
+    
+    public function handle($request, Closure $next)
+    {
+        $param = $request->all();
+        $path = Route::currentRouteName();
+        $time = date("Y-m-d");
+        $tokenInfo = Crypt::decrypt(urldecode($param['token']));
+        $where = [
+            'uid' => $tokenInfo['uid']
+        ];
+
+        $user_game_info = UserGameModel::userIsExist($where);
+        //dd($tokenInfo);
+        if(is_null($user_game_info) && $path == 'report_game'){
+            $content = $tokenInfo['name'].'于'.$time.'注册了王者荣耀游戏信息';
+            $type = UserGameLogModel::LOG_TYPE_CREATE_INFO;
+            UserGameLogModel::where('to_id',$tokenInfo['uid'])->where('type',$type)->delete();
+        }
+
+        if($path == 'createTeam'){
+            $content = $tokenInfo['name'].'于'.$time.'创建了战队';
+            $type = UserGameLogModel::LOG_TYPE_CREATE_TEAM;
+            UserGameLogModel::where('to_id',$tokenInfo['uid'])->where('type',$type)->delete();
+        }
+
+       /* if($path == 'createTeam'){
+            $content = $tokenInfo['name'].'于'.$time.'创建了战队';
+            $type = UserGameLogModel::LOG_TYPE_CREATE_TEAM;
+            UserGameLogModel::where('to_id',$tokenInfo['uid'])->where('type',$type)->delete();
+        }*/
+
+        if(isset($content) && isset($type)){
+            UserGameLogModel::createOne($tokenInfo['uid'],$type,$content);
+        }
+
+
+        return $next($request);
+
+    }
+}

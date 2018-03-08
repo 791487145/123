@@ -1,0 +1,180 @@
+.g-messagehd {
+    color: #0157e0;
+    font-size: 14px;
+    padding:28px 0 8px; 
+}
+.g-messagehd span{
+    color: #0157e0;
+    padding-right: 12px;
+}
+.g-messagehd span a{
+    color: #0157e0;
+}
+.g-messagehd a {
+    font-size: 14px;
+    margin: 0 6px;
+}
+.g-message .well {
+    border:none;
+    background: #f7f7f7;
+    box-shadow:none;
+    margin-bottom: 0;
+    padding:10px 19px;
+}
+.g-message .well a {
+    border:1px solid #ebe8e8;
+    color: #515151;
+    background: #fff;
+    padding:4px 18px;
+    margin-left: 18px;
+    display: inline-block; 
+}
+.g-messagewrap {
+    width: 100%;
+    overflow: hidden;
+}
+.g-messagelist {
+    border-bottom: 1px solid #efefef;
+    padding: 20px 19px 10px;
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
+}
+.g-messagelist a {
+    color: #999;
+}
+.g-messageclick { display: block; height: 22px; overflow: hidden;}
+.g-messagelist .g-messageinfo a {
+    color: #0157e0;
+}
+.g-messagelist .g-messageinfo {
+    line-height: 18px;
+    display: none;
+}
+.g-messageico {
+    background: url('../../../images/messagelist.png') no-repeat;
+    padding-left: 26px;
+    display: inline-block;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: top;
+}
+.g-messagelist .col-md-6 {
+    padding:0;
+}
+.g-mesactive {
+    color: #666;
+}
+.g-mesactive a{
+    color: #666;
+}
+.g-mesactive .g-messageico {
+    background: url('../../../images/messagelist.png') no-repeat 0 -22px;
+    color: #333;
+}
+.paging_bootstrap .pagination {
+    margin-right:-4px;
+    padding:40px 0 48px; 
+}
+.g-nomessage {
+    text-align: center;
+    font-size: 16px;
+    color:#898989;
+    padding-top: 246px;
+    background: url('../../../images/nomessage.png') no-repeat center 70%;
+}
+
+
+/*交易评价*/
+.g-message .control-group label{
+    margin-right: 20px;
+    margin-top: 5px;
+}
+.u-recordstar span {
+    display: inline-block;
+    width: 20px;
+    height: 18px;
+    background: url(../../../images/recordstar.png) no-repeat;
+    vertical-align: bottom;
+}
+.g-message .s-myborder{
+    position: relative;
+}
+.g-message .s-myborder .u-recordstar{
+    position: absolute;
+    background: #ffffff;
+    z-index: 5;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 3px 3px 8px #ECECEC!important;
+    display: none;
+}
+.g-message .s-myborder .z-hov:hover .u-recordstar{
+    display: block;
+}
+.g-message .s-myborder .u-evaico{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url("../../../images/evaico.png") no-repeat 0 2px;
+}
+.g-message .s-myborder .z-hov:hover .u-evaico{
+    background: url("../../../images/evaico.png") no-repeat 0 -6px;
+}
+.u-act{
+    display: block!important;
+}
+.u-recordstar .rec-active {
+    background: url(../../../images/recordstar.png) no-repeat 0 -43px;
+}
+.u-recordstar .rec-atv {
+    background: url(../../../images/recordstar.png) no-repeat 0 -22px;
+}
+.z-hov{
+    cursor: pointer;
+}
+.contact-me-modal .modal-header{
+    padding: 10px 15px;
+    background: #ededed;
+    font-size: 14px;
+}
+.contact-me-modal .modal-header .close{
+    font-size: 24px;
+}
+.contact-me-modal .modal-body{
+    padding: 30px 50px 15px;
+}
+.contact-me-modal .modal-footer{
+    text-align: center;
+    border: none;
+    background: #fff;
+    padding: 0 50px 32px 50px;
+}
+.contact-me-modal .btn{
+    border-radius: 3px;
+    width: 108px;
+    height: 36px;
+    border:none;
+}
+.contact-me-modal .btn-primary{
+    background: #2f55a0!important;
+    margin-right:25px;
+}
+.contact-me-modal .btn-default{
+    background: #ccc!important;
+}
+input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before {
+    /* color: #0157e0; */
+    line-height: 12px;
+    min-width:14px;
+    height:14px;
+}
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before {
+/*     border-color: #0157e0; */
+}
+.messnopd { padding:0;}
+@media screen and (max-width:767px){
+    .dataTables_paginate { text-align: center;}
+}

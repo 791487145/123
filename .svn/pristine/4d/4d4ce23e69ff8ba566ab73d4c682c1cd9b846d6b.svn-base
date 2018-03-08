@@ -1,0 +1,46 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserActiveModel extends Model
+{
+    const ACTIVE_TYPE_WX = 1;//微信
+
+    const ACTIVE_CANTAIN_ONE = 1;//1v1
+    const ACTIVE_CANTAIN_FIVE = 2;//5v5
+
+    protected $table = 'user_active';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','uid','type','pid','cantain','active_type','created_at','user_no','group_id'
+    ];
+
+    public $timestamps = true;
+
+    //创建角色
+    static function createOne($data)
+    {
+        $data = self::create($data);
+        return $data;
+    }
+
+    //判断某条件下某角色是否存在
+    static function userIsExist($where)
+    {
+        $data = self::where($where)->first();
+        return $data;
+    }
+
+    //某战队人员总数
+    static function getTeamPeopleTotal($team_id)
+    {
+        $data = self::where('pid',$team_id)->count();
+        return $data;
+    }
+
+
+}

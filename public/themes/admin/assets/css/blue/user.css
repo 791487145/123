@@ -1,0 +1,125 @@
+/* finance-layout */
+/* 侧栏 */
+.panel .g-active {
+    color: #2f549f !important;
+    border-left: 5px solid #2f549f !important;
+}
+ .g-wrap1:hover{
+    color: #2f549f !important;
+    border-left: 5px solid #2f549f !important;
+}
+/*右侧内容共用部分*/
+.g-main .u-title{
+    border-bottom: 3px solid #2f55a0;
+}
+
+.g-main .pagination>li.active>a, .pagination>li.active>a:hover{
+    background: #2f549f;
+}
+/*时间轴修改*/
+.wizard-steps li.active .title {
+    color:#2f55a0;
+}
+.panel .g-active .s-baseicon {
+    background: url("../../images/sideicon.png") no-repeat;
+}
+.panel .g-active .s-accounticon {
+    background: url("../../images/sideicon.png") no-repeat 0 -83px;
+}
+.panel .g-active .s-approveicon {
+    background: url("../../images/sideicon.png") no-repeat 0 -56px;
+}
+.panel .g-active .s-focusicon {
+    background: url("../../images/sideicon.png") no-repeat 0 -107px;
+}
+
+.panel .s-baseicon {
+    background: url("../../images/sideicon.png") no-repeat 0 -28px;
+}
+.panel .s-accounticon {
+    background: url("../../images/sideicon.png") no-repeat 0 -160px;
+}
+.panel .s-approveicon {
+    background: url("../../images/sideicon.png") no-repeat 0 -183px;
+}
+.panel .s-focusicon {
+    background: url("../../images/sideicon.png") no-repeat 0 -133px;
+}
+.panel .s-myiconwrp1{
+    background: url("../../images/my-icon.png") no-repeat;
+    background-position: 0 -22px;
+}
+.panel .s-myiconwrp2{
+    background: url("../../images/my-icon.png") no-repeat;
+    background-position: 0 -65px;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp1{
+    background: url("../../images/my-icon.png") no-repeat;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp2{
+    background: url("../../images/my-icon.png") no-repeat;
+    background-position: 0 -46px;
+}
+/* 银行卡绑定 */
+.wizard-steps li.active .step {
+	background-color:#2f55a0;
+}
+.wizard-steps li.active::before {
+    border-color:#2f55a0;
+}
+
+/* usercenter */
+.g-releasetask .g-reletaskhd a:hover {
+    color:#2f549f;
+}
+.g-releasetask .g-reletaskhd .cor-blue2f {
+    color:#2f549f;
+}
+.g-releasechart:hover i{
+    color: #2f549f;
+}
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before {
+    border-color: #0157e0;
+}
+.g-userhintbtn a {
+	background-color: #2f55a0;
+}
+.g-usertitname a {
+    color:#2f55a0;
+}
+.nav-tabs .active a,.nav-tabs li a:hover {
+    color: #2f55a0!important;
+}
+.g-userlisthead {
+    border-bottom: 3px solid #2f55a0;
+}
+/* userCenterCase */
+.personal-add-case-btn{
+	background: #2f55a0;
+}
+.personal-active{
+	color: #2f55a0;
+	border-bottom: 2px solid #2f55a0;
+}
+.personal-case-list, .personal-evaluate-detail{
+	color: #2f55a0;
+}
+.paging_bootstrap .pager>li>a:hover,.paging_bootstrap .pagination>li>a:hover{
+    color: #2f55a0;
+}
+.personal-case-detail-list-active .personal-active{
+    color:#2f55a0;
+}
+/* finance-recharge */
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before{
+    border-color:#0157e0 ;
+}
+.g-recharge .m-radio .lbl span:hover{
+    border-color: #428bca;
+}
+
+.m-radio input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color:#0157e0;
+}

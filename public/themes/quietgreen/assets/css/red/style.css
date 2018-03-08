@@ -1,0 +1,334 @@
+/* 头部 */
+a{
+    color: #db4a39;
+}
+.text-primary{
+    color: #db4a39;
+}
+a:hover, a:active, a:focus {
+    color: #db4a39;
+}
+.hov-corblue2f:hover {
+    color: #db4a39;
+}
+.hov-bgorg88:hover {
+    background-color: #db4a39;
+}
+.hov-bggryb0:hover {
+    background-color: #db4a39;
+}
+.bg-blue{
+    /*按钮背景颜色*/
+    background-color: #db4a39;
+}
+.bg-orange{
+    background-color: #db4a39;
+}
+.cor-blue167 {
+    /*链接颜色*/
+    color: #db4a39;
+}
+.cor-blue2f {
+    color: #db4a39;
+}
+.cor-blue {
+    color: #db4a39;
+}
+.btn-blue {
+    background-color: #db4a39 !important;
+    border-color: #db4a39;
+}
+.btn-primary, .btn-primary:focus,.btn-primary:active:focus{
+    background-color:#db4a39!important;
+    border-color:#db4a39;
+}
+.g-headertop a:hover {
+    color: #db4a39;
+}
+.g-headertop .g-taskbardown1 a {
+    color: #db4a39;
+}
+.g-tasksearch button{
+    background: #db4a39;
+}
+.g-tasksearch {
+    border: 3px solid #db4a39;
+    border-radius: 3px;
+    height: 41px;
+}
+.g-tasknavdrop{
+    background: #db4a39;
+}
+#nav .sub li:hover a:hover {
+    color:#db4a39;
+}
+.g-subshow div{
+    color: #db4a39;
+}
+.g-taskbarnav .g-tasknavbtn{
+    background: url('../../images/navbtnbg-red.png') no-repeat 0 9px;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref {
+    background: #db4a39;
+}
+.g-taskbarnav .banner-r .tab-bot a{
+    color: #db4a39;
+}
+.btn-primary:active, .btn-primary:hover{
+    background-color: #db4a39!important;
+    border-color:#db4a39;
+}
+.g-taskbarnav a:hover {
+    color: #db4a39;
+    /*text-decoration: none;*/
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #db4a39;
+    border-color:#db4a39; 
+}
+.g-subshow {
+    border: 1px solid #db4a39;
+    border-left: none;
+}
+.tabbable .nav-tabs>li>a:hover{
+    color: #db4a39;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref:hover {
+    background-color: #db4a39;
+}
+.g-headertop .g-taskbaract .g-taskbarbor{
+    color: #db4a39;
+}
+.g-headertop .g-taskbaract .g-taskbar1{
+    background: url("../../images/taskbarh1-Google.png") no-repeat 20px center;
+}
+.g-headertop .g-taskbaract .g-taskbar2{
+    background: url("../../images/taskbarh1-Google.png") no-repeat 20px center;
+}
+.hov-nav .sub li a:hover {
+    color: #db4a39;
+}
+/* 头部header-top */
+.header-top{
+    background-color: #db4a39;
+}
+.g-taskbarnav {
+    border-bottom: 2px solid #db4a39;
+}
+@media screen and (max-width: 991px) {
+
+    .navbar {
+        background-color: #db4a39;
+    }
+}
+
+/* top */
+.go-top .u-hov{
+     background-image: url(../../images/go-top-google.png?);
+}
+
+/* footer */
+.footer .g-address a:hover{
+    color: #db4a39;
+ }
+
+/* main */
+.pagination>li.active>a {
+    background-color: #db4a39;
+    border-color: #db4a39;
+}
+/* index */
+nav .g-taskbarnav .nav-tabs .z-tit1{
+     border-bottom: 2px solid #db4a39;
+}
+.g-servicer li .u-index:hover h4 a{
+    color: #db4a39;
+}
+.g-info .f-pd:hover .u-infowrap a{
+    color: #db4a39;
+}
+.g-servicer .g-servicer-wrap1{
+    border-top:2px solid #db4a39;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+
+    border-bottom: 2px solid #db4a39;
+}
+
+
+
+/* taskindex */
+.g-taskclassify .bg-blue{
+    background: #db4a39;
+}
+/* taskcommon */
+.wizard-steps li.active .step, .wizard-steps li.active:before{
+    border-color: #db4a39;
+    background: #db4a39;
+}
+.tasknav .badge{
+    background-color: #db4a39!important;
+}
+.tasktitle{
+    border-left: 2px solid #db4a39;
+}
+.tasknav .nav-tabs>li>a:hover{
+    color: #db4a39;
+}
+
+/* issuetask */
+section .poster .wizard-steps li.active .step,section .poster .wizard-steps li.active:before,section .poster .wizard-steps li.complete .step,section .poster .wizard-steps li.complete:before{
+    background: #db4a39;
+    border-color: #db4a39;
+}
+.task-r .task-select>a:hover{
+    border:2px solid #db4a39;
+    color: #db4a39;
+}
+.task-r .task-select>.z-bule{
+    border:2px solid #db4a39;
+    color: #db4a39;
+}
+.task-bar>a{
+    background: #db4a39;
+    border: 1px solid #db4a39;
+}
+.widget-box .btn-info{
+    background: #db4a39!important;
+    border-color:#db4a39;
+}
+.tab-content .wizard-steps li.active .title,.tab-content .wizard-steps li.complete .title{
+    color:#db4a39;
+}
+.task-r .task-tit span{
+     color:#db4a39;
+}
+.taskDetails .f-tab{
+    border-color:#db4a39 ;
+}
+.taskDetails .nav-tabs>.f-trubtn.active>a, .nav-tabs>.f-trubtn.active>a:focus, .nav-tabs>.f-trubtn.active>a:hover{
+    border-color: #db4a39 #db4a39 transparent;
+    border-top: 2px solid #db4a39;
+    color:#db4a39;
+}
+/* serivceCase */
+.personal-case-list, .personal-evaluate-detail{
+    color: #db4a39;
+}
+.personal-active{
+    color: #db4a39;
+    border-bottom: 2px solid #db4a39;
+}
+/* case */
+.case-classify-well .nav>.active>a{
+    background-color: #db4a39;
+}
+.case-search-list .nav-pills>li.active>a, .case-search-list .nav-pills>li.active>a:focus, .case-search-list .nav-pills>li.active>a:hover{
+
+    color: #db4a39;
+}
+.case-list-item .case-list-item-name a:hover,.case-list-item-admin-info p:hover{
+    color: #db4a39;
+}
+
+/* footerLink */
+.help-center-answers h3{
+    color: #db4a39;
+}
+a.footer-link-list-item-active{
+    color: #db4a39;
+    border-left: 5px solid #db4a39;
+}
+.help-center-list h3{
+    color: #db4a39;
+}
+
+/*sign*/
+.allbtn{
+    background: #db4a39!important;
+    border-color: #db4a39;
+}
+.loginmain .wizard-steps li.active .step{
+    border-color: #db4a39;
+    background: #db4a39;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#db4a39;
+}
+.login-box .btn-primary:active,.login-box .btn-primary:hover,.login-box .open .btn-primary.dropdown-toggle{
+    border-color: #db4a39;
+}
+.loginmain .wizard-steps li.active .step,.loginmain .wizard-steps li.active:before{
+    border-color:#db4a39;
+}
+.loginmain-container .inline .lbl:hover {
+    color: #db4a39;
+}
+.g-signmain .loginmain .s-logintit{
+     border-left:3px solid #db4a39 ;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#db4a39;
+}
+input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color: #db4a39;
+}
+.input-icon>input:focus+.ace-icon{
+    color: #db4a39;
+}
+
+/* im */
+.im .im-side{
+    background: #db4a39;
+}
+.im-side1 .im-side1-list3 .im-btn{
+    background: #db4a39!important;
+}
+.im-side2 .im-side1-list1{
+    background: #db4a39;
+}
+.im-side2 .im-side1-list3{
+    background: #db4a39;
+}
+
+.dropdown-menu>li>a:hover{
+    background: #db4a39;
+
+}
+
+.z-navHome{
+    color:#db4a39!important; ;
+}
+
+.help-center-list .help-center-active {
+    border-left: 5px solid #db4a39!important;
+    color: #db4a39!important;
+}
+a.help-center-help-link-active {
+    color: #db4a39!important;
+}
+
+.header-top .navbar-nav li.pd-navppd .s-listseed a:hover {
+    color: #fff!important;
+}
+
+
+.g-copyright {
+    color: #db4a39;
+    border: 1px solid #db4a39;
+}
+.needs-sidebar .needs-sidebar-wrap .wrap4 a:hover {
+    border-color:#db4a39;
+    background-color:#db4a39;
+    color: #fff;
+}
+
+.answerlist-btn {
+    color: #db4a39;
+    border: 1px solid #db4a39;
+}
+.answerlist-btn:hover {
+    color: #fff;
+    border: 1px solid #db4a39;
+    background-color:#db4a39;
+}

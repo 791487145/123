@@ -1,0 +1,60 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserGameLogModel extends Model
+{
+    const LOG_IS_READ_NULL = 0;//没有查看
+
+    const LOG_TYPE_CREATE_INFO = 1;//
+
+    protected $table = 'user_game_log';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','to_id','is_read','content','create_at','type'
+    ];
+
+    public $timestamps = false;
+
+    //创建记录
+    static function createOne($uid,$type,$content)
+    {
+        $param = [
+            'to_id'=>$uid,
+            'is_read' =>self::LOG_IS_READ_NULL,
+            'content' => $content,
+            'type'=> $type,
+            'create_at'=>date("Y-m-d H:i:s")
+        ];
+        $date = self::create($param);
+        return $date;
+    }
+
+    //判断某条件下某角色是否存在
+    static function userIsExist($where)
+    {
+        $data = self::where($where)->first();
+        return $data;
+    }
+
+    //获取用户基本信息
+    static function getUserInfo($uid)
+    {
+        //dd($uid);
+        //$data = [];
+        foreach($uid as $id){
+            $data[] = self::where('uid',$id)
+                ->leftJoin('users','user_game_info.uid','=','users.id')
+                ->select('users.id','users.name','users.mobile','user_game_info.game_name','user_game_info.game_server')
+                ->first();
+        }
+        //dd($data);
+        return $data;
+    }
+
+
+}

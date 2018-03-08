@@ -1,0 +1,131 @@
+
+                            <form class="form-horizontal clearfix registerform" role="form"  action="<?php echo url('manage/rolesAdd'); ?>" method="post">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <h3 class="header smaller lighter blue mg-top12 mg-bottom20">用户组列表</h3>
+                                    <div class="well ">
+                                        <h4 class="blue">添加用户组</h4>
+                                        用户组名称：<input type="text" name="name" datatype="*">
+                                        <i class="light-red ace-icon fa fa-asterisk"></i>
+                                        显示名称：<input type="text" name="display_name" datatype="*">
+                                        <i class="light-red ace-icon fa fa-asterisk"></i>
+                                    </div>
+                                    <div class="well h4 blue">
+                                        用户组权限设置
+                                    </div>
+                                </div>
+                            </div>
+                                <?php echo csrf_field(); ?>
+
+
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="tabbable">
+                                                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab4" num="<?php echo e($num=0); ?>">
+                                                    <?php foreach($list as $v): ?>
+                                                        <li num="<?php echo e($num++); ?>" class="<?php echo e(($num==1)?'active':''); ?>">
+                                                            <a data-toggle="tab" href="#home<?php echo e($v['id']); ?>"><?php echo e($v['name']); ?></a>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                                <div class="tab-content" num="<?php echo e($number=0); ?>">
+                                                    <?php foreach($list as $v): ?>
+                                                        <div num="<?php echo e($number++); ?>" id="home<?php echo e($v['id']); ?>" class="tab-pane in <?php echo e(($number==1)?'active':''); ?>">
+                                                            <div id="main<?php echo e($v['id']); ?>">
+                                                                <ul id='browser<?php echo e($v['id']); ?>' class='filetree'>
+                                                                    <li>
+                                                                <span class='folder'>
+                                                                    <?php if(empty($v['_child'])): ?>
+                                                                        <?php /*<input type="checkbox" name="id[]"  value="<?php echo e($v['id']); ?>" id="t<?php echo e($v['id']); ?>" pId="t0"  onchange="child(this)"/>*/ ?>
+                                                                    <?php endif; ?>
+                                                                    <?php echo e($v['name']); ?>
+
+                                                                </span>
+                                                                        <?php if(!empty($v['_child'])): ?>
+                                                                            <ul>
+                                                                                <?php foreach($v['_child'] as $value): ?>
+                                                                                    <li>
+                                                                        <span>
+                                                                            <?php if(!empty($value['_child'])): ?>
+                                                                                <?php /*<input type="checkbox"  id='t<?php echo e($value['id']); ?>' pId="t<?php echo e($v['id']); ?>"  onchange="child(this)"/>*/ ?>
+                                                                                <?php echo e($value['name']); ?>
+
+                                                                            <?php else: ?>
+                                                                                <input type="checkbox" name="id[]"  id='t<?php echo e($value['id']); ?>' pId="t<?php echo e($v['id']); ?>" value="<?php echo e($value['id']); ?>" onchange="child(this)"/>
+                                                                                <?php echo e($value['name']); ?>
+
+                                                                            <?php endif; ?>
+                                                                        </span>
+                                                                                        <?php if(!empty($value['_child'])): ?>
+                                                                                            <ul>
+                                                                                                <?php foreach($value['_child'] as $permissions): ?>
+                                                                                                    <li>
+                                                                                    <span >
+                                                                                        <?php if(!empty($permissions['_child'])): ?>
+                                                                                            <?php /*<input type="checkbox"  id='t<?php echo e($permissions['id']); ?>' pId="t<?php echo e($value['id']); ?>"  onchange="child(this)"/>*/ ?>
+                                                                                            <?php echo e($permissions['name']); ?>
+
+                                                                                        <?php else: ?>
+                                                                                            <input type="checkbox" name="id[]"  id='p<?php echo e($permissions['id']); ?>' pId="t<?php echo e($value['id']); ?>" value="<?php echo e($permissions['id']); ?>" onchange="child(this)"/><?php echo e($permissions['name']); ?>
+
+                                                                                        <?php endif; ?>
+                                                                                    </span>
+                                                                                                        <?php if(!empty($permissions['_child'])): ?>
+                                                                                                            <ul>
+                                                                                                                <?php foreach($permissions['_child'] as $menu): ?>
+                                                                                                                    <li>
+                                                                                                    <span class='file'>
+                                                                                                        <input type="checkbox" name="id[]" id="1<?php echo e($menu['id']); ?>" pId="t<?php echo e($permissions['id']); ?>" value="<?php echo e($menu['id']); ?>" onchange="child(this)"/><?php echo e($menu['name']); ?>
+
+                                                                                                    </span>
+                                                                                                                    </li>
+                                                                                                                <?php endforeach; ?>
+                                                                                                            </ul>
+                                                                                                        <?php endif; ?>
+                                                                                                    </li>
+                                                                                                <?php endforeach; ?>
+                                                                                            </ul>
+                                                                                        <?php endif; ?>
+                                                                                    </li>
+                                                                                <?php endforeach; ?>
+                                                                            </ul>
+                                                                        <?php endif; ?>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12  text-center">
+                                <div class="space"></div>
+                                <button class="btn btn-primary" type="submit">提交</button>
+                                <div class="space"></div>
+                            </div>
+                            </form>
+
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('back-stage-css', 'css/backstage/backstage.css'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('validform-css', 'plugins/jquery/validform/css/style.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('validform-js', 'plugins/jquery/validform/js/Validform_v5.3.2_min.js'); ?>
+
+<?php echo Theme::asset()->container('specific-css')->usePath()->add('treeView-css', 'plugins/jquery/tree/jquery.treeview.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usePath()->add('treeview-js', 'plugins/jquery/tree/jquery.treeview.js'); ?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        <?php foreach($list as $v): ?>
+            $("#browser<?php echo e($v['id']); ?>").treeview({});
+        <?php endforeach; ?>
+    });
+</script>

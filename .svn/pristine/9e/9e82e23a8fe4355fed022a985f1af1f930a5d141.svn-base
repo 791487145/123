@@ -1,0 +1,14 @@
+<div>
+    <?php echo $msg; ?>
+
+</div>
+
+<script>
+    var time = '<?php echo $time; ?>';
+
+    function redirect(){
+        window.history.back();
+    }
+
+    setTimeout('redirect()', time);
+</script>

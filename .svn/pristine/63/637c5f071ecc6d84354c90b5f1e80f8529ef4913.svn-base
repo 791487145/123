@@ -1,0 +1,8 @@
+{
+	"name": "Pay",
+	"slug": "pay",
+	"namespace": "Pay",
+	"version": "1.0",
+	"description": "This is the description for the Pay module.",
+	"enabled": true
+}

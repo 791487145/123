@@ -1,0 +1,70 @@
+<?php /*<div class="page-header">
+    <h1>
+        提现详情
+    </h1>
+</div><!-- /.page-header -->*/ ?>
+<h3 class="header smaller lighter blue mg-bottom20 mg-top12">提现详情</h3>
+<div class="g-backrealdetails clearfix bor-border">
+    <div class="chearfix">
+        <?php /*<div class="bankAuth-bottom clearfix col-xs-12">
+            <p>用户：<?php echo $info->realname; ?></p>
+        </div>
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p>提现方式：<?php if($info->cashout_type == 1): ?>支付宝<?php elseif($info->cashout_type == 2): ?><?php echo \App\Modules\User\Model\BankAuthModel::getBankname($info->cashout_account); ?><?php endif; ?></p>
+        </div>
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p>账号：<?php echo $info->cashout_account; ?></p>
+        </div>*/ ?>
+        <?php /*<div class="bankAuth-bottom clearfix col-xs-12">*/ ?>
+            <?php /*<p class="col-md-1 text-right">用户</p>*/ ?>
+            <?php /*<p class="col-md-11"><span class="text-primary"><?php echo $info->realname; ?></span></p>*/ ?>
+        <?php /*</div>*/ ?>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">提现方式</p>
+            <p class="col-md-11"><span class="text-primary"><?php if($info->cashout_type == 1): ?>支付宝<?php elseif($info->cashout_type == 2): ?><?php echo \App\Modules\User\Model\BankAuthModel::getBankname($info->cashout_account); ?><?php endif; ?></span></p>
+        </div>
+
+        <div class="bankAuth-bottom clearfix col-xs-12">
+            <p class="col-md-1 text-right">账号</p>
+            <p class="col-md-11"><span class="text-primary"><?php echo $info->cashout_account; ?></span></p>
+        </div>
+    </div>
+<div class="space col-xs-12"></div>
+<div class="clear">
+    <span class="pull-left">时间：<?php echo $info->created_at; ?></span>
+    <span class="pull-right">单位/元</span>
+</div>
+<table id="sample-table-1" class="table table-striped table-bordered table-hover" style="vertical-align:middle; text-align:center;">
+    <thead>
+        <tr>
+            <th>流水编号</th>
+            <th>收款方</th>
+            <th>提现金额</th>
+            <th>手续费</th>
+            <th>到账金额</th>
+            <th>状态</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>
+               <?php echo $info->id; ?>
+
+            </td>
+            <td><?php echo $info->realname; ?></td>
+            <td>￥<?php echo $info->cash; ?>元</td>
+            <td>￥<?php echo $info->fees; ?>元</td>
+            <td>
+                ￥<?php echo $info->real_cash; ?>元
+            </td>
+            <td>
+                <?php if($info->status == 0): ?>待审核<?php elseif($info->status == 1): ?>已打款<?php elseif($info->status == 2): ?>未通过审核<?php endif; ?>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('backstage', 'css/backstage/backstage.css'); ?>

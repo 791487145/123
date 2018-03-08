@@ -1,0 +1,9 @@
+{
+	"name": "Shop",
+	"slug": "shop",
+	"namespace": "Shop",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Shop module."
+}

@@ -1,0 +1,364 @@
+/* 头部 */
+a{
+    color: #464646;
+}
+.text-primary{
+    color: #464646;
+}
+a:hover, a:active, a:focus {
+    color: #464646;
+}
+.hov-corblue2f:hover {
+    color: #464646;
+}
+.hov-bgorg88:hover {
+    background-color: #464646;
+}
+.hov-bggryb0:hover {
+    background-color: #464646;
+}
+.bg-blue{
+    /*按钮背景颜色*/
+    background-color: #464646;
+}
+.bg-orange{
+    background-color: #464646;
+}
+.cor-blue167 {
+    /*链接颜色*/
+    color: #464646;
+}
+.cor-blue2f {
+    color: #464646;
+}
+.cor-blue {
+    color: #464646;
+}
+.btn-blue {
+    background-color: #464646 !important;
+    border-color: #464646;
+}
+.btn-primary, .btn-primary:focus,.btn-primary:active:focus{
+    background-color:#464646!important;
+    border-color:#464646;
+}
+.g-headertop a:hover {
+    color: #464646;
+}
+.g-headertop .g-taskbardown1 a {
+    color: #464646;
+}
+.g-tasksearch button{
+    background: #464646;
+}
+.g-tasksearch {
+    border: 3px solid #464646;
+    border-radius: 3px;
+    height: 41px;
+}
+.g-tasknavdrop{
+    background: #464646;
+}
+#nav .sub li:hover a:hover {
+    color:#464646;
+}
+.g-subshow div{
+    color: #464646;
+}
+.g-taskbarnav .g-tasknavbtn{
+    background: url('../../images/navbtnbg-gray.png') no-repeat 0 9px;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref {
+    background: #464646;
+}
+.g-taskbarnav .banner-r .tab-bot a{
+    color: #464646;
+}
+.btn-primary:active, .btn-primary:hover{
+    background-color: #464646!important;
+    border-color:#464646;
+}
+.g-taskbarnav a:hover {
+    color: #464646;
+    /*text-decoration: none;*/
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #464646;
+    border-color:#464646; 
+}
+.g-subshow {
+    border: 1px solid #464646;
+    border-left: none;
+}
+.tabbable .nav-tabs>li>a:hover{
+    color: #464646;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref:hover {
+    background-color: #464646;
+}
+.g-headertop .g-taskbaract .g-taskbarbor{
+    color: #464646;
+}
+.g-headertop .g-taskbaract .g-taskbar1{
+    background: url("../../images/taskbarh1-wordpressgrey.png") no-repeat 20px center;
+}
+.g-headertop .g-taskbaract .g-taskbar2{
+    background: url("../../images/taskbarh1-wordpressgrey.png") no-repeat 20px center;
+}
+.hov-nav .sub li a:hover {
+    color: #464646;
+}
+/* 头部header-top */
+.header-top{
+    background-color: #464646;
+}
+.g-taskbarnav {
+    border-bottom: 2px solid #464646;
+}
+@media screen and (max-width: 991px) {
+
+    .navbar {
+        background-color: #464646;
+    }
+}
+
+/* top */
+.go-top .u-hov{
+     background-image: url(../../images/go-top-wordpressgrey.png?);
+}
+
+/* footer */
+.footer .g-address a:hover{
+    color: #464646;
+ }
+
+/* main */
+.pagination>li.active>a {
+    background-color: #464646;
+    border-color: #464646;
+}
+/* index */
+nav .g-taskbarnav .nav-tabs .z-tit1{
+     border-bottom: 2px solid #464646;
+}
+.g-servicer li .u-index:hover h4 a{
+    color: #464646;
+}
+.g-info .f-pd:hover .u-infowrap a{
+    color: #464646;
+}
+.g-servicer .g-servicer-wrap1{
+    border-top:2px solid #464646;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+
+    border-bottom: 2px solid #464646;
+}
+
+
+
+/* taskindex */
+.g-taskclassify .bg-blue{
+    background: #464646;
+}
+/* taskcommon */
+.wizard-steps li.active .step, .wizard-steps li.active:before{
+    border-color: #464646;
+    background: #464646;
+}
+.tasknav .badge{
+    background-color: #464646!important;
+}
+.tasktitle{
+    border-left: 2px solid #464646;
+}
+.tasknav .nav-tabs>li>a:hover{
+    color: #464646;
+}
+
+/* issuetask */
+section .poster .wizard-steps li.active .step,section .poster .wizard-steps li.active:before,section .poster .wizard-steps li.complete .step,section .poster .wizard-steps li.complete:before{
+    background: #464646;
+    border-color: #464646;
+}
+.task-r .task-select>a:hover{
+    border:2px solid #464646;
+    color: #464646;
+}
+.task-r .task-select>.z-bule{
+    border:2px solid #464646;
+    color: #464646;
+}
+.task-bar>a{
+    background: #464646;
+    border: 1px solid #464646;
+}
+.widget-box .btn-info{
+    background: #464646!important;
+    border-color:#464646;
+}
+.tab-content .wizard-steps li.active .title,.tab-content .wizard-steps li.complete .title{
+    color:#464646;
+}
+.task-r .task-tit span{
+     color:#464646;
+}
+.taskDetails .f-tab{
+    border-color:#464646 ;
+}
+.taskDetails .nav-tabs>.f-trubtn.active>a, .nav-tabs>.f-trubtn.active>a:focus, .nav-tabs>.f-trubtn.active>a:hover{
+    border-color: #464646 #464646 transparent;
+    border-top: 2px solid #464646;
+    color:#464646;
+}
+/* serivceCase */
+.personal-case-list, .personal-evaluate-detail{
+    color: #464646;
+}
+.personal-active{
+    color: #464646;
+    border-bottom: 2px solid #464646;
+}
+/* case */
+.case-classify-well .nav>.active>a{
+    background-color: #464646;
+}
+.case-search-list .nav-pills>li.active>a, .case-search-list .nav-pills>li.active>a:focus, .case-search-list .nav-pills>li.active>a:hover{
+
+    color: #464646;
+}
+.case-list-item .case-list-item-name a:hover,.case-list-item-admin-info p:hover{
+    color: #464646;
+}
+
+/* footerLink */
+.help-center-answers h3{
+    color: #464646;
+}
+a.footer-link-list-item-active{
+    color: #464646;
+    border-left: 5px solid #464646;
+}
+.help-center-list h3{
+    color: #464646;
+}
+
+/*sign*/
+.allbtn{
+    background: #464646!important;
+    border-color: #464646;
+}
+.loginmain .wizard-steps li.active .step{
+    border-color: #464646;
+    background: #464646;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#464646;
+}
+.login-box .btn-primary:active,.login-box .btn-primary:hover,.login-box .open .btn-primary.dropdown-toggle{
+    border-color: #464646;
+}
+.loginmain .wizard-steps li.active .step,.loginmain .wizard-steps li.active:before{
+    border-color:#464646;
+}
+.loginmain-container .inline .lbl:hover {
+    color: #464646;
+}
+.g-signmain .loginmain .s-logintit{
+     border-left:3px solid #464646 ;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#464646;
+}
+input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color: #464646;
+}
+.input-icon>input:focus+.ace-icon{
+    color: #464646;
+}
+
+/* im */
+.im .im-side{
+    background: #464646;
+}
+.im-side1 .im-side1-list3 .im-btn{
+    background: #464646!important;
+}
+.im-side2 .im-side1-list1{
+    background: #464646;
+}
+.im-side2 .im-side1-list3{
+    background: #464646;
+}
+
+.dropdown-menu>li>a:hover{
+    background: #464646;
+
+}
+
+.z-navHome{
+    color:#464646!important; ;
+}
+
+.help-center-list .help-center-active {
+    border-left: 5px solid #464646!important;
+    color: #464646!important;
+}
+a.help-center-help-link-active {
+    color: #464646!important;
+}
+.header-top .navbar-nav li.pd-navppd .s-listseed a:hover {
+    color: #fff!important;
+}
+
+.g-copyright {
+    color: #464646;
+    border: 1px solid #464646;
+}
+
+.needs-sidebar .needs-sidebar-wrap .wrap4 a:hover {
+    border-color:#464646;
+    background-color:#464646;
+    color: #fff;
+}
+
+.answerlist-btn {
+    color: #464646;
+    border: 1px solid #464646;
+}
+.answerlist-btn:hover {
+    color: #fff;
+    border: 1px solid #464646;
+    background-color:#464646;
+}
+
+/*分站*/
+/*
+.g-stationhead .active {
+    background: #02af94!important;
+}
+.g-stationhead li:hover {
+    background: #02af94!important;
+}
+.g-stationhead li a {
+    border-left: 1px solid #02af94!important;
+    border-right: 1px solid #02af94!important;
+}
+.g-stationhead:before{
+    border-left-color:#02af94!important;
+}
+.g-stationhead:after{
+    border-left-color:#02af94!important;
+}
+.sidetation-r .nav-tabs .z-tit1 {
+    border-bottom: 2px solid #0abea2!important;
+}
+.g-stationmenu li:hover{
+    border-left-color:#0abea2!important;
+}
+.m-shop .tit h4 {
+    border-left: 2px solid #0abea2!important;
+}
+.g-stationmaintit {
+    border-left: 3px solid #0abea2!important;
+}*/

@@ -1,0 +1,22 @@
+/*index*/
+nav .employ-nav{
+    border-bottom: 3px solid #2f549f;
+}
+nav .employ-nav ul .active{
+    background-color:#2f549f;
+}
+.shop-navbg .shop-navlist a:hover,.shop-navact {
+    color:#fff;
+    background-color:#2d4689;
+}
+
+
+.shop-main .shop-gybtn {
+    background: url(../../images/shop/shop-gybtnbg.png) no-repeat;
+}
+
+.g-taskmainlist li .g-toshopbtn:hover {
+    border-color: #2f55a0;
+    color: #fff;
+    background: url(../../images/toshopbtnh.png) no-repeat 14px center #2f55a0;
+}

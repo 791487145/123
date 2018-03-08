@@ -1,0 +1,323 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7f7;
+    font-family: "微软雅黑", "SimSun", "宋体", "Arial Narrow";
+}
+ul {
+    list-style: none;
+    margin: 0;
+}
+.cor-green {
+    color: #0abea2;
+}
+.cor-gray52 {
+    color: #525252;
+}
+.cor-gray80 {
+    color: #808080;
+}
+.cor-gray4c {
+    color: #4c4c4c;
+}
+.text-size12 {
+    font-size: 12px;
+}
+.text-size14 {
+    font-size: 14px;
+}
+.text-size16 {
+    font-size: 16px;
+}
+.text-size20 {
+    font-size: 20px;
+}
+.text-size22 {
+    font-size: 22px;
+}
+.bg-green {
+    background-color: #0abea2;
+}
+.bor-radius2 {
+    border-radius: 2px!important;
+}
+.btn-green {
+    display: block;
+    text-align: center;
+    height: 39px;
+    line-height: 39px;
+    color: #fff;
+    background-color: #0abea2;
+    border: none;
+    width: 100%;
+    box-shadow: 0 0 6px 3px #e1f7f4;
+}
+.sign-logo {
+    width:199px;
+    height: 72px;
+    margin: 90px auto 0;
+}
+.sign-logo img {
+    width:199px;
+    height: 72px;
+}
+.sign-main {
+    width:301px;
+    margin: 40px auto 0;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 0 6px 6px #e9f4f3;
+}
+.sign-main-bg {
+    background: url("../../images/sign/sign-bg.png") no-repeat center bottom;
+    padding-bottom: 280px;
+}
+.sign-main-head {
+    border-bottom: 1px solid #ddd;
+    color: #767a79;
+    font-size: 16px;
+    text-align: center;
+    line-height: 61px;
+    height:62px;
+}
+.sign-main-content {
+    padding: 31px 26px 0;
+    border: none;
+}
+.sign-main-icon {
+    background-color: #f5faf9;
+    color: #bccfcc;
+    cursor: pointer;
+}
+.sign-main-content .bor-radius2{
+    border-radius: 2px!important;
+}
+.sign-three-wrap {
+    height: 0;
+    overflow: hidden;
+}
+.sign-checklabel {
+    margin-bottom: 10px!important;
+}
+.sign-checklabel .ace:checked + .sign-check:before {
+    background: url("../../images/sign/checked-bg.png") no-repeat center #0abea2;
+    border-color: #0abea2;
+}
+.sign-check {
+    position: relative;
+    padding-left: 17px;
+    color: #767a79;
+}
+.sign-check:before {
+    position: absolute;
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 1px solid #c8c8c8;
+    top:2px;
+    left: 0;
+    border-radius: 1px;
+}
+.sign-three {
+    padding-top: 20px;
+    height: 67px;
+}
+.sign-three a{
+    padding-top: 28px;
+    display: inline-block;
+}
+.sign-three a:hover{
+    text-decoration: none;
+}
+.sign-qq {
+    background: url("../../images/sign/sign-qq.png") no-repeat center 0;
+}
+.sign-wx {
+    background: url("../../images/sign/sign-wx.png") no-repeat center 0;
+}
+.sign-wb {
+    background: url("../../images/sign/sign-wb.png") no-repeat center 0;
+}
+.login-form .inputxt{
+    border-color:#bbc7ce;
+    font-size: 12px;
+    height: 39px;
+    padding-left: 10px!important;
+}
+.login-form label{
+    margin-bottom: 20px;
+}
+.sign-main-userico {
+    background: url("../../images/sign/sign-ico.png") no-repeat center 0;
+    width: 13px;
+    height: 15px;
+    position: absolute;
+    right: 10px;
+    top:12px;
+}
+.sign-main-passico {
+    background: url("../../images/sign/sign-ico.png") no-repeat center -20px;
+    width: 13px;
+    height: 18px;
+    position: absolute;
+    right: 10px;
+    top:10px;
+}
+.register-checkbox input {
+    vertical-align: -3px;
+}
+.register-main {
+    width:100%;
+    max-width: 350px;
+    margin: 40px auto 0;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 0 6px 6px #e9f4f3;
+}
+.register-main-bg {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.register-main-head {
+    margin: 0 26px;
+    line-height: 58px;
+}
+/*.register-main-head ul{
+    margin: 0;
+    list-style: none;
+}*/
+.register-main-head li a{
+    color: #767a79;
+}
+.register-main-head li a:hover{
+    text-decoration: none;
+}
+.register-main-head .active {
+    border-bottom: 3px solid #0abea2;
+}
+.register-inputcode {
+    width:100%;
+    max-width: 180px;
+    margin-right: 11px;
+}
+.register-main .register-code,.register-code {
+    width:100%;
+    max-width: 100px;
+    border-radius: 2px;
+    background-color: #effbf9!important;
+    color: #0abea2!important;
+    height: 39px;
+    vertical-align: -1px;
+    border: 1px solid #a5e5db;
+}
+.register-codeimg {
+    width:100px;
+    height: 39px;
+    margin-left: 11px;
+}
+.codeImg img {
+    width:80px;
+    height: 34px;
+}
+.sendemail-bg {
+    padding: 0 10px;
+}
+.sendmail-main {
+    width: 100%;
+    max-width: 724px;
+    margin: 40px auto 0;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 0 6px 6px #e9f4f3;
+    padding-top: 84px;
+    padding-bottom: 78px;
+}
+.sendmail-img {
+    margin-right: 56px;
+}
+.sendmail-btn {
+    max-width: 160px;
+    display: inline-block;
+    margin-top: 46px;
+}
+.password-head {
+    margin: 0 30px;
+    border-left: 3px solid #0abea2;
+    height: 22px;
+    line-height: 21px;
+    padding-left: 17px;
+}
+.password-head a{
+    padding-right: 18px;
+    background: url("../../images/sign/password-link.png") no-repeat right center;
+    cursor: pointer;
+}
+.password-wizard {
+    margin: 0 -40px;
+}
+.password-wizard li {
+    vertical-align: middle;
+}
+.password-wizard li .step{
+    border:10px solid #fff;
+    width:auto;
+    height: 64px;
+    line-height: normal;
+}
+.password-wizard li .password-stepbor {
+    width:16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 100%;
+    display: inline-block;
+    vertical-align: -11px;
+}
+.password-wizard li:before {
+    border-top:1px solid #e5e5e5;
+    top:30px;
+}
+.password-wizard li.active .step {
+    border:10px solid #fff;
+
+}
+.password-wizard li.active:before {
+    border-color:#e5e5e5;
+}
+.password-wizard li.active .password-stepbor {
+    background: url("../../images/sign/sign-phone.png") no-repeat center #0abea2;
+    border-color: #0abea2;
+    width: 40px;
+    height: 40px;
+}
+.password-wizard li.reset .password-stepbor {
+    background-image: url("../../images/sign/sign-reset.png");
+}
+.password-wizard li.success .password-stepbor {
+    background-image: url("../../images/sign/sign-success.png");
+}
+.password-wizard li.validate .password-stepbor {
+    background-image: url("../../images/sign/sign-validate.png");
+}
+.wizard-steps li .title {
+    color: #4c4c4c;
+}
+.sign-inputradiu input{
+    border-radius: 2px!important;
+}
+.sign-inputradiu .control-label{
+    padding-top: 8px!important;
+}
+.sign-inputradiu .col-sm-5{
+    width: 40%;
+}
+.password-btn {
+    width: 110px;
+    height: 39px;
+    border: none;
+    color: #fff;
+    background-color: #0abea2;
+    text-align: center;
+}
+.password-main {
+    padding-top: 30px;
+}

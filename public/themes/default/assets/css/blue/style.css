@@ -1,0 +1,314 @@
+/* 头部 */
+a{
+	color: #0157e0;
+}
+.text-primary{
+    color: #2f55a0;
+}
+a:hover, a:active, a:focus {
+	color: #2f55a0;
+}
+.hov-corblue2f:hover {
+    color: #2f55a0;
+}
+.hov-bgorg88:hover {
+    background-color: #ff8834;
+}
+.hov-bggryb0:hover {
+    background-color: #b0b0b0;
+}
+.bg-blue{
+	/*按钮背景颜色*/
+    background-color: #2f549f;
+}
+.bg-orange{
+    background-color: #ff9934;
+}
+.cor-blue167 {
+    /*链接颜色*/
+    color: #0157e0;
+}
+.cor-blue2f {
+    color: #2f549f!important;
+}
+.cor-blue {
+    color: #2f55a0;
+}
+.btn-blue {
+    background-color: #2f55a0 !important;
+    border-color: #2f55a0;
+}
+.btn-primary, .btn-primary:focus{
+    background-color:#2f55a0!important;
+    border-color:#2f55a0;
+}
+.btn-white.btn-primary {
+    border-color:#2f549f;
+    color: #2f549f!important;
+}
+.g-headertop a:hover {
+    color: #2f549f;
+}
+.g-headertop .g-taskbardown1 a {
+ 	color: #2f549f;
+}
+.g-tasksearch button{
+ 	background: #2f549f;
+}
+.g-tasksearch {
+    border: 3px solid #2f549f;
+    border-radius: 3px;
+    height: 41px;
+}
+.g-tasknavdrop{
+    background: #2f549f;
+}
+#nav .sub li:hover a:hover {
+    color:#2f549f;
+}
+.g-subshow div{
+	color: #2f549f;
+}
+.g-taskbarnav .g-tasknavbtn{
+	background: url('../../images/navbtnbg.png') no-repeat 0 9px;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref {
+	background: #2f549f;
+}
+.g-taskbarnav .banner-r .tab-bot a{
+	color: #2f549f;
+}
+.btn-primary:active, .btn-primary:hover{
+    background-color: #1b6aaa!important;
+    border-color:#1b6aaa!important;
+}
+.g-taskbarnav a:hover {
+    color: #2f549f;
+    /*text-decoration: none;*/
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background-color: #2f549f;
+    border-color:#2f549f;
+}
+.g-subshow {
+    border: 1px solid #2f549f;
+    border-left: none;
+}
+.tabbable .nav-tabs>li>a:hover{
+    color: #23527c;
+}
+.g-taskbarnav .g-tasknavbtn .u-ahref:hover {
+    background-color: #1b6aaa;
+}
+/* 头部header-top */
+.header-top{
+    background-color: #2f55a0;
+}
+.g-taskbarnav {
+    border-bottom: 2px solid #2f549f;
+}
+@media screen and (max-width: 991px) {
+
+    .navbar {
+        background-color: #2f549f;
+    }
+}
+
+/* top */
+.go-top .u-hov{
+	 background-image: url(../../images/go-top.png?);
+}
+
+/* footer */
+.footer .g-address a:hover{
+    color: #2f55a0;
+ }
+
+/* main */
+.pagination>li.active>a {
+	background-color: #2f549f;
+	border-color: #2f549f;
+}
+/* index */
+nav .g-taskbarnav .nav-tabs .z-tit1{
+	 border-bottom: 2px solid #2f549f;
+}
+.g-servicer li .u-index:hover h4 a{
+    color: #2f549f;
+}
+.g-info .f-pd:hover .u-infowrap a{
+    color: #2f549f;
+}
+.g-servicer .g-servicer-wrap1{
+    border-top:2px solid #2f549f;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
+
+    border-bottom: 2px solid #2f549f;
+}
+
+
+
+/* taskindex */
+.g-taskclassify .bg-blue{
+	background: #2f55a0;
+}
+/* taskcommon */
+.wizard-steps li.active .step, .wizard-steps li.active:before{
+    border-color: #2f55a0;
+    background: #2f55a0;
+}
+.tasknav .badge{
+    background-color: #2f55a0!important;
+}
+.tasktitle{
+    border-left: 2px solid #2f55a0;
+}
+.tasknav .nav-tabs>li>a:hover{
+    color: #2f55a0;
+}
+
+/* issuetask */
+
+section .poster .wizard-steps li.active .step,section .poster .wizard-steps li.active:before,section .poster .wizard-steps li.complete .step,section .poster .wizard-steps li.complete:before{
+    background: #2f55a0;
+    border-color: #2f55a0;
+}
+.task-r .task-select>a:hover{
+    border:2px solid #2f549f;
+    color: #2f549f;
+}
+.task-r .task-select>.z-bule{
+    border:2px solid #2f549f;
+    color: #2f549f;
+}
+.task-bar>a{
+    background: #2f55a0;
+    border: 1px solid #2f55a0;
+}
+.widget-box .btn-info{
+    background: #2f549f!important;
+    border-color:#2f549f;
+}
+.tab-content .wizard-steps li.active .title,.tab-content .wizard-steps li.complete .title{
+    color:#2f55a0;
+}
+.task-r .task-tit span{
+     color:#2f55a0;
+}
+.taskDetails .f-tab{
+    border-color:#2f55a0 ;
+}
+.taskDetails .nav-tabs>.f-trubtn.active>a, .nav-tabs>.f-trubtn.active>a:focus, .nav-tabs>.f-trubtn.active>a:hover{
+    border-color: #2f55a0 #2f55a0 transparent;
+    border-top: 2px solid #2f55a0;
+    color:#2f55a0;
+}
+/* serivceCase */
+.personal-case-list, .personal-evaluate-detail{
+	color: #2f55a0;
+}
+.personal-active{
+	color: #2f55a0;
+	border-bottom: 2px solid #2f55a0;
+}
+/* case */
+.case-classify-well .nav>.active>a{
+	background-color: #2f55a0;
+}
+.case-search-list .nav-pills>li.active>a, .case-search-list .nav-pills>li.active>a:focus, .case-search-list .nav-pills>li.active>a:hover{
+
+	color: #337ab7;
+}
+.case-list-item .case-list-item-name a:hover,.case-list-item-admin-info p:hover{
+	color: #2f55a0;
+}
+
+/* footerLink */
+.help-center-answers h3{
+	color: #2f55a0;
+}
+a.footer-link-list-item-active{
+	color: #337ab7;
+	border-left: 5px solid #2f55a0;
+}
+.help-center-list h3{
+	color: #2f549f;
+}
+
+/*sign*/
+.allbtn{
+    background: #00408f!important;
+    border-color: #00408f;
+}
+.loginmain .wizard-steps li.active .step{
+    border-color: #3054A2;
+    background: #3054A2;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#00408f;
+}
+.login-box .btn-primary:active,.login-box .btn-primary:hover,.login-box .open .btn-primary.dropdown-toggle{
+    border-color: #1b6aaa;
+}
+.loginmain .wizard-steps li.active .step,.loginmain .wizard-steps li.active:before{
+    border-color:#3054a2;
+}
+.loginmain-container .inline .lbl:hover {
+    color: #2f55a0;
+}
+.g-signmain .loginmain .s-logintit{
+     border-left:3px solid #00408f ;
+}
+.loginmain .wizard-steps li.active .title{
+    color:#00408f;
+}
+input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color: #32a3ce;
+}
+.input-icon>input:focus+.ace-icon{
+    color: #579;
+}
+
+/* im */
+.im .im-side{
+    background: #2f549f;
+}
+.im-side1 .im-side1-list3 .im-btn{
+    background: #2f549f!important;
+}
+.im-side2 .im-side1-list1{
+    background: #2f549f;
+}
+.im-side2 .im-side1-list3{
+    background: #2f549f;
+}
+
+.z-navHome{
+    color:#2f55a0!important; ;
+}
+
+.nav-dex .u-navitem a:hover,.nav-dex .g-subshow a:hover {
+    color:#2f55a0!important ;
+}
+
+.g-copyright {
+    color: #2f549f;
+    border: 1px solid #2f549f;
+}
+
+.needs-sidebar .needs-sidebar-wrap .wrap4 a:hover {
+    border-color:#2f55a0;
+    background-color:#2f55a0;
+    color: #fff;
+}
+
+.answerlist-btn {
+    color: #2f549f;
+    border: 1px solid #2f549f;
+}
+.answerlist-btn:hover {
+    color: #fff;
+    border: 1px solid #2f549f;
+    background-color:#2f55a0;
+}

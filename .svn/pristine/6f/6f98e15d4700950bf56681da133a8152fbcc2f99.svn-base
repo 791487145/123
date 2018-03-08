@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html  class="no-js" lang="">
+<head>
+    <title><?php echo Theme::get('title'); ?></title>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <?php if(isset(Theme::get('basis_config')['css_adaptive']) && Theme::get('basis_config')['css_adaptive'] == 1): ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+    <?php else: ?>
+        <meta name="viewport" content="initial-scale=0.1">
+    <?php endif; ?>
+    <meta name="keywords" content="<?php echo Theme::get('keywords'); ?>">
+    <meta name="description" content="<?php echo Theme::get('description'); ?>">
+    <link rel="shortcut icon" href="<?php echo e(Theme::asset()->url('images/favicon.ico')); ?>" />
+    <?php echo Theme::asset()->usepath()->add('bootstrap','plugins/bootstrap/css/bootstrap.min.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('jquery','plugins/jquery/jquery.min.js'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('bootstrap','plugins/bootstrap/js/bootstrap.min.js'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('font-awesome','plugins/ace/css/font-awesome.min.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('ace-fonts','plugins/ace/css/ace-fonts.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('ace','plugins/ace/css/ace.min.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('ace-part2','plugins/ace/css/ace-part2.min.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('ace-rtl','plugins/ace/css/ace-rtl.min.css'); ?>
+
+    <?php echo Theme::asset()->usepath()->add('managejs','js/managelogin.js'); ?>
+
+    <?php echo Theme::asset()->styles(); ?>
+
+    <?php echo Theme::asset()->scripts(); ?>
+
+    <?php echo Theme::asset()->container('custom-css')->styles(); ?>
+
+</head>
+<body class="login-layout">
+
+<?php echo Theme::content(); ?>
+
+
+</body>
+</html>

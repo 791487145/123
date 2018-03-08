@@ -1,0 +1,182 @@
+
+                                        <h3 class="header smaller lighter blue mg-top12 mg-bottom20">菜单管理</h3>
+                                        <div class="well blue">
+                                            <?php /*<h4>菜单列表</h4>*/ ?>
+
+                                            <select onchange="window.location=this.value;">
+                                                <?php foreach($first_level_munus as $v): ?>
+                                                <option value="/manage/menuList/<?php echo e($v['id']); ?>/<?php echo e($v['level']); ?>" <?php echo e(($id!=0 && $id==$v['id'])?'selected':''); ?>><?php echo e($v['name']); ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+
+                                        </div>
+                                        <div>
+                                            <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                                                <thead>
+
+                                                <tr>
+                                                    <th class="center">
+                                                        <label>
+                                                            <input type="checkbox" class="ace allcheck"/>
+                                                            <span class="lbl"></span>
+                                                            编号
+                                                        </label>
+                                                    </th>
+                                                    <th>菜单名</th>
+                                                    <th>菜单路由</th>
+                                                    <th>所属模块</th>
+                                                    <th>排序</th>
+                                                    <th>操作</th>
+                                                </tr>
+                                                </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="center">
+                                                                <label>
+                                                                    <input type="checkbox" class="ace" name="chk"/>
+                                                                    <span class="lbl"></span>
+                                                                    <?php echo e($menu_data['id']); ?>
+
+                                                                </label>
+                                                            </td>
+
+                                                            <td>
+                                                                <?php echo e($menu_data['name']); ?>
+
+                                                            </td>
+
+                                                            <td>
+                                                                <?php echo e($menu_data['route']); ?>
+
+                                                            </td>
+
+
+                                                            <td>
+                                                                <?php echo e($menu_data['name']); ?>
+
+                                                            </td>
+                                                            <td>
+                                                                <?php echo e($menu_data['sort']); ?>
+
+                                                            </td>
+
+                                                            <td>
+                                                                <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                                                    <a class="btn btn-xs btn-info" href="/manage/menuUpdate/<?php echo e($menu_data['id']); ?>">
+                                                                        <i class="fa fa-edit bigger-120"></i>编辑
+                                                                    </a>
+                                                                    <a  href="/manage/menuDelete/<?php echo e($menu_data['id']); ?>" title="删除" class="btn btn-xs btn-danger">
+                                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                                                    </a>
+                                                                    <a  href="/manage/addMenu/<?php echo e($menu_data['id']); ?>" title="添加" class="btn btn-xs btn-orange">
+                                                                        <i class="fa fa-edit bigger-120"></i>添加
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php if(!empty($menu_data['_child'])): ?>
+                                                            <?php foreach($menu_data['_child'] as $v): ?>
+                                                                <tr>
+                                                                    <td class="center">
+                                                                        <label>
+                                                                            <input type="checkbox" class="ace" name="chk"/>
+                                                                            <span class="lbl"></span>
+                                                                            <?php echo e($v['id']); ?>
+
+                                                                        </label>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <a href="/manage/menuList/<?php echo e($v['id']); ?>/<?php echo e($v['level']); ?>">|-<?php echo e($v['name']); ?></a>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <?php echo e($v['route']); ?>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <?php echo e($menu_data['name']); ?>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo e($v['sort']); ?>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                                                            <a class="btn btn-xs btn-info" href="/manage/menuUpdate/<?php echo e($v['id']); ?>">
+                                                                                <i class="fa fa-edit bigger-120"></i>编辑
+                                                                            </a>
+                                                                            <a  href="/manage/menuDelete/<?php echo e($v['id']); ?>" title="删除" class="btn btn-xs btn-danger">
+                                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                                                            </a>
+                                                                            <a  href="/manage/addMenu/<?php echo e($v['id']); ?>" title="添加" class="btn btn-xs btn-orange">
+                                                                                <i class="fa fa-edit bigger-120"></i>添加
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php if(!empty($v['_child'])): ?>
+                                                                    <?php foreach($v['_child'] as $value): ?>
+                                                                        <tr>
+                                                                            <td class="center">
+                                                                                <label>
+                                                                                    <input type="checkbox" class="ace" name="chk"/>
+                                                                                    <span class="lbl"></span>
+                                                                                    <?php echo e($value['id']); ?>
+
+                                                                                </label>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <a href="/manage/menuList/<?php echo e($value['id']); ?>/<?php echo e($value['level']); ?>">|-|-<?php echo e($value['name']); ?></a>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <?php echo e($value['route']); ?>
+
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <?php echo e($menu_data['name']); ?>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <?php echo e($value['sort']); ?>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                                                                                    <a class="btn btn-xs btn-info" href="/manage/menuUpdate/<?php echo e($value['id']); ?>">
+                                                                                        <i class="fa fa-edit bigger-120"></i>编辑
+                                                                                    </a>
+                                                                                    <a  href="/manage/menuDelete/<?php echo e($value['id']); ?>" title="删除" class="btn btn-xs btn-danger">
+                                                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                                                                    </a>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <?php endforeach; ?>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="dataTables_info" id="sample-table-2_info">
+                                                    <a href="/manage/addMenu" class="btn  btn-primary btn-sm">添加模块</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="dataTables_paginate paging_bootstrap text-right">
+                                                    <ul class="pagination">
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <?php echo Theme::asset()->container('custom-css')->usePath()->add('back-stage-css', 'css/backstage/backstage.css'); ?>

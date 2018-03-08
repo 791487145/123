@@ -1,0 +1,103 @@
+
+                    <div class="widget-header mg-bottom20 mg-top12 widget-well">
+                        <div class="widget-toolbar no-border pull-left no-padding">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a  href="/manage/categoryList/<?php echo $upID; ?>">文章分类</a>
+                                </li>
+
+                                <li class="">
+                                    <a  href="/manage/add/<?php echo $upID; ?>">分类新建</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                                <form action="/manage/categoryAllDelete" method="post">
+                                    <?php echo e(csrf_field()); ?>
+
+                                    <input type="hidden" name="upID" value="<?php echo $upID; ?>">
+                                    <?php /*<div class="well h4 blue">分类列表</div>*/ ?>
+                                    <div>
+                                        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    分类名称
+                                                </th>
+                                                <th>显示顺序</th>
+                                                <th>修改时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <?php if(!empty($category_data)): ?>
+                                                <?php foreach($category_data as $item): ?>
+                                            <tr>
+                                                <td class="center">
+                                                    <label class="position-relative">
+                                                        <input type="checkbox" name="catID_<?php echo $item->id; ?>" class="ace" value="<?php echo $item->id; ?>"/>
+                                                        <span class="lbl"></span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        <?php echo $item->cate_name; ?>
+
+                                                        <span><a class="btn btn-xs btn-info" href="/manage/categoryAdd/<?php echo $item->id; ?>">添加子分类</a></span>
+                                                        <span><a class="btn btn-xs btn-info" href="/manage/getChildCateList/<?php echo $item->id; ?>">查看子分类</a></span>
+                                                    </label>
+                                                </td>
+
+                                                <td>
+                                                    <?php echo $item->display_order; ?>
+
+                                                </td>
+                                                <td>
+                                                    <?php echo $item->updated_at; ?>
+
+                                                </td>
+                                                <td>
+                                                    <div class="hidden-sm hidden-xs btn-group">
+                                                        <a class="btn btn-xs btn-info" href="/manage/edit/<?php echo $item->id; ?>/<?php echo $upID; ?>">
+                                                            <i class="fa fa-edit bigger-120"></i>编辑
+                                                        </a>
+                                                        <a title="删除" class="btn btn-xs btn-danger" href="/manage/categoryDelete/<?php echo $item->id; ?>/<?php echo $upID; ?>" >
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>删除
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                            <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="dataTables_info" id="sample-table-2_info">
+                                                <label>
+                                                    <input type="checkbox" class="ace" id="allcheck"/>
+                                                     <span class="lbl"></span>全选
+                                                </label>
+                                                <?php /*<button>新增分类</button>*/ ?>
+                                                <button type="submit" class="btn btn-sm btn-primary">批量删除</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12"></div>
+                                        <div class="col-xs-12">
+                                            <div class="dataTables_paginate paging_bootstrap text-right" id="dynamic-table_paginate">
+                                                <?php if(!empty($category_data)): ?><?php echo $category_data->render(); ?><?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+<?php echo Theme::asset()->container('custom-css')->usePath()->add('backstage', 'css/backstage/backstage.css'); ?>
+
+<!-- basic scripts -->
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('categorylist', 'js/doc/categorylist.js'); ?>

@@ -1,0 +1,405 @@
+<div class="shop-wrap clearfix">
+	<div class="col-lg-3 hidden-xs hidden-md hidden-sm col-left">
+        <div class="needs-sidebar rated-bottom">
+            <div class="needs-sidebar-wrap">
+                <div class="wrap1">
+					<?php if($shopInfo['shop_pic']): ?>
+					<img src="<?php echo $domain.'/'.$shopInfo['shop_pic']; ?>" alt="" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))" />
+					<?php else: ?>
+                    <img src="<?php echo Theme::asset()->url('images/employ/bg1.jpg'); ?>" alt=""/>
+					<?php endif; ?>
+                </div>
+                <div class="wrap2">
+                    <p class="tit"><?php echo $shopInfo['shop_name']; ?></p>
+                    <p class="beyond clearfix beyond-a">
+                        <span>认证：</span>
+						<?php if($authUser['realname']): ?>
+							<a href="" class="ico1 u-ico1"></a>
+						<?php else: ?>
+							<a href="" class="ico1"></a>
+						<?php endif; ?>
+						<?php if($authUser['bank']): ?>
+							<a href="" class="ico2 u-ico2"></a>
+						<?php else: ?>
+							<a href="" class="ico2"></a>
+						<?php endif; ?>
+						<?php if($emailStatus == 2): ?>
+							<a href="" class="ico3 u-ico3"></a>
+						<?php else: ?>
+							<a href="" class="ico3"></a>
+						<?php endif; ?>
+						<?php if($authUser['alipay']): ?>
+							<a href="" class="ico4 u-ico4"></a>
+						<?php else: ?>
+							<a href="" class="ico4 "></a>
+						<?php endif; ?>
+						<?php if($authUser['enterprise']): ?>
+							<a href="" class="ico5 u-ico5"></a>
+						<?php else: ?>
+							<a href="" class="ico5 "></a>
+						<?php endif; ?>
+                    </p>
+                    <p class="beyond">
+                        <span>地址：</span>
+						<?php if($shopInfo['province_name']): ?>
+							<?php echo $shopInfo['province_name']; ?>
+
+						<?php endif; ?>
+						<?php if($shopInfo['city_name']): ?>
+							<?php echo $shopInfo['city_name']; ?>
+
+						<?php endif; ?>
+                    </p>
+					<?php if(!empty($shopInfo['tags'])): ?>
+                    <p class="beyond beyond-s">
+                        <span>标签：</span>
+						<?php foreach($shopInfo['tags'] as $tv): ?>
+                        <a href=""><?php echo $tv['tag_name']; ?></a>
+						<?php endforeach; ?>
+                    </p>
+					<?php endif; ?>
+                </div>
+                <div class="wrap3">
+                    <ul class="list-inline">
+                        <li>
+                            <p class="text-center">好评数</p>
+                            <div class="text-center text-color text-size14"><?php if($shopInfo['good_comment']): ?> <?php echo $shopInfo['good_comment']; ?> <?php else: ?> 0 <?php endif; ?></div>
+                        </li>
+                        <li>
+                            <p class="text-center">综合评分</p>
+                            <div class="text-center text-color text-size14"><?php if($shopInfo['total_comment']): ?> <?php echo $shopInfo['total_comment']; ?> <?php else: ?> 0 <?php endif; ?></div>
+                        </li>
+                        <li>
+                            <p class="text-center">
+                                累计雇佣
+                            </p>
+                            <div class="text-center text-color text-size14"><?php if(!empty($shopInfo)): ?> <?php echo $shopInfo['serviceNum']; ?> <?php else: ?> 0 <?php endif; ?></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="wrap4" >
+					<?php if(Auth::check()): ?>
+						<?php if(Auth::id() != $shopInfo['uid'] && Theme::get('is_IM_open') == 2): ?>
+                    	<a href="javascript:;" data-toggle="modal" data-target="#myModalshop" class="ico1 hovim-orange"><i></i>联系我</a>
+						<?php elseif(Auth::id() != $shopInfo['uid'] && Theme::get('is_IM_open') == 1): ?>
+						<a href="javascript:;" class="ico1 shop-im hovim-orange" data-values="<?php echo e($shopInfo['uid']); ?>"><i></i>联系我</a>
+						<?php endif; ?>
+					<?php else: ?>
+					<a href="<?php echo URL('/login'); ?>" class="ico1"><i></i>联系我</a>
+					<?php endif; ?>
+                    <?php if(Auth::check()): ?>
+						<?php if(empty($isFocus) && $shopInfo['uid'] != Auth::id()): ?>
+						<a href="" class="ico2 hov-orange" id="shop_id" shop_id="<?php echo $shopId; ?>"><i></i>收藏店铺</a>
+						<?php elseif($shopInfo['uid'] != Auth::id()): ?>
+						<span href="" class="shop-collectatv hov-orange">已收藏</span>
+						<?php endif; ?>
+					<?php else: ?>
+					<a href="<?php echo URL('/login'); ?>" class="ico2 hov-orange"><i></i>收藏店铺</a>
+					<?php endif; ?>
+                </div>
+				<?php if(Auth::check() && Auth::id() != $shopInfo['uid']): ?>
+                <a class="g-shopabbtn bg-blue" href="<?php echo URL('/employ/create/'.$shopInfo['uid']); ?>">立即雇佣</a>
+				<?php elseif(!Auth::check()): ?>
+				<a class="g-shopabbtn bg-blue" href="<?php echo URL('/login'); ?>">立即雇佣</a>
+				<?php endif; ?>
+            </div>
+        </div>
+        <div class="needs-sidebar rated-bottom">
+            <div class="needs-sidebar-wrap">
+				<?php if(!empty($goodCateInfo)): ?>
+            	<div class="clearfix">
+            		<div class="clearfix">
+            			 <h5 class="pull-left text-size16 mg-margin cor-gray45">作品</h5>
+			        	 <a href="<?php echo URL('/shop/work/'.$shopId); ?>" class="pull-right cor-gray8f text-size12">More&gt;</a>
+            		</div>
+            		<div class="space-10"></div>
+            		<ul class="mg-margin ul-wrap">
+						<?php foreach($goodCateInfo as $gv): ?>
+            			<a href="<?php echo URL('/shop/work/'.$shopId.'?cate_id='.$gv['cate_id']); ?>"><li><?php echo $gv['name']; ?> （<?php echo $gv['num']; ?>）</li></a>
+						<?php endforeach; ?>
+            		</ul>
+			    </div>
+				<?php endif; ?>
+				<?php if(!empty($goodCateInfo) && !empty($serviceCateInfo)): ?>
+			    <hr class="mg-top0">
+				<?php endif; ?>
+				<?php if(!empty($serviceCateInfo)): ?>
+			    <div class="clearfix">
+            		<div class="clearfix">
+            			 <h5 class="pull-left text-size16 mg-margin cor-gray45">服务</h5>
+			        	 <a href="<?php echo URL('/shop/serviceAll/'.$shopId); ?>" class="pull-right cor-gray8f text-size12">More&gt;</a>
+            		</div>
+            		<div class="space-10"></div>
+            		<ul class="mg-margin ul-wrap">
+						<?php foreach($serviceCateInfo as $sv): ?>
+            			<a href="<?php echo URL('/shop/serviceAll/'.$shopId.'?cate_id ='.$sv['cate_id']); ?>"><li><?php echo $sv['name']; ?> （<?php echo $sv['num']; ?>）</li></a>
+						<?php endforeach; ?>
+            		</ul>
+			    </div>
+				<?php endif; ?>
+            </div>
+        </div>
+    </div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModalshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog  contact-me-modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header ">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title text-size14 shop-modal-title" id="myModalLabel"><b>联系我</b></h4>
+				</div>
+					<div class="modal-body shop-modal-shopbody">
+						<input type="hidden" name="js_id" class="js_id" id="contactMeId" value="<?php echo $shopInfo['uid']; ?>">
+						<textarea name="content" id="content" class="shop-modalarea"></textarea>
+						<div class="space-6"></div>
+						<div class="text-right"><button class="btn btn-primary btn-blue shop-modalbtn" id="contactMe">发送</button></div>
+					</div>
+				<div class="modal-shopfooter g-shopabnum">
+					其他联系方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<?php if($contactInfo['mobile_status']): ?>
+					<span class="g-shopabnumph text-size12"><?php echo $contactInfo['mobile']; ?></span>
+					<?php endif; ?>
+					<?php if($contactInfo['qq_status']): ?>
+					<span class="g-shopabnumqq text-size12"><?php echo $contactInfo['qq']; ?></span>
+					<?php endif; ?>
+					<?php if($contactInfo['wechat_status']): ?>
+					<span class="g-shopabnumwx text-size12"><?php echo $contactInfo['wechat']; ?></span>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+	</div><!-- 模态框（Modal）end -->
+	<div class="col-lg-9">
+		<div class="shop-casewrap row tated-casewrap">
+		    <div class="col-md-12 col-left">
+		        <div class="shop-evaluate">
+					<?php if(Auth::check() && Auth::id() != $shopInfo['uid']): ?>
+					<a class="shop-btbtnbg hidden-lg" href="<?php echo URL('/employ/create/'.$shopInfo['uid']); ?>"><i class="shop-gybtnico"></i>立即雇佣</a>
+					<?php elseif(!Auth::check()): ?>
+						<a class="shop-btbtnbg hidden-lg" href="<?php echo URL('/login'); ?>"><i class="shop-gybtnico"></i>立即雇佣</a>
+					<?php endif; ?>
+		        	<div class="rated-chart">
+						<div class="g-shopabhd">交易评价</div>
+						<div class="space"></div>
+			            <div class="clearfix">
+			            	<div class="clearfix pull-left hidden-xs hidden-sm">
+				            	<div class="clearfix pull-left chart-mg">
+					            	<span class="chart1" data-percent="<?php echo $speedScore*20; ?> ">
+										<span class="percent"></span>
+									</span>
+									<p class="text-center text-size14 cor-gray51">工作速度</p>
+					            </div>
+					            <div class="clearfix pull-left chart-mg">
+					            	<span class="chart2" data-percent="<?php echo $qualityScore*20; ?>">
+										<span class="percent"></span>
+									</span>
+									<p class="text-center text-size14 cor-gray51">工作质量</p>
+					            </div>
+					            <div class="clearfix pull-left chart-mg">
+					            	<span class="chart3" data-percent="<?php echo $attitudeScore*20; ?>">
+										<span class="percent"></span>
+									</span>
+									<p class="text-center text-size14 cor-gray51">工作态度</p>
+					            </div>
+				            </div>
+				            <div class="pull-left clearfix rated-blockchart">
+				            	<div class="total mg-left0">
+				            		<p class="text-center cor-gray51 text-size14">服务总数</p>
+				            		<div class="space-8"></div>
+				            		<ul class="list-inline mg-margin clearfix">
+				            			<li><?php echo ($serviceCount%10000 - $serviceCount%1000)/1000; ?></li>
+				            			<li><?php echo ($serviceCount%1000 - $serviceCount%100)/100; ?></li>
+				            			<li><?php echo ($serviceCount%100 - $serviceCount%10)/10; ?></li>
+				            			<li><?php echo $serviceCount%10; ?></li>
+				            		</ul>
+				            	</div>
+				            	<div class="total">
+				            		<p class="text-center cor-gray51 text-size14">作品总数</p>
+				            		<div class="space-8"></div>
+				            		<ul class="list-inline mg-margin clearfix">
+										<li><?php echo ($goodsCount%10000 - $goodsCount%1000)/1000; ?></li>
+										<li><?php echo ($goodsCount%1000 - $goodsCount%100)/100; ?></li>
+										<li><?php echo ($goodsCount%100 - $goodsCount%10)/10; ?></li>
+										<li><?php echo $goodsCount%10; ?></li>
+				            		</ul>
+				            	</div>
+				            </div>
+			            </div>
+		        	</div>
+		        	<div class="space"></div>
+		        	<div>
+						<div class="g-shopabhd">客户评价</div>
+						<div class="space-8"></div>
+			            <div class="text-size14 cor-gray51 clearfix record">
+							<form action="/shop/rated/<?php echo $shopId; ?>" method="get" id="screen_form">
+	                        <div class="col-xs-12 task-mediaAssessR pd-padding0">
+	                            <label class="evaluate-back">
+	                                <input name="type" type="radio" class="ace screen" checked="" value="1" <?php echo e((!empty($_GET['type']) && $_GET['type']==1)?'checked':''); ?>>
+	                                <span class="lbl"> <span class="flower4">好评</span></span>&nbsp;&nbsp;&nbsp;
+	                            </label>
+	                            <label class="evaluate-back">
+	                                <input name="type" type="radio" class="ace screen" value="2" <?php echo e((!empty($_GET['type']) && $_GET['type']==2)?'checked':''); ?>>
+	                                <span class="lbl"> <span class="flower5">中评</span></span>&nbsp;&nbsp;&nbsp;
+	                            </label>
+	                            <label>
+	                                <input name="type" type="radio" class="ace screen" value="3" <?php echo e((!empty($_GET['type']) && $_GET['type']==3)?'checked':''); ?>>
+	                                <span class="lbl"> <span class="flower6">差评</span></span>
+	                            </label>
+	                        </div>
+							</form>
+	                    </div>
+	                    <div class="space"></div>
+						<?php if(!empty($commentInfo) && $commentInfo->total()): ?>
+						<?php foreach($commentInfo as $cv): ?>
+			            <div class="clearfix tated-list">
+			                <div class="col-sm-1 col-xs-2">
+		                        <div class="row">
+		                            <div <?php if($cv->type == 0): ?> class="g-valugood" <?php elseif($cv->type == 1): ?> class="g-valuin" <?php elseif($cv->type == 2): ?> class="g-valupoor" <?php endif; ?>>
+		                                <img class="img-responsive img-circle" src="<?php echo $domain.'/'.$cv->avatar; ?>"  onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))" alt="...">
+
+										<div class="g-valuimgbg"></div>
+		                            </div>
+		                            <div class="space-6"></div>
+		                            <p class="text-center g-valuin p-space"><a href="javascript:;" class=" cor-blue2f"><?php echo $cv->name; ?></a></p>
+		                        </div>
+			                </div>
+			                <div class="col-sm-11 col-xs-10 s-myborder pd-right0">
+		                        <div class="clearfix">
+		                            <span class=" pull-left text-muted text-size12 cor-gray87 s-myname"><?php if($cv->sort == 1): ?> 作品 <?php elseif($cv->sort == 2): ?> 服务 <?php endif; ?> ：<a class="cor-blue42" <?php if($cv->sort == 1): ?> href="<?php echo URL('/shop/buyGoods/'.$cv->goodId); ?>" <?php elseif($cv->sort == 2): ?> href="<?php echo URL('/shop/buyservice/'.$cv->goodId); ?>" <?php endif; ?>>   <?php echo $cv->title; ?> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;成交价：￥<?php echo $cv->cash; ?></span>
+		                            <a class="pull-right cor-gray87 text-size12" href="javascript:;"><?php echo date('Y-m-d',strtotime($cv->created_at)); ?></a>
+		                        </div>
+		                        <div class="space-6"></div>
+		                        <div class="p-space">
+		                            <p class="cor-gray51 text-size14"><?php echo $cv->desc; ?></p>
+		                        </div>
+		                        <div class="space-2"></div>
+		                        <div class="clearfix">
+		                    	<span class="cor-gray87 z-hov">
+			                        本次终合评分：<span class="cor-orange"><?php echo $cv->total_score; ?> </span><i class="u-evaico"></i>
+			                        <div class="u-recordstar b-border">
+			                            <div>
+			                                工作速度：
+											<?php if($cv->speed_score>0 && $cv->speed_score <= 1): ?>
+												<span class="rec-active"></span>
+											<?php elseif($cv->speed_score>1 && $cv->speed_score <= 2): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->speed_score>2 && $cv->speed_score <= 3): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->speed_score>3 && $cv->speed_score <= 4): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->speed_score>4 && $cv->speed_score <= 5): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php endif; ?>
+			                                <a class="cor-orange mg-left"><?php echo $cv->speed_score; ?>分 </a>
+			                                    - 速度很快
+			                            </div>
+			                            <div class="space-8"></div>
+			                            <div>
+			                                工作质量：
+											<?php if($cv->quality_score>0 && $cv->quality_score <= 1): ?>
+												<span class="rec-active"></span>
+											<?php elseif($cv->quality_score>1 && $cv->quality_score <= 2): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->quality_score>2 && $cv->quality_score <= 3): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->quality_score>3 && $cv->quality_score <= 4): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->quality_score>4 && $cv->quality_score <= 5): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php endif; ?>
+			                                <a class="cor-orange mg-left"><?php echo $cv->quality_score; ?>分 </a>
+			                                    - 质量很快
+			                            </div>
+			                            <div class="space-8"></div>
+			                            <div>
+			                                工作态度：
+											<?php if($cv->attitude_score>0 && $cv->attitude_score <= 1): ?>
+												<span class="rec-active"></span>
+											<?php elseif($cv->attitude_score>1 && $cv->attitude_score <= 2): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->attitude_score>2 && $cv->attitude_score <= 3): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->attitude_score>3 && $cv->attitude_score <= 4): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php elseif($cv->attitude_score>4 && $cv->attitude_score <= 5): ?>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+												<span class="rec-active"></span>
+											<?php endif; ?>
+			                                <a class="cor-orange mg-left"><?php echo $cv->attitude_score; ?>分 </a>
+			                                    - 态度很好
+			                            </div>
+			                        </div>
+		                        </span>
+		                    </div>
+		                    <div class="g-userborbtm"></div>
+		                </div>
+		            </div>
+					<?php endforeach; ?>
+					<?php else: ?>
+						<div class="g-nomessage">暂无此类评价 </div><div class="space-32"></div><div class="space-6"></div>
+					<?php endif; ?>
+					<?php if(!empty($commentInfo) && $commentInfo->total()): ?>
+					<div class="clearfix">
+						<ul class="pagination pull-right">
+							<?php echo $commentInfo->render(); ?>
+
+						</ul>
+					</div>
+					<?php endif; ?>
+			        </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('messages','css/usercenter/messages/messages.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('issuetask','css/shop/successstory.css'); ?>
+
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('taskcommon','css/taskbar/taskcommon.css'); ?>
+
+<?php echo Theme::asset()->container('specific-js')->usepath()->add('easy-pie-chart','plugins/ace/js/jquery.easypiechart.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('shop', 'js/shop.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('ownercomment','js/doc/ownercomment.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('shopContact','js/doc/shopContact.js'); ?>
+
+
+

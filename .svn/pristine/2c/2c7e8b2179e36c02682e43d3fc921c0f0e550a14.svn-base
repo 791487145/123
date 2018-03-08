@@ -1,0 +1,15 @@
+<script>
+    var pie = <?php echo htmlspecialchars_decode($pie_data); ?>;
+
+</script>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('jquery_flot','plugins/ace/js/flot/jquery.flot.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('jquery_flot_pie','plugins/ace/js/flot/jquery.flot.pie.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('jquery_flot_resize','plugins/ace/js/flot/jquery.flot.resize.min.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('nopie','js/doc/nopie.js'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('pie','js/doc/pie.js'); ?>
+

@@ -1,0 +1,68 @@
+<div class="g-taskbarnav
+ <?php if(empty(\CommonClass::getShopColour())): ?> bg-blue <?php else: ?> shop-<?php echo e(\CommonClass::getShopColour()['nav_color']); ?> <?php endif; ?>
+        shop-navbg">
+    <div class="container col-left">
+        <div class="g-nav clearfix">
+            <div class="pull-left hidden-xs">
+                <div class="shop-navlist clearfix">
+                    <?php /*<a <?php if(Theme::get('userId') == Auth::id()): ?> href="/shop/manage/<?php echo Theme::get('SHOPID'); ?>" <?php else: ?> href="/shop/<?php echo Theme::get('SHOPID'); ?>" <?php endif; ?> <?php if($_SERVER['REQUEST_URI'] == '/shop/'.Theme::get('SHOPID') || $_SERVER['REQUEST_URI'] == '/shop/manage/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>首页</a>*/ ?>
+                    <?php /*<a href="/shop/work/<?php echo Theme::get('SHOPID'); ?>" <?php if($_SERVER['REQUEST_URI'] == '/shop/work/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>作品</a>*/ ?>
+                    <?php /*<a href="/shop/serviceAll/<?php echo Theme::get('SHOPID'); ?>" <?php if($_SERVER['REQUEST_URI'] == '/shop/serviceAll/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>服务</a>*/ ?>
+                    <?php /*<a href="/shop/successStory/<?php echo Theme::get('SHOPID'); ?>" <?php if($_SERVER['REQUEST_URI'] == '/shop/successStory/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>成功案例</a>*/ ?>
+                    <?php /*<a href="/shop/rated/<?php echo Theme::get('SHOPID'); ?>" <?php if($_SERVER['REQUEST_URI'] == '/shop/rated/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>交易评价</a>*/ ?>
+                    <?php /*<a href="/shop/about/<?php echo Theme::get('SHOPID'); ?>" <?php if($_SERVER['REQUEST_URI'] == '/shop/about/'.Theme::get('SHOPID')): ?> class="shop-navact" <?php endif; ?>>关于我们</a>*/ ?>
+                </div>
+            </div>
+            <nav  class="navbar navbar-default navbar-static hidden-sm hidden-md hidden-lg col-xs-12 <?php if(!empty(\CommonClass::getShopColour())): ?>  <?php if(\CommonClass::getShopColour()['nav_color'] == "blue"): ?> shop-blue <?php elseif(\CommonClass::getShopColour()['nav_color'] == "purple"): ?> shop-purple <?php elseif(\CommonClass::getShopColour()['nav_color'] == "red"): ?> shop-red <?php elseif(\CommonClass::getShopColour()['nav_color'] == "green"): ?> shop-green <?php elseif(\CommonClass::getShopColour()['nav_color'] == "yellow"): ?> shop-yellow <?php endif; ?> <?php endif; ?>"  id="navbar-example" role="navigation">
+                <div class="navbar-header">
+                    <button class="navbar-toggle z-activeNavlist" type="button" data-toggle="collapse"
+                            data-target=".bs-js-navbar-scrollspy">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <button class="navbar-toggle mg-right0" type="button" data-toggle="collapse"
+                            data-target=".bs-js-navbar-scrollspy1">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+                    <ul class="nav navbar-nav">
+                        <?php /*<li>
+                            <a <?php if(Theme::get('userId') == Auth::id()): ?> href="/shop/manage/<?php echo Theme::get('SHOPID'); ?>" <?php else: ?> href="/shop/<?php echo Theme::get('SHOPID'); ?>" <?php endif; ?>>首页</a>
+                        </li>
+                        <li>
+                            <a href="/shop/work/<?php echo Theme::get('SHOPID'); ?>" >作品</a>
+                        </li>
+                        <li>
+                            <a href="/shop/serviceAll/<?php echo Theme::get('SHOPID'); ?>" >服务</a>
+                        </li>
+                        <li>
+                            <a href="/shop/successStory/<?php echo Theme::get('SHOPID'); ?>" >成功案例</a>
+                        </li>
+                        <li>
+                            <a href="/shop/rated/<?php echo Theme::get('SHOPID'); ?>">交易评价</a>
+                        </li>
+                        <li>
+                            <a href="/shop/about/<?php echo Theme::get('SHOPID'); ?>">关于我们</a>
+                        </li>*/ ?>
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse bs-js-navbar-scrollspy1 bg-white">
+                    <ul class="nav navbar-nav clearfix">
+                        <li class="clearfix">
+                            <a href="javascript:;" class="clearfix search-btn">
+                                <div class="g-tasksearch clearfix">
+                                    <i class="fa fa-search"></i>
+                                    <input type="text" placeholder="输入关键词" class="input-boxshaw"/>
+                                    <button>搜索</button>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="g-banner" <?php if(!count($adPicInfo)): ?>style="display:none"<?php endif; ?>>
+    <div id="carousel-example-generic" class="carousel slide carousel-fade" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <?php foreach($adPicInfo as $picK=>$picV): ?>
+            <li data-target="#carousel-example-generic" data-slide-to="$picK" <?php if($picK == 0): ?>class="active" <?php else: ?> class=""<?php endif; ?>></li>
+            <?php endforeach; ?>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <?php foreach($adPicInfo as $picInfoK=>$picInfo): ?>
+            <div <?php if($picInfoK == 0): ?>class="item active"<?php else: ?> class="item" <?php endif; ?>>
+                <a href="<?php echo $picInfo['ad_url']; ?>">
+                    <img src="<?php echo URL($picInfo['ad_file']); ?>" height="460" width="100%" alt="..." class="img-responsive">
+                </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<div class="go-top" id="go-top" style="display: block;">
+    <a href="javascript:;" class="uc-2vm u-hov"></a>
+    <form class="form-horizontal" action="/bre/feedbackInfo" method="post" enctype="multipart/form-data" id="complain">
+        <?php echo csrf_field(); ?>
+
+        <div class="u-pop">
+            <input type="text" name="uid" <?php if(count($useDetail)): ?> value="<?php echo $useDetail['uid']; ?>"<?php endif; ?> style="display:none">
+            <h2 class="mg-margin text-size12 cor-gray51">一句话点评</h2>
+            <div class="space-4"></div>
+            <textarea class="form-control u-pop-textarea" name="desc" rows="3" placeholder="期待您的一句话点评，不管是批评、感谢还是建议，我们都将会细心聆听，及时回复"></textarea>
+            <?php echo $errors->first('desc'); ?>
+
+            <div class="space-4"></div>
+            <input type="text" name="phone" <?php if(count($useDetail)): ?> value="<?php echo $useDetail['mobile']; ?>" readonly="readonly" <?php endif; ?> placeholder="填写手机号">
+            <?php echo $errors->first('phone'); ?>
+
+            <button type="submit" class="btn-blue btn btn-sm btn-primary">提交</button>
+        </div>
+    </form>
+    <div class="arrow"></div>
+    <a href="" target="_blank" class="feedback u-hov"></a>
+    <div class="dnd dn">
+        <h2 class="mg-margin text-size12 cor-gray51">在线时间：09:00 -18:00</h2>
+        <div class="space-4"></div>
+        <div>
+            <a href="javscript:;"><img src="../images/pa.jpg" alt=""></a> <a href="javscript:;"><img src="../images/pa.jpg" alt=""></a>
+        </div>
+        <div class="hr"></div>
+        <div class="iss-ico1">
+            <p class="cor-gray51 mg-margin">全国免长途电话：</p>
+            <p class="text-size20 cor-gray51">400-899-259</p>
+        </div>
+    </div>
+    <a href="javascript:;" class="go u-hov"></a>
+</div>
+<div class="for-advertise" <?php if(!count($buttomPicInfo)): ?>style="display:none"<?php endif; ?>>
+    <a <?php if(count($buttomPicInfo)): ?>href="<?php echo $buttomPicInfo[0]['ad_url']; ?>"<?php else: ?> href="javascript:;" <?php endif; ?>><img <?php if(count($buttomPicInfo)): ?>src="<?php echo URL($buttomPicInfo[0]['ad_file']); ?>" <?php else: ?> src="../images/grey.gif" <?php endif; ?> alt=""></a>
+</div>

@@ -1,0 +1,207 @@
+<div class="col-xs-12">
+    <div class="row">
+        <div class="needs shop-wrap clearfix">
+            <div class="col-lg-3 hidden-xs hidden-md hidden-sm col-left nedds-sidebar-left">
+                <div class="needs-sidebar ">
+                    <div class="needs-sidebar-wrap">
+                        <div class="wrap1">
+                            <?php if($shopInfo['shop_pic']): ?>
+                            <img src="<?php echo $domain.'/'.$shopInfo['shop_pic']; ?>" alt="" onerror="onerrorImage('<?php echo e(Theme::asset()->url('images/employ/bg2.jpg')); ?>',$(this))" />
+                            <?php else: ?>
+                            <img src="<?php echo Theme::asset()->url('images/employ/bg1.jpg'); ?>" alt=""/>
+                            <?php endif; ?>
+                        </div>
+                        <div class="wrap2">
+                            <p class="tit"><?php echo $shopInfo['shop_name']; ?></p>
+                            <p class="beyond clearfix beyond-a">
+                                <span>认证：</span>
+                                <?php if($authUser['realname']): ?>
+                                <a href="" class="ico1 u-ico1"></a>
+                                <?php else: ?>
+                                <a href="" class="ico1"></a>
+                                <?php endif; ?>
+                                <?php if($authUser['bank']): ?>
+                                <a href="" class="ico2 u-ico2"></a>
+                                <?php else: ?>
+                                <a href="" class="ico2"></a>
+                                <?php endif; ?>
+                                <?php if($emailStatus == 2): ?>
+                                <a href="" class="ico3 u-ico3"></a>
+                                <?php else: ?>
+                                <a href="" class="ico3"></a>
+                                <?php endif; ?>
+                                <?php if($authUser['alipay']): ?>
+                                <a href="" class="ico4 u-ico4"></a>
+                                <?php else: ?>
+                                <a href="" class="ico4 "></a>
+                                <?php endif; ?>
+                                <?php if($authUser['enterprise']): ?>
+                                    <a href="" class="ico5 u-ico5"></a>
+                                <?php else: ?>
+                                    <a href="" class="ico5 "></a>
+                                <?php endif; ?>
+                            </p>
+                            <p class="beyond">
+                                <span>地址：</span>
+                                <?php if($shopInfo['province_name']): ?>
+                                    <?php echo $shopInfo['province_name']; ?>
+
+                                <?php endif; ?>
+                                <?php if($shopInfo['city_name']): ?>
+                                    <?php echo $shopInfo['city_name']; ?>
+
+                                <?php endif; ?>
+                            </p>
+                            <?php if(!empty($shopInfo['tags'])): ?>
+                            <p class="beyond beyond-s">-
+                                <span>标签：</span>
+                                <?php foreach($shopInfo['tags'] as $tv): ?>
+                                <a href=""><?php echo $tv['tag_name']; ?></a>
+                                <?php endforeach; ?>
+                            </p>
+                            <?php endif; ?>
+                        </div>
+                        <div class="wrap3">
+                            <ul class="list-inline">
+                                <li>
+                                    <p class="text-center">好评数</p>
+                                    <div class="text-center text-color text-size14"><?php if($shopInfo['good_comment']): ?> <?php echo $shopInfo['good_comment']; ?> <?php else: ?> 0 <?php endif; ?></div>
+                                </li>
+                                <li>
+                                    <p class="text-center">综合评分</p>
+                                    <div class="text-center text-color text-size14"><?php if($shopInfo['total_comment']): ?> <?php echo $shopInfo['total_comment']; ?> <?php else: ?> 0 <?php endif; ?></div>
+                                </li>
+                                <li>
+                                    <p class="text-center">
+                                        累计雇佣
+                                    </p>
+                                    <div class="text-center text-color text-size14"><?php echo $shopInfo['serviceNum']; ?></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="wrap4" >
+                            <?php if(Auth::check()): ?>
+                                <?php if(Auth::id() != $shopInfo['uid'] && Theme::get('is_IM_open') == 2): ?>
+                                <a href="javascript:;" data-toggle="modal" data-target="#myModalshop" class="ico1"><i></i>联系我</a>
+                                <?php elseif(Auth::id() != $shopInfo['uid'] && Theme::get('is_IM_open') == 1): ?>
+                                <a href="javascript:;" class="ico1 shop-im" data-values="<?php echo e($shopInfo['uid']); ?>">
+                                    <i></i>联系我
+                                </a>
+                                <?php endif; ?>
+                            <?php else: ?>
+                            <a href="<?php echo URL('/login'); ?>"  class="ico1"><i></i>联系我</a>
+                            <?php endif; ?>
+                            <?php if(Auth::check()): ?>
+                                <?php if(empty($isFocus) && $shopInfo['uid'] != Auth::id()): ?>
+                                <a href="" class="ico2" id="shop_id" shop_id="<?php echo $shopId; ?>"><i></i>收藏店铺</a>
+                                <?php elseif($shopInfo['uid'] != Auth::id()): ?>
+                                <span href="" class="shop-collectatv">已收藏</span>
+                                <?php endif; ?>
+                            <?php else: ?>
+                            <a href="<?php echo URL('/login'); ?>" class="ico2"><i></i>收藏店铺</a>
+                            <?php endif; ?>
+                        </div>
+                        <?php if(Auth::check() && Auth::id() != $shopInfo['uid']): ?>
+                        <a class="g-shopabbtn bg-blue" href="<?php echo URL('/employ/create/'.$shopInfo['uid']); ?>">立即雇佣</a>
+                        <?php elseif(!Auth::check()): ?>
+                        <a class="g-shopabbtn bg-blue" href="<?php echo URL('/login'); ?>">立即雇佣</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModalshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog  contact-me-modal" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header ">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-size14 shop-modal-title" id="myModalLabel"><b>联系我</b></h4>
+                        </div>
+                            <div class="modal-body shop-modal-shopbody">
+                                <input type="hidden" name="js_id" class="js_id" id="contactMeId" value="<?php echo $shopInfo['uid']; ?>">
+                                <textarea name="content" id="content" class="shop-modalarea"></textarea>
+                                <div class="space-6"></div>
+                                <div class="text-right"><button class="btn btn-primary btn-blue shop-modalbtn" id="contactMe">发送</button></div>
+                            </div>
+                        <div class="modal-shopfooter g-shopabnum">
+                            其他联系方式&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php if($contactInfo['mobile_status']): ?>
+                            <span class="g-shopabnumph text-size12"><?php echo $contactInfo['mobile']; ?></span>
+                            <?php endif; ?>
+                            <?php if($contactInfo['qq_status']): ?>
+                            <span class="g-shopabnumqq text-size12"><?php echo $contactInfo['qq']; ?></span>
+                            <?php endif; ?>
+                            <?php if($contactInfo['wechat_status']): ?>
+                            <span class="g-shopabnumwx text-size12"><?php echo $contactInfo['wechat']; ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- 模态框（Modal）end -->
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 col-left">
+                <div class="g-shopabmain  needs-rights">
+                    <?php if(Auth::check() && Auth::id() != $shopInfo['uid']): ?>
+                    <a class="shop-btbtnbg hidden-lg" href="<?php echo URL('/employ/create/'.$shopInfo['uid']); ?>"><i class="shop-gybtnico"></i>立即雇佣</a>
+                    <?php elseif(!Auth::check()): ?>
+                        <a class="shop-btbtnbg hidden-lg" href="<?php echo URL('/login'); ?>"><i class="shop-gybtnico"></i>立即雇佣</a>
+                    <?php endif; ?>
+                    <div class="g-shopabhd">关于我们</div>
+                    <div class="g-shopabinfo">
+                        <?php echo $shopInfo['shop_desc']; ?>
+
+                    </div>
+                    <div class="g-shopabcontact">
+                        <p class="g-shopabnum">联系方式：&nbsp;
+                            <?php if($contactInfo['mobile_status']): ?>
+                            <span class="g-shopabnumph text-size12"><?php echo $contactInfo['mobile']; ?></span>
+                            <?php endif; ?>
+                            <?php if($contactInfo['qq_status']): ?>
+                            <span class="g-shopabnumqq text-size12"><?php echo $contactInfo['qq']; ?></span>
+                            <?php endif; ?>
+                            <?php if($contactInfo['wechat_status']): ?>
+                            <span class="g-shopabnumwx text-size12"><?php echo $contactInfo['wechat']; ?></span>
+                            <?php endif; ?>
+                        </p>
+                        <?php if($shopInfo['tags']): ?>
+                        <p class="g-shopablabel">店铺标签：&nbsp;
+                            <?php foreach($shopInfo['tags'] as $tv): ?>
+                            <span><?php echo $tv['tag_name']; ?></span>
+                            <?php endforeach; ?>
+                        </p>
+                        <?php endif; ?>
+                        <div class="g-shopabicoli">
+                            认证状况：
+                            <ul class="clearfix">
+                                <?php if($authUser['bank']): ?>
+                                <li><img src="/themes/default/assets/images/shop/shopbank.png" alt=""><p>银行卡认证</p></li>
+                                <?php endif; ?>
+                                <?php if($authUser['alipay']): ?>
+                                <li><img src="/themes/default/assets/images/shop/shopali.png" alt=""><p>支付宝认证</p></li>
+                                <?php endif; ?>
+                                <?php if($authUser['realname']): ?>
+                                <li><img src="/themes/default/assets/images/shop/shopreal.png" alt=""><p>实名认证</p></li>
+                                <?php endif; ?>
+                                <?php if($emailStatus == 2): ?>
+                                <li><img src="/themes/default/assets/images/shop/shopemail.png" alt=""><p>邮箱认证</p></li>
+                                <?php endif; ?>
+                                <?php if($authUser['enterprise']): ?>
+                                <li><img src="/themes/default/assets/images/shop/shopcompany.png" alt=""><p>企业认证</p></li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php echo Theme::asset()->container('custom-css')->usepath()->add('taskcommon','css/taskbar/taskcommon.css'); ?>
+
+<?php echo Theme::asset()->container('custom-js')->usepath()->add('shopContact','js/doc/shopContact.js'); ?>
+
+
+
+
+
+
+

@@ -1,0 +1,141 @@
+/* finance-layout */
+/* 侧栏 */
+.panel .g-active {
+    color: #464646 !important;
+    border-left: 5px solid #464646 !important;
+}
+.g-wrap1:hover{
+    color: #464646 !important;
+    border-left: 5px solid #464646 !important;
+}
+/*右侧内容共用部分*/
+.g-main .u-title{
+    border-bottom: 3px solid #464646;
+}
+
+.g-main .pagination>li.active>a, .pagination>li.active>a:hover{
+    background: #464646;
+}
+/*时间轴修改*/
+.wizard-steps li.active .title {
+    color:#464646;
+}
+.panel .g-active .s-baseicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat;
+}
+.panel .g-active .s-accounticon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -83px;
+}
+.panel .g-active .s-approveicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -56px;
+}
+.panel .g-active .s-focusicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -107px;
+}
+.s-sideicon {
+    background: url("../../images/finace-icon-gray.png") no-repeat 0 -38px!important;
+}
+.panel .s-baseicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -28px;
+}
+.panel .s-accounticon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -160px;
+}
+.panel .s-approveicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -183px;
+}
+.panel .s-focusicon {
+    background: url("../../images/sideicon-wordpressgrey.png") no-repeat 0 -133px;
+}
+.g-tradingico{
+    background: url('../../images/tradingico-wordpressgrey.png') no-repeat!important;
+}
+.panel .s-myiconwrp1{
+    background: url("../../images/my-icon-wordpressgrey.png") no-repeat;
+    background-position: 0 -22px;
+}
+.panel .s-myiconwrp2{
+    background: url("../../images/my-icon-wordpressgrey.png") no-repeat;
+    background-position: 0 -65px;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp1{
+    background: url("../../images/my-icon-wordpressgrey.png") no-repeat;
+    vertical-align: top;
+}
+.panel .g-active .s-myiconwrp2{
+    background: url("../../images/my-icon-wordpressgrey.png") no-repeat;
+    background-position: 0 -46px;
+}
+/* 银行卡绑定 */
+.wizard-steps li.active .step {
+    background-color:#464646;
+}
+.wizard-steps li.active::before {
+    border-color:#464646;
+}
+
+/* usercenter */
+.g-releasetask .g-reletaskhd a:hover {
+    color:#464646;
+}
+.g-releasetask .g-reletaskhd .cor-blue2f {
+    color:#464646;
+}
+.g-releasechart:hover i{
+    color: #464646;
+}
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before {
+    border-color: #464646;
+}
+.g-userhintbtn a {
+    background-color: #464646;
+}
+.g-usertitname a {
+    color:#464646;
+}
+.nav-tabs .active a,.nav-tabs li a:hover {
+    color: #464646!important;
+}
+.g-userlisthead {
+    border-bottom: 3px solid #464646;
+}
+/* userCenterCase */
+.personal-add-case-btn{
+    background: #464646;
+}
+.personal-active{
+    color: #464646;
+    border-bottom: 2px solid #464646;
+}
+.personal-case-list, .personal-evaluate-detail{
+    color: #464646;
+}
+
+.paging_bootstrap .pager>li>a:hover,.paging_bootstrap .pagination>li>a:hover{
+    color: #464646;
+}
+.personal-case-detail-list-active .personal-active{
+    color:#464646;
+}
+/* finance-recharge */
+.m-radio input[type=checkbox].ace+.lbl:hover::before, input[type=checkbox].ace:hover+.lbl::before, input[type=radio].ace+.lbl:hover::before, input[type=radio].ace:hover+.lbl::before{
+    border-color:#464646 ;
+}
+.g-recharge .m-radio .lbl span:hover{
+    border-color: #464646;
+}
+
+.m-radio input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    color:#464646;
+}
+
+.hov-blue1b:hover {
+    background-color: #464646;
+}
+.nav-usercenter-top .z-navactive .user-menu li a:hover{
+    color:#fff!important;
+}
+.g-userimgup .u-userimgupbtn{
+    background:#464646 !important;
+}

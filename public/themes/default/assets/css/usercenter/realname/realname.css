@@ -1,0 +1,222 @@
+.u-succeedicon,.u-failureicon {
+	border-radius: 10px;
+	height: 22px;
+	display: inline-block;
+	color:#fff;
+	text-align: center;
+	font-size: 12px;
+	line-height: 22px;
+	padding-left: 26px;
+	padding-right: 10px;
+	margin-left: 14px;
+}
+.u-succeedicon {
+	background:url("../../../images/approveicon.png") no-repeat 10px center #a7d986;
+}
+.u-failureicon {
+	background:url("../../../images/approveicon.png") no-repeat 10px center #c9c8cc;
+}
+.g-realnamefa {
+	margin: auto 12%;
+}
+.g-realnameau {
+	margin: auto 6%;
+}
+/*上传*/
+.profile-users .memberdiv { width:auto; margin-left:28px; margin-bottom:0;}
+.profile-users .memberdiv .position-relative { width:158px;}
+/*.profile-users .memberdiv .ace-file-container {padding-top: 10px; padding-bottom: 10px;}*/
+.profile-users .memberdiv .popover { max-height:inherit; max-width:inherit; min-width:inherit; width:400px; font-size:12px; top:0;}
+.profile-users .memberdiv .popover.right { margin-left:10px;}
+.profile-users .memberdiv > *:first-child:hover .popover { width:400px; max-width:inherit; max-height:inherit; min-width:inherit; font-size:12px;}
+/*支付绑定列表*/
+.payapprove { padding:20px;}
+.approvelist { margin-left:0;}
+.approvelist li { border-bottom:1px dashed #e3e3e3; padding:10px 0; margin-bottom:10px;}
+.approvelist li img { margin-right: 20px;}
+.approvelist .approvebtn { margin-top:8px;}
+.approvelist .approvebtn a { background-color:#ff9934!important; text-shadow:none!important; border-color:#ff9934; width:129px; height:35px; text-align:center; line-height:25px; padding:0; border-radius:2px;}
+.approvelist .approvebtn a:hover,.approvelist .approvebtn a:focus { color:#fff!important; background-color:#ff8800!important; border-color:#ff8800!important; outline: none; }
+.approveinfo p { color:#9b9b9b;}
+.approveinfo { line-height:24px; padding-top:6px;}
+.g-realexamine {
+	height: 64px;
+	line-height: 64px;
+	padding-right:36px;
+}
+.g-realexamine a {
+	font-size: 14px;
+}
+.g-alertreal {
+	background: #fff8f5;
+	border:1px solid #fff0ea;
+	padding-left:44px;
+	padding-right:24px;
+	line-height: 24px;
+	color:#ba7050;
+}
+.g-alertreal i {
+	font-size: 18px;
+	height: 40px;
+	padding-top: 4px;
+	padding-right: 5px;
+	margin-left: -20px;
+}
+.g-alertreal .no-height {
+	height: auto;
+}
+.g-realcardlist .g-realcardwrap {
+	height: 140px;
+	position: relative;
+}
+.g-realcardlist .g-realbankimg {
+	padding: 20px 0;
+	border-bottom: 1px dashed #e0e0e0;
+	position: relative;
+	height:73px;
+}
+.g-realcardjs,.g-realcardshow {
+	position: relative;
+	border:1px solid #e8e8e8;
+	border-radius: 4px;
+	margin-bottom: 27px;
+}
+.g-realcardshow .g-realcardhide {
+	display: block;
+}
+.g-realcardshow .g-hiden {
+	opacity: 0.4;
+}
+.g-realcardhide {
+	position: absolute;
+	top:0;
+	cursor: pointer;
+	padding-top: 57px;
+	text-align:center;
+	width: 100%;
+	display:none;
+	height: 140px;
+}
+.g-realcardhide span {
+	padding:0;
+	width: 75px;
+	height:27px;
+	line-height: 27px;
+	margin: 0 6px;
+	color:#fff;
+	background: #7d7d7d;
+}
+.g-realcardlist .g-realcardinfo {
+	padding-top:22px;
+}
+.g-realcardshow .g-realdisable,.g-realcardlist .g-realdisable {
+	opacity: 0.4;
+}
+.g-realcardlist .g-realwrapplus {
+	border:1px solid #e8e8e8;
+	border-radius: 4px;
+	padding-bottom: 43px;
+	background: #fafafa;
+}
+.g-realcardlist .g-realwrapplus a{
+	font-size: 14px;
+}
+
+.g-userimgup .g-userimgupinp{
+	padding-left: 26px;
+}
+.g-userimgup .g-userimgupbor {
+	border-bottom: 1px dashed #ededed;
+	padding:15px 0 8px;
+}
+.g-userimgup .memberdiv {
+	padding-right: 96px;
+	max-width:246px;
+}
+.g-userimgup .u-userimgupbtn {
+	background: #2f55a0;
+	border-radius: 4px;
+	border: none;
+	color: #fff;
+	padding: 14px 33px;
+	font-size: 16px;
+}
+.g-userimgup .modal-dialog {
+	max-width: 433px;
+}
+.g-userimgup .modal-dialog .modal-content {
+	background: none;
+	border: none;
+	position: relative;
+}
+.g-userimgup .modal-dialog button{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 28px;
+	height: 28px;
+}
+.g-userimgup .g-userimgupzm {
+	background: url('../../../images/userimgupzm.png') no-repeat center 0!important;
+	width: 100%!important;
+	height: 68px!important;
+	display: block!important;
+}
+.g-userimgup .g-userimgupfm {
+	background: url('../../../images/userimgupfm.png') no-repeat center 0!important;
+	width: 100%!important;
+	height: 68px!important;
+	display: block!important;
+}
+.g-userimgup .g-userimgupdf {
+	background: url('../../../images/userimgupdf.png') no-repeat center 0!important;
+	width: 100%!important;
+	height: 68px!important;
+	display: block!important;
+}
+.sidehide { z-index:999;}
+.sidehide .sidehidebtn { display: none; position: absolute; top:100px; right: -37px; width: 37px; height: 43px; padding-top: 10px; padding-left: 2px; border-radius:0 100% 100% 0; background: #2f55a0; color: #fff; z-index: 999;}
+.sidehide .sidehidebtn .icon-bar { width: 14px; background-color:#fff; width: 14px; height: 2px; display: block; margin-left:7px;margin-top: 4px;}
+.mailsuccwp i { vertical-align: top; padding: 0 10px; font-size: 22px; color: #8cb476;}
+.mailsuccp { padding-left: 28px;}
+.mailsuccp span { font-size: 18px; color: #fd9a35;}
+@media screen and (max-width: 767px) {
+    .colxsleft .col-sm-2 { text-align: left;}
+    .colxsleft .col-sm-8 { text-align: right; padding-top: 4px;}
+    .g-userimgup .modal-dialog img { width: 100%;}
+	.approveinfo { padding-top: 13px;}
+}
+@media screen and (max-width: 1200px) {
+    .g-userimgup .memberdiv { padding-right: 0; max-width:182px;}
+}
+@media screen and (max-width: 992px) {
+    .sidehide {
+    	width: 70%;
+    }
+    .sidehide .sidehidebtn { display: block;}
+}
+
+/*实名认证*/
+.g-userimgup .g-userimgupbor-validform{
+	margin-left: 82px;
+	padding-left: 0;
+	position: relative;
+}
+.ace-file-multiple .ace-file-container:before{
+	margin-top: 6px;
+}
+.task-casehid .Validform_right {
+	display: none;
+}
+.g-userimgup .position-validform{
+	position: absolute;
+	padding: 0 15px;
+	height: auto;
+	line-height: normal;
+	margin-left: 2px;
+}
+.g-userimguptime .position-validform{
+	position: absolute;
+	left: 300px;
+	top: 10px;
+}

@@ -1,0 +1,321 @@
+html{height:100%;}
+body{height:100%;}
+
+
+.sectionall{
+    background: #fafafa;
+}
+.sectionall .g-signmain{
+    padding:80px 0;
+}
+.sectionall .g-signmain-container{
+    padding:12% 0;
+}
+header .g-signlogin{
+    padding: 35px 0;
+    border-bottom: 1px solid #e7e7e7;
+    background: #fff;
+}
+
+.loginmain{
+    padding: 25px 40px;
+    box-shadow: 3px 3px 8px #ECECEC!important;
+    background-color: #fff;
+    min-height: 560px;
+}
+.login-welcome{
+    /*border-left: 1px solid #d2d2d2 ;*/
+    padding-top: 7px;
+    font-size: 14px;
+}
+/*.loginpd{*/
+    /*padding-top: 10px;*/
+/*}*/
+/*.loginbrand{*/
+    /*width: 19%;*/
+/*}*/
+.loginmain .cor-grayD3{
+    color: #d3d3d3;
+}
+
+
+.social-login .s-bgqq{
+    background: #80c5f0;
+    color:#fff;
+    border-radius: 100%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+}
+.social-login .s-bgweibo{
+    background: #f3958d;
+}
+.social-login .s-bgweixin{
+    background: #8cd661;
+}
+.btn-primary:active, .btn-primary:hover, .open .btn-primary.dropdown-toggle{
+    /*background-color: #00408f!important;*/
+
+    color: #fff;
+}
+.loginmain .s-loginline{
+    display: inline-block;
+    width:62px;
+    border-bottom: 1px solid #eeeeee;
+    min-height: 1px;
+    margin-bottom: 4px;
+    background: #eeeeee;
+}
+input[type=checkbox].ace+.lbl::before, input[type=radio].ace+.lbl::before{
+    height:12px;
+    min-width: 12px;
+    line-height: 10px;
+}
+input[type=checkbox].ace:checked+.lbl::before, input[type=radio].ace:checked+.lbl::before{
+    width: 12px;
+}
+/*找回密码*/
+.findmain{
+    padding-top: 80px;
+}
+.wizard-steps li.active .step{
+    color:#fff;
+}
+.wizard-steps li .step{
+    background: #ced1d6;
+    color:#fff;
+}
+
+.loginmain .wizard-steps li .step{
+    left:134px;
+}
+.loginmain .wizard-steps li:last-child:before{
+    max-width: 100%;
+    width: 100%;
+}
+.wizard-steps li:first-child:before{
+    max-width: 100%;
+    left: 20%;
+}
+.wizard-steps li .title{
+    position: relative;
+    bottom: 54px;
+    left: 20px;
+    font-size: 16px;
+}
+
+.mailtxt{
+    padding-left: 31%;
+}
+.failtxt{
+    padding-left: 10%;
+}
+.winmain{
+    padding-left: 45%;
+}
+.maintxt{
+    padding-left: 13%;
+}
+
+.form-horizontal .forminput{
+    border-radius: 0!important;
+}
+
+.wizard-steps{
+    padding-right: 100px;
+}
+
+.g-signmain .loginmain .s-logintit{
+    margin: 0;
+    padding-left: 17px;
+    font-size: 20px;
+}
+
+.g-findmain{
+    padding: 203px 0;
+    overflow: hidden;
+}
+.wizard-steps li:before{
+    border-top: 6px solid #CED1D6;
+    top: 16px;
+}
+.wizard-steps li .step{
+    border-top: 6px solid #CED1D6;
+    width: 26px;
+    height: 26px;
+    line-height: 14px;
+}
+.error_wrong { color:red; text-indent: 20px; background: url('../../images/error.png') no-repeat left center;}
+@media (min-width: 992px) and (max-width:1200px) {
+    .loginmain .wizard-steps li .step{
+        left: 100px;
+    }
+    .loginmain .phonepass li .step{
+        left: 134px;
+    }
+}
+@media (min-width: 768px) and (max-width:991px) {
+    .loginmain .wizard-steps li .step{
+        left: 73px;
+    }
+}
+@media (min-width: 320px) and (max-width:767px) {
+    .g-findmain{
+        padding: 0;
+    }
+    .u-activasuccess{
+        text-align: center;
+    }
+    .sectionall{
+        height:auto;
+    }
+}
+@media (min-width: 1200px){
+    .loginmain .forminput{
+        width: 270px;
+    }
+    .loginmain .forminput-code{
+        width: 120px;
+        margin-right: 10px;
+    }
+    .loginmain .form-btn{
+        width: 102px;
+        height: 34px;
+    }
+}
+@media (min-width: 1200px) {
+    .sectionall{
+        min-height: 720px;
+    }
+    /*.sectionall .g-signmain{*/
+        /*min-height: 677px;*/
+    /*}*/
+    /*.login-box{*/
+    /*margin-top: 20px;*/
+    /*}*/
+    /*.login-box{*/
+        /*width: 334px;*/
+        /*height: 395px;*/
+    /*}*/
+    .l-loginImg{
+        padding-left: 80px;
+    }
+    .l-loginImg img{
+        width: 612px;
+        height: 418px;
+    }
+    .loginmain .s-loginline{
+        width: 46px;
+    }
+    .loginmain-container{
+        min-height: 418px;
+        width: 334px;
+    }
+    .r-login-box{
+        padding-left: 28px;
+    }
+    .login-box-container{
+        padding: 0 87px;
+    }
+    .form-input-code{
+        width: 130px;
+    }
+    .phonepass {
+        margin: 0 auto;
+        width:80%;
+    }
+}
+@media (min-width: 320px) and (max-width: 396px) {
+    .loginmain .s-loginline{
+        width: 24px;
+    }
+}
+.loginmain-container{
+    min-height: 0;
+}
+.logintabtit {
+    border-bottom: 1px solid #d5d5d5;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+.logintabtit li {
+    padding:0 0 20px;
+}
+.fambtext{
+    font-size: 22px!important;
+}
+.logintabtit .active {
+    border-bottom: 2px solid #2f549f;
+}
+.logintabtit a {
+    color: #898989;
+}
+.logintabtit .active a{
+    color: #2f549f;
+}
+.logininp150 {
+    width: 150px;
+}
+.login-box .validform-login-form{
+    position: absolute;
+    height: 20px;
+    /*padding: 0 0 0 20px;*/
+    padding: 0 0 0 14px;
+}
+/*.login-box .validform-login-form .Validform_right{*/
+    /*height: 20px;*/
+/*}*/
+.step-validform .Validform_checktip{
+    margin-left: 15px;
+}
+.login-Validform_right .Validform_right{
+    display: none;
+}
+.login-error_wrong .login-red {
+    color: red;
+    text-indent: 20px;
+    width: 100%;
+    display: block;
+    background: url(../../images/error.png) no-repeat left center;
+
+}
+.Validform-wrong-red .Validform_wrong{
+    display: block;
+    line-height: 10px;
+}
+.Validform-wrong-red-height .Validform_wrong{
+    line-height: 20px;
+}
+.login-box .login-validform-static{
+    position: static;
+    height: 19px;
+    line-height: 20px;
+    padding: 0 14px;
+    color: red;
+    white-space: nowrap;
+    /*background: url(../../images/error.png) no-repeat left center;*/
+}
+.login-box .login-validform-static .login-red{
+    display: inline;
+    margin-left: -14px;
+    padding-left: 0;
+    background: none;
+}
+.label-bottom{
+    margin-bottom: 0;
+}
+.phoneicoem {
+    padding-right: 20px;
+    line-height: 14px;
+    background: url("../../images/phoneicoem.png") no-repeat right 0;
+}
+.phoneicoem:hover {
+    background-position: right -20px;
+}
+.codeImg{
+    position: relative;
+}
+.codeImg img{
+    position: absolute;
+    right: 0;
+}

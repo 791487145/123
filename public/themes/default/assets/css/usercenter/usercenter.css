@@ -1,0 +1,680 @@
+.g-usericon a {
+    display: inline-block;
+    width:30px;
+    height:30px;
+    margin: auto 4px;
+}
+.u-bankicon {
+    background: url('../../images/centericon.jpg') no-repeat 0 -180px;
+}
+.u-infoicon {
+    background: url('../../images/centericon.jpg') no-repeat 0 -143px;
+}
+.u-aliicon {
+    background: url('../../images/centericon.jpg') no-repeat 0 -70px;
+}
+.u-messageicon {
+    background: url('../../images/centericon.jpg') no-repeat 0 -254px;
+}
+.g-usericon .u-bankiconact {
+    background: url('../../images/centericon.jpg') no-repeat;
+}
+.g-usericon .u-infoiconact {
+    background: url('../../images/centericon.jpg') no-repeat 0 -35px;
+}
+.g-usericon .u-aliiconact {
+    background: url('../../images/centericon.jpg') no-repeat 0 -106px;
+}
+.g-usericon .u-messageiconact {
+    background: url('../../images/centericon.jpg') no-repeat 0 -217px;
+}
+.u-comicon {
+    background: url('../../images/centericon.jpg') no-repeat 0 -291px;
+}
+.u-comicon-no {
+    background: url('../../images/centericon.jpg') no-repeat 0 -327px;
+}
+.g-userinfo {
+    border-top:1px solid #eee;
+    border-bottom:1px solid #eee;
+    margin:0;
+    /*padding-top: 6px;*/
+    padding-top: 12px;
+}
+.g-userinfo a {
+    color:#515151;
+    font-size:20px;
+}
+.g-userassets .btn-big {
+    padding: 6px 30px;
+    font-size:16px;
+    margin:0 15px;
+}
+.g-usersidelist li img {
+    width:58px;
+    height:58px;
+    border-radius:100%;
+}
+.g-usersidelist li a {
+    color:#2f55a0;
+}
+.g-usersidebor a {
+    color:#2f55a0;
+}
+.g-usersidebor {
+    border-bottom: 1px solid #eee;
+}
+.g-userborr {
+    border-right:1px solid #eee;
+}
+.g-usermarbot2 {
+    margin-bottom: 4px;
+}
+.g-userimglist {
+    width:100%;
+    height:204px;
+    overflow: hidden;
+}
+.g-userimglist ul {
+    margin:0 7% 0 2%;
+}
+.g-userimglist ul li {
+    padding-right: 0;
+}
+.nav-tabs>li>a { padding-left: 11px; padding-right: 11px;}
+.g-userimglist li {
+    padding-top:20px;
+    height:102px;
+}
+.g-userimglist li img {
+    width: 58px;
+    height:58px;
+    border-radius:100%;
+    margin-bottom: 6px;
+}
+.g-userimglistno {
+    text-align: center;
+    background: url('../../images/userimglistno.png') no-repeat center 70px;
+    padding-top:110px;
+}
+.g-userimglistno a {
+    color:#0157e0;
+}
+.g-userchartno {
+    background: url('../../images/userimglistno.png') no-repeat 53% 30px;
+    padding-top:70px;
+    text-align: center;
+    font-size: 16px;
+    color: #898989;
+}
+.g-usersidetog {
+    padding: 20px 0;
+}
+.g-usersideleft {
+    color: #d6d6d6;
+}
+.g-usersideright {
+    color: #2f55a0;
+}
+.g-usersidetog a {
+    font-size: 20px;
+    margin: 0 17px 0 20px;
+    padding: 20px 0;
+}
+.g-userhint {
+    box-shadow:3px 3px 3px #ececec;
+    background: #fff;
+    padding:30px 40px 40px;
+    border:1px solid #eeeeee;
+}
+.g-usertitname a {
+    font-size:16px;
+}
+.g-userhintdata,.g-userhinthall,.g-userhintrelease {
+    border:1px solid #eee;
+}
+.g-userhintdata:hover,.g-userhinthall:hover,.g-userhintrelease:hover {
+    background: #fafafa;
+}
+.g-userdatabg,.g-userhallbg,.g-userreleasebg {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+.g-userdatabg {
+    background: url('../../images/userdatabg.png') no-repeat center;
+}
+.g-userhallbg {
+    background: url('../../images/userhallbg.png') no-repeat center;
+}
+.g-userreleasebg {
+    background: url('../../images/userreleasebg.png') no-repeat center;
+}
+.g-userhintbtn a {
+    display: block;
+    width: 148px;
+    height: 40px;
+    line-height: 40px;
+    color:#fff;
+    border-radius: 20px;
+    margin: 0 auto;
+    font-size: 14px;
+
+}
+.g-userlist {
+    /*padding:20px 25px 0;*/
+    padding:14px 25px 0;
+}
+.g-userlist .tab-pane {
+    margin:0;
+    height: 378px;
+    overflow: hidden;
+    /*overflow-y: scroll;*/
+}
+.g-userlist .tab-content {
+    border:none;
+    padding:0;
+}
+.g-userlist .nav-tabs {
+    border: none;
+}
+.g-userlist .nav-tabs a {
+    border: none;
+    background: none;
+    color: #515151;
+}
+.nav-tabs .active a,.nav-tabs li a:hover {
+    border:none!important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    margin-top:0!important;
+}
+.g-userlist .nav-tabs div {
+    padding-top: 2px;
+    color: #515151;
+}
+.tab-pane li {
+    margin:0;
+    padding-top: 28px;
+}
+.g-userlistno {
+    overflow-y:visible!important;
+    text-align: center;
+    font-size: 16px;
+    color: #898989;
+}
+.g-userlistno a {
+    color: #0157e0;
+}
+.g-userlistno .g-usernoinfo {
+    background: url('../../images/nomessage.png') no-repeat center 80px;
+    padding-top: 220px;
+}
+.g-userborbtm {
+    height: 1px;
+    padding-top: 28px;
+    border-bottom: 1px solid #ebebeb;
+}
+.g-userlabel a {
+    display: inline-block;
+    height:24px;
+    line-height: 22px;
+    border: 1px solid #c1c7d2;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 0 10px;
+    color:#767d89;
+    margin-right: 10px;
+}
+.g-userlabel span {
+    color: #767d89;
+    padding-left: 12px;
+}
+.g-userlabel span i {
+    color:#b8bbc2;
+}
+.g-userlisthead {
+    padding-bottom: 14px;
+    margin-bottom: 10px;
+}
+.g-userlisthead a {
+    color:#515151;
+    font-size: 16px;
+    padding-top:7px;
+}
+.g-userlist .tab-pane .u-headimg img{
+    width: 62px;
+    height:62px;
+    border-radius: 100%;
+}
+.user-image {
+    width:130px;
+    height:130px;
+    border-radius: 100%;
+}
+.g-releasetask h4 span{
+	line-height:34px;
+}
+.g-releasetask .g-reletaskhd select {
+    width: 140px;
+    margin-right: 20px;
+}
+.g-releasetask .g-reletaskhd button {
+    width: 80px;
+    height: 34px;
+    color: #838383;
+    background: #f7f7f7;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.g-releasetask .g-reletaskhd button:hover {
+    background: #f0f0f0;
+}
+.g-releasetask .g-reletaskhd a {
+    margin-left:14px;
+    float: left;
+    color:#c9c9c9;
+}
+
+.g-releasetask .g-task-select a,.g-releasetask .g-task-select a:hover {
+	color:#515151;
+}
+.g-releasetask .g-task-select .bg-blue,.g-releasetask .g-task-select .bg-blue:hover {
+    color: #db4a39;
+    background:transparent;
+}
+.g-releasetask .g-reletaskhd .pull-right {
+    padding-top: 6px;
+}
+.g-releasetask li {
+    padding-top: 28px;
+    position: relative;
+}
+.g-releasnopt {
+    padding-top: 20px;
+}
+.g-releasfirs li:first-child {
+    padding-top: 0;
+}
+.g-releasetask li .usernopd {
+    padding-right: 0;
+}
+.g-releasetask ul {
+    margin-left: 0;
+}
+.g-releasetask .pagination {
+    margin-right: -4px;
+}
+.g-releasetask li .btn-big {
+    padding: 7px 33px;
+    margin-top: 8px;
+    font-size:14px;
+}
+.g-tradingico,.g-trazoneico {
+    background: url('../../images/tradingico.png') no-repeat;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+.g-trazoneico {
+    background: url('../../images/trazoneicodf.png') no-repeat;
+}
+.g-releasechart {
+    position: relative;
+    float:right;
+    margin-left: 14px;
+    cursor: pointer;
+}
+
+.g-reletaskhd a {
+    outline: none;
+}
+.g-reletaskhd .g-releasehide {
+    position: absolute;
+    width: 414px;
+    height: 240px;
+    z-index: 2;
+    color: #515151;
+    font-size: 16px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    text-indent: 23px;
+    right: 0;
+    top:48px;
+    padding-top: 20px;
+    box-shadow: 5px 5px 2px rgba(230,230,230,0.5);
+    border-radius: 4px;
+    display: none;
+}
+.g-reletaskhd .g-releasehidea {
+    background: url('../../images/releasehidea.png') no-repeat;
+    width: 36px;
+    height: 20px;
+    position: absolute;
+    top: 29px;
+    z-index: 3;
+    right: 100%;
+    display: none;
+}
+.g-releasehide a {
+    color: #515151;
+}
+.g-releasehide a:hover {
+    color: #515151;
+}
+.g-releasetask img {
+    width: 62px;
+    height: 62px;
+    border-radius: 100%;
+}
+.g-releasetask .g-reletaskhd .g-reletimehd {
+    width: 34px;
+    height: 34px;
+    border-radius: 0;
+    vertical-align: middle;
+    margin-left: -4px;
+}
+.g-releasetask .g-reletimeline {
+    padding-left: 38px;
+}
+.g-releasetask .g-reletimeline .g-userborbtm{
+    padding-top: 0;
+    margin-bottom: 28px;
+    margin-left: 7.4%;
+    width: 91.2%;
+}
+.g-reletimeline .g-reletimeli {
+    position: absolute;
+    left: -2.8%;
+    width: 8.8%;
+    height: 100%;
+    border-right:3px solid #d9d9d9; 
+}
+.g-reletimeline .g-reletimeli b {
+    width: 52px;
+    height: 24px;
+    line-height: 24px;
+    text-indent: 6px;
+    display: inline-block;
+    color: #868686;
+    background: url('../../images/reletimeli.png') no-repeat;
+    position: absolute;
+    top: -6%;
+}
+.g-reletimeline .g-reletimeli i {
+    border: 3px solid #d9d9d9;
+    border-radius: 100%;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    padding-top: 4px;
+    background: #fff;
+}
+.g-reletimeline .g-reletimeli span {
+    border: 3px solid #fff;
+    border-radius: 100%;
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    top: -4.6%;
+    left: 88%;
+    z-index: 3;
+}
+.g-reletimeline li {
+    padding-top: 0;
+    padding-bottom: 28px;
+}
+.g-reletimeline li img {
+    border: 3px solid #fff;
+    margin-left: -3px;
+    width: 68px;
+    height: 68px;
+}
+.g-reletimeline .g-reletimeper {
+    position: relative;
+    left: -37px;
+    height: 70px;
+    width: 70px;
+    border-right:3px solid #d9d9d9; 
+}
+.g-reletimeline .g-reletimebor {
+    background: url('../../images/reletimeper.png') no-repeat;
+    width: 139px;
+    height: 24px;
+    color: #868686;
+    font-weight: bold;
+    line-height: 24px;
+}
+.g-reletimeline .g-reletimebor span {
+    padding-left: 9px;
+    padding-right: 64px;
+}
+.g-reletimedrop {
+    position: relative;
+}
+.g-reletimedrop .popover {
+    box-shadow: none;
+    left: 2.2%;
+}
+.g-reletimedrop .popover-content {
+    padding: 6px 22px;
+}
+.g-tradevaluate .g-valugood img,.g-tradevaluate .g-valuin img,.g-tradevaluate .g-valupoor img {
+    width: 58px;
+    height: 58px;
+    border-radius: 100%;
+}
+.g-valuin {
+    width:58px;
+    position: relative;
+}
+.g-tradevaluate .g-valugood {
+    width:58px;
+    position: relative;
+}
+.g-tradevaluate .g-valuimgbg {
+    position: absolute;
+    top: 36px;
+    right: -4px;
+    width: 22px;
+    height: 25px;
+}
+.g-tradevaluate .g-valugood .g-valuimgbg{
+    background: url('../../images/valuimgbg.png') no-repeat;
+}
+.g-tradevaluate .g-valuin .g-valuimgbg{
+    background: url('../../images/valuimgbg.png') no-repeat 0 -37px;
+}
+.g-tradevaluate .g-valupoor .g-valuimgbg{
+    background: url('../../images/valuimgbg.png') no-repeat 0 -75px;
+}
+.g-unreleaselist li {
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 30px;
+}
+.g-unreleaselist a{
+    color:#2f549f;
+}
+.g-unreleasebtn {
+    padding-left: 0;
+    padding-top: 34px;
+}
+.g-unreleasebtn a {
+    border: 1px solid #dfdfdf;
+    color: #515151;
+    background: #f7f7f7;
+    padding:8px 14px;
+    margin-left: 10px; 
+    border-radius: 2px;
+}
+.g-unreleasebtn a:hover {
+    background: #f0f0f0;
+    color: #515151;
+}
+.profile-picture {
+    border:none;
+    box-shadow: none;
+}
+.focusideimg {
+    padding-top: 40px;
+}
+
+@media screen and (max-width: 768px) {
+    .g-userassets { padding-bottom: 20px;}
+    .scroll-content .u-headimg { text-align: center;}
+    .scroll-content .userrelp { height: 36px; overflow: hidden;}
+}
+@media screen and (max-width: 1199px) {
+    .martop20 { padding-top: 20px;}
+    .g-usersidebor { border-bottom: none;}
+    .g-userassets { border-left: 1px solid #eee; border-right: 1px solid #eee;}
+}
+@media screen and (max-width: 991px) {
+    .g-userassets { border-right: none;}
+}
+@media screen and (max-width: 638px) {
+    .width100 { width: 100%;}
+}
+@media screen and (max-width: 590px) {
+    .hiden590 { display: none;}
+    .width590 .col-xs-2 { width: 30%;}
+    .width590 .col-xs-10 { width: 70%;}
+    .width590 .col-xs-8 { width: 100%;}
+}
+@media screen and (max-width: 767px) {
+    .g-userhintrelease { margin-top: 10px;}
+    .g-releasetask li .usernopd {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .g-releasetask li .g-vippaylist {
+        padding-left: 36px;
+    }
+    .g-releasetask li .usercter {
+        text-align: center;
+    }
+    .g-userassets { border-left: none;}
+}
+
+#piechart-placeholder
+{
+    max-width: none;
+    height: 150px;
+}
+/*用户中心滚动条*/
+.g-userlist .scroll-bar{
+    background-color: #dedede;
+}
+.g-userlist .scroll-track,.g-userlist .scroll-bar{
+    border-radius: 10px;
+}
+.g-userlist .scroll-track{
+    background-color: #F7F7F7;
+}
+
+.g-releasfirs .g-usernoinfo-noinfo{
+    background: url('../../images/nomessage.png') no-repeat center 80px;
+    padding-top: 220px!important;
+}
+.g-bankhint .shop-hinttxt {
+    vertical-align: -5px;
+}
+.g-tradshopico {
+    background: url("../../images/shop/tradshopico.png") no-repeat;
+    width: 19px;
+}
+.g-bullhorn {
+    background: url("../../images/g-bullhorn.png") no-repeat;
+    width: 19px;
+}
+.extendico {
+    background: url("../../images/extendico.png") no-repeat 0 center;
+    padding-left: 26px;
+}
+.extendlink {
+    background: url("../../images/extendlink.png") no-repeat 0 center;
+    padding-left: 26px;
+}
+.extendbtn .btn.btn-white{
+    background-color: #f4f4f4!important;
+    color: #515151!important;
+}
+ /*a:hover, a:active, a:focus {*/
+    /*color: #2f55a0;*/
+/*}*/
+/*a:hover,a:active,a:focus {*/
+    /*color: #2f55a0;*/
+/*}*/
+.g-vipsideico {
+    background: url("../../images/vipshop/vipsideico.png") no-repeat;
+    margin-left: 2px;
+    vertical-align: -3px;
+}
+.g-vippaylist {
+    padding-left: 36px;
+}
+.vippayico {
+    width: 22px;
+    height: 26px;
+    float: left;
+    margin-right: 13px;
+    margin-left: -35px;
+    margin-top: -2px;
+    overflow: hidden;
+   /* background-image: url("../../images/vipshop/vip-xq.png");
+    background-repeat: no-repeat;*/
+    background: #fff;
+}
+.vippayico img{
+    width: 22px;
+    height: 22px;
+}
+.vippayico-zs {
+    background-position: -58px 0;
+}
+.vippayico-qj {
+    background-position: -3px 0;
+}
+.vippayico-bj {
+    background-position: -30px 0;
+}
+.vippayico-hg {
+    background-position: -85px 0;
+}
+.vippayico-zz {
+    background-position: -112px 0;
+}
+.tooltip.top .tooltip-arrow:after {
+    border-width: 10px;
+    content: "";
+    bottom: 1px;
+    margin-left: -10px;
+    border-bottom-width: 0;
+    border-top-color: #fff;
+}
+.tooltip.top .tooltip-arrow, .tooltip.top .tooltip-arrow:after {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}
+.tooltip .tooltip-arrow:after {
+    border-width: 10px;
+    content: "";
+}
+.g-usericon .tooltip-arrow{
+    border-top-color:#ddd;
+    border: 1px solid #ddd;
+}
+.g-usericon .tooltip-inner{
+    border:1px solid #ddd;
+    color: #000;
+    text-shadow: none;
+    background-color: #fff;
+}
