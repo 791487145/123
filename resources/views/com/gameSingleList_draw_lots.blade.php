@@ -12,18 +12,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input type="hidden" name="status" value="{{$status}}">
-                       {{-- @if($param['competition'] != 999 && $param['competition'] != 0)
-                            <div class="form-group search-list width285">
-                                <label class="">参赛结果　</label>
-                                <select name="match_result">
-                                    <option value="999"@if(isset($param['match_result']) && $param['match_result']== 1)selected @endif>全部</option>
-                                    <option value="1"@if(isset($param['match_result']) && $param['match_result']== 1)selected @endif>未标记</option>
-                                    <option value="2"@if(isset($param['match_result']) && $param['match_result']== 2)selected @endif>输</option>
-                                    <option value="3" @if(isset($param['match_result']) && $param['match_result']== 3)selected @endif>赢</option>
-                                </select>
-                            </div>
-                        @endif--}}
+                        <input type="hidden" name="status" value="{{$status}}" id="status">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-sm">搜索</button>
                         </div>
@@ -45,6 +34,7 @@
                     <th>
                         游戏服务区
                     </th>
+                    <th>组别</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -69,11 +59,12 @@
                                 {{--@if($item->status >=2)<a target="_blank" href="/task/{!! $item->id  !!}">{!! $item->title !!}</a>@else{!! $item->title !!} @endif--}}
                             </td>
                             <td>{!! $single->game_server !!}</td>
+                            <td>{!! $single->group !!}组{!! $single->num !!}号</td>
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <a class="btn btn-xs btn-info" href="{{$single->id}}/edit">
+                                    {{--<a class="btn btn-xs btn-info" href="{{$single->id}}/edit">
                                         <i class="fa fa-edit"></i>编辑
-                                    </a>
+                                    </a>--}}
                                     {{-- <a class="btn btn-xs btn-danger" href="managerDel/{{ $single->id }}">
                                          <i class="fa fa-trash-o"></i>删除
                                      </a>
@@ -86,10 +77,16 @@
                             </td>
                         </tr>
                     @endforeach
+                        @if($state != 3)
+                            <tr class="draw_lots">
+                                <td colspan="7">若抽签步骤完成，请按按钮进行分组<button type="button" class="btn btn-primary btn-sm group">分组</button></td>
+                            </tr>
+                        @endif
                     </tbody>
                 </form>
             </table>
         </div>
+
         <div class="row">
             <div class="space-10 col-xs-12"></div>
             <div class="col-xs-12">
@@ -100,4 +97,18 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+<input type="hidden" id="competition" name="_token" value="{{$param['competition']}}">
+<script>
+    $(".group").click(function () {
+        var status = $("#status").val();
+        var competition = $("#competition").val();
+        var _token = $("#_token").val();
+
+        $.post('/manage/game/sectionalization',{status:status,_token:_token,type:1,competition:competition}, function (msg){
+            $("#draw_lots").remove();
+            alert("分组成功");
+        })
+    })
+</script>
 

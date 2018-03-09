@@ -500,13 +500,16 @@ Route::group(['prefix' => 'manage'], function() {
     Route::match(['get', 'post'], 'game/add', 'GameController@teamAdd')->name('teamAdd');
     Route::match(['get', 'post'], 'game/{id}/teamEdit', 'GameController@teamEdit')->name('teamEdit');
 
+    //比赛操作
+    Route::post('/game/sectionalization', 'GameController@sectionalization');
+
     //赛制
     Route::get('/game/competition', 'GameController@competition')->name('competition');
     Route::match(['get', 'post'], 'game/competition/add/{id}', 'GameController@competitionAdd')->name('competitionAdd');
     Route::post('/game/competitionDel', 'GameController@competitionDel');
     Route::get('/game/gameConfig', 'GameController@gameConfig')->name('gameConfig');
     Route::post('/game/groupInitialize','GameController@gameGroupInitialize');
-    //Route::match(['get', 'post'], 'game/{id}/edit', 'GameController@singleEdit')->name('singleEdit');
+    Route::match(['get', 'post'], 'game/competition/{id}/edit', 'GameController@competitionEdit')->name('competitionEdit');
 
     //自定义任务
     Route::get('/taskWaterList', 'TaskWaterController@taskWaterList')->name('taskWaterList');

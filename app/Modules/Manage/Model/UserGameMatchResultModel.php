@@ -26,29 +26,36 @@ class UserGameMatchResultModel extends Model
     public $timestamps = false;
 
     //对决详情展示
-    static function detail($type,$competition,$groups)
+    static function detail($type,$competition,$group_ids,$user_game_setting)
     {
-        $user_game_group = UserGameGroupModel::where('server',UserGameGroupModel::SERVER_WX)->where('type',$type)->where('competition',$competition)
-                            ->distinct('group')->orderBy('id','asc')->lists('group');
-        $i = 0;
-
-        foreach($groups as $k=>$v){
-            if($k == $user_game_group[$i]){
-               for($j=0;$j<count($v);$j=$j+2){
-                   $param['type'] = $type;
-                   $param['competition'] = $competition;
-                   $param['group_a'] = $v[$j]['id'];
-                   $param['created_at'] = date("Y-m-d H:i:s");
-                   if(isset($v[$j+1])){
-                       $param['group_b'] = $v[$j+1]['id'];
-                   }else{
-                       $param['group_b'] = 0;
-                   }
-                   self::insert($param);
-               }
+        if($user_game_setting->num == 4){
+            for($i=1;$i<=4;$i++){
+                $user_game_groups = UserGameGroupModel::whereIn('id',$group_ids)->where('group_mark',$i)->get();
+                if(!$user_game_groups->isEmpty()){
+                    $user_game_groups = $user_game_groups->toArray();
+                    self::dataTreating($user_game_groups,$type,$competition);
+                }
             }
-            $i = $i+1;
         }
+
+        return true;
+    }
+
+    static function dataTreating($user_game_groups,$type,$competition)
+    {
+        for($j=0;$j<count($user_game_groups);$j=$j+2){
+            $param['type'] = $type;
+            $param['competition'] = $competition;
+            $param['group_a'] = $user_game_groups[$j]['id'];
+            $param['created_at'] = date("Y-m-d H:i:s");
+            if(isset($user_game_groups[$j+1])){
+                $param['group_b'] = $user_game_groups[$j+1]['id'];
+            }else{
+                $param['group_b'] = 0;
+            }
+            self::insert($param);
+        }
+
         return true;
     }
 }

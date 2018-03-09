@@ -79,11 +79,9 @@ class UserActiveModel extends Model
                         ->where('user_active.type','=',1)
                         ->leftJoin('users','users.id','=','user_active.uid')
                         ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
-                        ->leftJoin('user_game_group','user_game_group.id','=','user_active.group_id')
-                        ->select('user_active.id','user_active.created_at','user_active.group_id','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
-                        ->orderBy('id','desc')
+                        ->select('user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+                        ->orderBy('id','asc')
                         ->paginate($page);
-
        /* foreach($user_active as $value){
             if($value->group_id == 0){
                 $value->group = '未分组';
@@ -107,5 +105,19 @@ class UserActiveModel extends Model
         return $user_active;
     }
 
+    static function getListAll($param,$userActive,$page)
+    {
+        $user_active = $userActive->where('pid',0)
+            ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+            ->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)
+            ->where('user_active.type','=',1)
+            ->leftJoin('users','users.id','=','user_active.uid')
+            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+            ->select('user_game_group.group','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+            ->orderBy('id','asc')
+            ->paginate($page);
+
+        return $user_active;
+    }
 
 }

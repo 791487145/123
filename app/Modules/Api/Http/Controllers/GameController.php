@@ -10,6 +10,7 @@ use App\Modules\Manage\Model\UserGameGroupModel;
 use App\Modules\Manage\Model\UserGameLogModel;
 use App\Modules\Manage\Model\UserGameMatchResultModel;
 use App\Modules\Manage\Model\UserGameModel;
+use App\Modules\Manage\Model\UserGameRulesModel;
 use App\Modules\Manage\Model\UserTeamModel;
 use App\Modules\Order\Model\OrderModel;
 use App\Modules\Task\Model\DistrictRegionModel;
@@ -175,7 +176,14 @@ class GameController extends ApiBaseController
             return $this->formateResponse(1001,'您已报名，不能重复提交');
         }
 
-        UserActiveModel::createOne($where);
+        $user_active = UserActiveModel::createOne($where);
+        $user_game_rule = UserGameRulesModel::where('name','报名')->first();
+        $param = array(
+            'u_a_id' => $user_active->id,
+            'u_g_r_id' => $user_game_rule->id,
+            'type' => 1
+        );
+        UserActiveGameRuleModel::createOne($param);
 
         return $this->formateResponse(1000,'报名成功');
 
@@ -893,6 +901,9 @@ class GameController extends ApiBaseController
         }
 
         //TODO::超时判断
+        $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
+        $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('id','asc')->first();
+
 
         if($data['type'] == 1){//1v1
             $where = [
@@ -923,7 +934,7 @@ class GameController extends ApiBaseController
 
         $user_active_group_id = UserActiveGroupModel::where('type',$data['type'])->lists('u_g_g_id')->toArray();
 
-        $user_game_group = UserGameGroupModel::where('type',$data['type'])->where('competition',UserGameGroupModel::COMPETITION_NOT_START)->lists('id')->toArray();
+        $user_game_group = UserGameGroupModel::where('type',$data['type'])->where('competition',$user_game_rule_hx_first->id)->lists('id')->toArray();
         $D_value = array_diff($user_game_group,$user_active_group_id);
 
         $group_id = $user_game_group[array_rand($D_value)];

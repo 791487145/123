@@ -2,7 +2,7 @@
     @include('com.gameSingleList_report')
 @endif
 @if($status == 2)
-	@include('com.gameSingleList_audition')
+	@include('com.gameSingleList_draw_lots')
 @endif
 <script>
     //全选

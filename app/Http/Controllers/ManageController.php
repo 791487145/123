@@ -132,6 +132,8 @@ class ManageController extends BasicController
         }
         return $name;
     }
+
+
     //图片加水印
     static function watermark($file)
     {

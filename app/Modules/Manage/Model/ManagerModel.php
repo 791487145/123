@@ -5,6 +5,7 @@ namespace App\Modules\Manage\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Log;
 
 class ManagerModel extends Model
 {
@@ -29,6 +30,7 @@ class ManagerModel extends Model
         $user = ManagerModel::where('username', $username)->first();
         if ($user) {
             $password = self::encryptPassword($password, $user->salt);
+
             if ($user->password == $password) {
                 return true;
             }
