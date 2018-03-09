@@ -2,6 +2,8 @@
 
 namespace App\Modules\Api\Http\Controllers;
 
+use App\Modules\Manage\Model\UserActiveGameRuleModel;
+use App\Modules\Manage\Model\UserActiveGroupModel;
 use App\Modules\Manage\Model\UserActiveModel;
 use App\Modules\Manage\Model\UserActiveTeamModel;
 use App\Modules\Manage\Model\UserGameGroupModel;
@@ -905,33 +907,35 @@ class GameController extends ApiBaseController
                 return $this->formateResponse(1001,'您还没有报名，请先报名');
             }
 
-            if($user_active->group_id != 0){
+            $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active->id)->first();
+
+            if(!is_null($user_active_group)){
                 return $this->formateResponse(1001,'您已抽签，不能重复操作');
             }
-
-            $user_active_group_id = UserActiveModel::where('type',UserActiveModel::ACTIVE_TYPE_WX)->where('cantain',$data['type'])->lists('group_id')->toArray();
         }
 
-        if($data['type'] == 2){
-            $user_active_team = UserActiveTeamModel::where('captain_id', $this->uid)->where('report_status',UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS)->first();
-            if(is_null($user_active_team)){
-                return $this->formateResponse(1001,'您不是队长或战队未报名');
+        if($data['type'] == 2) {
+            $user_active_team = UserActiveTeamModel::where('captain_id', $this->uid)->where('report_status', UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS)->first();
+            if (is_null($user_active_team)) {
+                return $this->formateResponse(1001, '您不是队长或战队未报名');
             }
-            $user_active_group_id = UserActiveTeamModel::where('captain_id', $this->uid)->where('report_status',UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS)->lists('group_id')->toArray();
         }
+
+        $user_active_group_id = UserActiveGroupModel::where('type',$data['type'])->lists('u_g_g_id')->toArray();
 
         $user_game_group = UserGameGroupModel::where('type',$data['type'])->where('competition',UserGameGroupModel::COMPETITION_NOT_START)->lists('id')->toArray();
         $D_value = array_diff($user_game_group,$user_active_group_id);
 
         $group_id = $user_game_group[array_rand($D_value)];
+        $user_game_group = UserGameGroupModel::where('id',$group_id)->select('group','num')->first();
 
         if($data['type'] == 1){
-            $user_actives = UserActiveModel::sectionalization($group_id,$user_active);
+            UserActiveModel::sectionalization($group_id,$user_active,$data['type']);
         }else{
-            $user_actives = UserActiveTeamModel::sectionalization($group_id,$user_active_team);
+            UserActiveTeamModel::sectionalization($group_id,$user_active_team,$data['type']);
         }
 
-        return $this->formateResponse(1000,'抽签成功',$user_actives);
+        return $this->formateResponse(1000,'抽签成功',$user_game_group);
     }
 
 

@@ -506,6 +506,7 @@ Route::group(['prefix' => 'manage'], function() {
     Route::post('/game/competitionDel', 'GameController@competitionDel');
     Route::get('/game/gameConfig', 'GameController@gameConfig')->name('gameConfig');
     Route::post('/game/groupInitialize','GameController@gameGroupInitialize');
+    //Route::match(['get', 'post'], 'game/{id}/edit', 'GameController@singleEdit')->name('singleEdit');
 
     //自定义任务
     Route::get('/taskWaterList', 'TaskWaterController@taskWaterList')->name('taskWaterList');

@@ -1,0 +1,26 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserActiveGroupModel extends Model
+{
+    protected $table = 'user_active_group';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','u_a_id','u_g_g_id','type','competition'
+    ];
+
+    public $timestamps = false;
+
+
+    static function createOne($param)
+    {
+        self::insert($param);
+        return true;
+    }
+
+}

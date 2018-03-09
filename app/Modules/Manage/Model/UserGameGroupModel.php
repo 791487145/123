@@ -19,7 +19,7 @@ class UserGameGroupModel extends Model
     const X_GROUP = ['A','B','C','D','E','F','G','H'];
 
     protected $fillable = [
-        'id','group','num','created_at','server','type','competition'
+        'id','group','num','created_at','server','type','competition','group_mark'
     ];
 
     public $timestamps = false;
@@ -35,6 +35,7 @@ class UserGameGroupModel extends Model
                 $param['server'] = self::SERVER_WX;
                 $param['type'] = $type;
                 $param['competition'] = $competition;
+                $param['group_mark'] = $i + 1;
                 self::create($param);
             }
         }

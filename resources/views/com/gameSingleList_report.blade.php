@@ -7,8 +7,6 @@
                         <div class="form-group search-list width285">
                             <label class="">状态　</label>
                             <select name="competition">
-                                <option value="999"@if(isset($param['competition']) && $param['competition']== 999)selected @endif>全部</option>
-                                <option value="0" @if(isset($param['competition']) && $param['competition']== 0)selected @endif>未分组</option>
                                 @foreach($user_game_rules as $user_game_rule)
                                     <option value="{{$user_game_rule->id}}" @if(isset($param['competition']) && $param['competition']== $user_game_rule->id)selected @endif>{{$user_game_rule->name}}</option>
                                 @endforeach

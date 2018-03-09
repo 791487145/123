@@ -27,7 +27,7 @@ class UserActiveTeamModel extends Model
 
     protected $fillable = [
         'id','team_name','logo','captain_id','captain_name','tel','school','member','created_at','status','user_no','team_no','report_status',
-        'remark','match_result','competition','group_id'
+        'remark','match_result'
     ];
 
     public $timestamps = true;
@@ -92,39 +92,26 @@ class UserActiveTeamModel extends Model
     }
 
     //属于组别
-    static function sectionalization($group_id,$user_active_team)
+    static function sectionalization($group_id,$user_active_team,$type)
     {
+        $uesr_game_rules = UserGameRulesModel::where('name','报名')->first();
 
-        self::where('id',$user_active_team->id)->update(['group_id'=>$group_id]);
-        UserActiveModel::where('pid',$user_active_team->id)->update(['group_id'=>$group_id]);
+        $param = array(
+            'u_a_id' => $user_active_team->id,
+            'u_g_g_id' => $group_id,
+            'type' => $type,
+            'competition' => $uesr_game_rules->id
+        );
+        UserActiveGroupModel::createOne($param);
 
-        $user_active_team = UserActiveTeamModel::where('user_active_team.id',$user_active_team->id)
-            ->leftJoin('user_game_group','user_game_group.id','=','user_active_team.group_id')
-            ->select('user_active_team.id','user_active_team.group_id','user_game_group.group','user_game_group.num')
-            ->orderBy('group_id','asc')
-            ->first();
+        $data = array(
+            'u_a_id' => $user_active_team->id,
+            'u_g_r_id' => $uesr_game_rules->id,
+            'type' => $type
+        );
+        UserActiveGameRuleModel::createOne($data);
 
-        /*$user_actives = [];
-
-        for($i=0;$i<count($user_active_team);$i=$i+2){
-            if(!isset($user_active_team[$i])){
-                break;
-            }
-            if(isset($user_active_team[$i]) && !isset($user_active_team[$i+1])){
-                $user_actives[$user_active_team[$i]['group']][] = $user_active_team[$i];
-                break;
-            }
-            if($user_active_team[$i]['group'] == $user_active_team[$i+1]['group']){
-                $user_actives[$user_active_team[$i]['group']][] = $user_active_team[$i];
-                $user_actives[$user_active_team[$i]['group']][] = $user_active_team[$i+1];
-            }
-            if($user_active_team[$i]['group'] != $user_active_team[$i+1]['group']){
-                $user_actives[$user_active_team[$i]['group']][] = $user_active_team[$i];
-                $user_actives[$user_active_team[$i+1]['group']][] = $user_active_team[$i+1];
-            }
-        }*/
-
-        return $user_active_team;
+        return true;
 
     }
 

@@ -21,7 +21,7 @@ class UserActiveModel extends Model
 
 
     protected $fillable = [
-        'id','uid','type','pid','cantain','active_type','created_at','user_no','group_id','match_result','competition'
+        'id','uid','type','pid','cantain','active_type','created_at','user_no','match_result'
     ];
 
     public $timestamps = true;
@@ -47,21 +47,27 @@ class UserActiveModel extends Model
         return $data;
     }
 
-    //属于组别
-    static function sectionalization($group_id,$user_active)
+    //抽签
+    static function sectionalization($group_id,$user_active,$type)
     {
-        $uesr_game_rules = UserGameRulesModel::where('name','海选')->first();
-        $user_game_relus_first = UserGameRulesModel::where('pid',$uesr_game_rules->id)->orderBy('id','asc')->first();
+        $uesr_game_rules = UserGameRulesModel::where('name','报名')->first();
+        //$user_game_relus_first = UserGameRulesModel::where('pid',$uesr_game_rules->id)->orderBy('id','asc')->first();
+        $param = array(
+            'u_a_id' => $user_active->id,
+            'u_g_g_id' => $group_id,
+            'type' => $type,
+            'competition' => $uesr_game_rules->id
+        );
+        UserActiveGroupModel::createOne($param);
 
-        self::where('id',$user_active->id)->update(['group_id'=>$group_id,'competition'=>$user_game_relus_first]);
+        $data = array(
+            'u_a_id' => $user_active->id,
+            'u_g_r_id' => $uesr_game_rules->id,
+            'type' => $type
+        );
+        UserActiveGameRuleModel::createOne($data);
 
-        $user_active_group = self::where('user_active.id',$user_active->id)
-            ->leftJoin('user_game_group','user_game_group.id','=','user_active.group_id')
-            ->select('user_active.id','user_active.created_at','user_active.uid','user_active.group_id','user_game_group.group','user_game_group.num')
-            ->orderBy('group_id','asc')
-            ->first();
-
-        return $user_active_group;
+        return true;
     }
 
 
@@ -78,7 +84,7 @@ class UserActiveModel extends Model
                         ->orderBy('id','desc')
                         ->paginate($page);
 
-        foreach($user_active as $value){
+       /* foreach($user_active as $value){
             if($value->group_id == 0){
                 $value->group = '未分组';
                 continue;
@@ -96,7 +102,7 @@ class UserActiveModel extends Model
             $user_game_group = UserGameGroupModel::where('id',$value->group_id)->where('type',UserGameGroupModel::TYPE_SINGLE)
                                                     ->select('group','num')->first();
             $value->group = $user_game_group->group.'组'.$user_game_group->num.'号';
-        }
+        }*/
 
         return $user_active;
     }

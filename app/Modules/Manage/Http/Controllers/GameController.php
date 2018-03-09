@@ -39,21 +39,23 @@ class GameController extends ManageController
     {
         $param = array();
         $status = $request->input('status',1);
-        $param['competition'] = $request->input('competition',$this->all);
+        $param['competition'] = $request->input('competition',0);
         $param['group_child'] = $request->input('group_child',0);
         $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
 
         $userActive = new UserActiveModel();
 
-        if($param['competition'] == $this->all || $param['competition'] == 0){
+        if($param['competition'] == 0){
+            $user_game_rule = UserGameRulesModel::where('name','报名')->first();
             $status = 1;
         }
 
-        if($param['competition'] != $this->all && $param['competition'] != 0){
+        if($param['competition'] != 0){
             $status = 2;
         }
 
         if($status == 1){
+            $param['competition'] = $user_game_rule->id;
             $data = self::reportAndDrawLots($userActive,$param,$this->page,$status,$user_game_rules);
         }
 
@@ -93,18 +95,20 @@ class GameController extends ManageController
             }else{
                 $group_id = $user_game_match_result->group_a;
             }
-            //$user_game_group = UserGameGroupModel::where('id',$group_id)->first();
-           // $user_active->group_b = '轮空';
-            $user_active->group_b_id = $group_id;
-           /* if(!is_null($user_game_group)){
-                $user_active->group_b = $user_game_group->group.'组'.$user_game_group->num.'号';
-            }*/
+            $user_game_group = UserGameGroupModel::where('id',$group_id)->first();
+            $user_active->win =  $user_game_match_result->win;
 
-            $user_game_match_results = UserGameMatchResultModel::where('user_game_match_result.competition',$user_active->competition)->where('group_b',0)
+            $user_active->group_b_id = $group_id;
+            if(!is_null($user_game_group)){
+                $user_active->group_b = $user_game_group->group.'组'.$user_game_group->num.'号';
+            }
+
+            $user_game_match_results = UserGameMatchResultModel::where('user_game_match_result.competition',$user_active->competition)
                                                     ->where('group_a','!=',$user_active->group_id)->where('user_game_match_result.type',UserGameMatchResultModel::TYPE_SINGLE)
                                                     ->leftJoin('user_game_group','user_game_group.id','=','user_game_match_result.group_a')
                                                     ->select('user_game_group.id','user_game_group.group','user_game_group.num','user_game_match_result.win','user_game_match_result.id as ugmg_id')
                                                     ->get();
+
             $data['user_game_match_results'] = $user_game_match_results;
         }
 
@@ -113,12 +117,22 @@ class GameController extends ManageController
                 'game_name' => $user_active->game_name,
                 'game_server' => $user_active->game_server
             ];
-            $date = $request->except('_token');
+
+            $date = $request->except('_token','match_result','group_b_id');
             $array = array_diff($date, $param);
+            $group_b_id = $request->input('group_b_id');
+            $match_result = $request->input('match_result');
 
             if (!empty($array)) {
                 UserGameModel::where('uid', $user_active['uid'])->update($array);
             }
+            if($group_b_id != $group_id){
+                //UserGameMatchResultModel::
+            }
+            if($match_result != $user_active->win){
+
+            }
+
             return  redirect('manage/game/single');
         }
 
@@ -335,8 +349,8 @@ class GameController extends ManageController
         $single_num = $request->input('single_num');
         $couple_num = $request->input('couple_num');
 
-        DB::table('user_game_group')->truncate();
-        DB::table('user_game_match_result')->truncate();
+       /* DB::table('user_game_group')->truncate();
+        DB::table('user_game_match_result')->truncate();*/
 
         $single_count = UserActiveModel::wherePid(0)->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)->count();
 
@@ -357,8 +371,8 @@ class GameController extends ManageController
         $user_game_group_single = self::initQueue($user_game_group_single);
         $user_game_group_couple = self::initQueue($user_game_group_couple);
 
-        UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_SINGLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_single);
-        UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_COUPLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_couple);
+       /* UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_SINGLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_single);
+        UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_COUPLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_couple);*/
 
         UserGameSettingModel::createOne(UserGameSettingModel::TYPE_SINGLE,$single_num);
         UserGameSettingModel::createOne(UserGameSettingModel::TYPE_COUPLE,$couple_num);
@@ -422,11 +436,11 @@ class GameController extends ManageController
     //抽签报名
     static function reportAndDrawLots($userActive,$param,$page,$status,$user_game_rules)
     {
-        if($param['competition'] == 0){
+       /* if($param['competition'] == 0){
             $userActive = $userActive->where('user_active.group_id',$param['competition']);
-        }
+        }*/
         $user_active = UserActiveModel::getAllList($param,$userActive,$page);
-
+        dd($user_active);
         $data = array(
             'singles' => $user_active,
             'param' => $param,
