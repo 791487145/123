@@ -7,8 +7,6 @@
                         <div class="form-group search-list width285">
                             <label class="">状态　</label>
                             <select name="competition">
-                                <option value="999"@if(isset($param['competition']) && $param['competition']== 999)selected @endif>全部</option>
-                                <option value="0" @if(isset($param['competition']) && $param['competition']== 0)selected @endif>未分组</option>
                                 @foreach($user_game_rules as $user_game_rule)
                                     <option value="{{$user_game_rule->id}}" @if(isset($param['competition']) && $param['competition']== $user_game_rule->id)selected @endif>{{$user_game_rule->name}}</option>
                                 @endforeach
@@ -17,7 +15,7 @@
                         <input type="hidden" name="status" value="{{$status}}">
 
                         <div class="form-group search-list width285">
-                            <label class="">参赛结果　</label>
+                            <label class="">轮数　</label>
                             <select name="group_child">
                                 @foreach($user_game_rules_child as $value)
                                     <option value="{{$value['id']}}"@if(isset($param['group_child']) && $param['group_child']== 1)selected @endif>{{$value['name']}}</option>
@@ -28,9 +26,9 @@
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-sm">搜索</button>
                         </div>
-                        <div class="form-group">
+                       {{-- <div class="form-group">
                             <button type="button" class="btn btn-primary btn-sm">若当前比赛完结，进入{{$user_game_rule_ch->name}}比赛，请按确认</button>
-                        </div>
+                        </div>--}}
                     </div>
 
                 </form>
@@ -83,20 +81,30 @@
                             </td>
                             <td>{!! $single->game_server !!}</td>
                             <td>
-                                {!! $single->group !!}
+                                {!! $single->group !!}组{!! $single->num !!}号
                             </td>
                             <td>
                                 {!! $single->group_b !!}
                             </td>
                             <td>
-                                {!! $single->match_result !!}
+                                @if($single->win == 0)
+                                    暂无结果
+                                @endif
+                                @if($single->win == $single->group_id)
+                                    获胜
+                                @endif
+                                @if($single->win != 0 && $single->win != $single->group_id)
+                                    失败
+                                @endif
                             </td>
 
                             <td>
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <a class="btn btn-xs btn-info" href="{{$single->id}}/edit">
-                                        <i class="fa fa-edit"></i>编辑
-                                    </a>
+                                    @if($single->win == 0)
+                                       <a class="btn btn-xs btn-info" href="{{$single->id}}/edit">
+                                            <i class="fa fa-edit"></i>编辑
+                                       </a>
+                                    @endif
                                     {{-- <a class="btn btn-xs btn-danger" href="managerDel/{{ $single->id }}">
                                          <i class="fa fa-trash-o"></i>删除
                                      </a>
@@ -109,6 +117,11 @@
                             </td>
                         </tr>
                     @endforeach
+                    @if($user_game_rule_ch->status != 3)
+                        <tr class="draw_lots">
+                            <td colspan="9">若当前步骤完成，请按按钮进行分组<button type="button" class="btn btn-primary btn-sm group">分组</button></td>
+                        </tr>
+                    @endif
                     </tbody>
                 </form>
             </table>
@@ -123,4 +136,18 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+<input type="hidden" id="competition" name="_token" value="{{$param['group_child']}}">
+<input type="hidden" id="competition_next" name="_token" value="{{$group_child_next}}">
+<script>
+    $(".group").click(function () {
+        var competition_next = $("#competition_next").val();
+        var competition = $("#competition").val();
+        var _token = $("#_token").val();
+        $.post('/manage/game/hx/sectionalization',{_token:_token,type:1,competition:competition,competition_next:competition_next}, function (msg){
+            alert("分组成功");
+        })
+    })
+</script>
 

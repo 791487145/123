@@ -502,6 +502,7 @@ Route::group(['prefix' => 'manage'], function() {
 
     //比赛操作
     Route::post('/game/sectionalization', 'GameController@sectionalization');
+    Route::post('/game/hx/sectionalization', 'GameController@hXSectionalization');
 
     //赛制
     Route::get('/game/competition', 'GameController@competition')->name('competition');

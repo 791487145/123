@@ -4,7 +4,7 @@
 <form class="form-horizontal" role="form" action="" method="post">
 	{!! csrf_field() !!}
 	<div class="g-backrealdetails clearfix bor-border">
-
+	<input type="hidden" name="u_a_m_r_id" value="{{$user_active->u_g_m_r_id}}">
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1" > 编号：</p>
 		<p class="col-sm-4">
@@ -22,13 +22,13 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 游戏昵称：</p>
 		<p class="col-sm-4">
-			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5" value="{{ $user_active->game_name }}" name="game_name">
+			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5" value="{{ $user_active->game_name }}" name="game_name" disabled="disabled">
 		</p>
 	</div>
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 游戏区：</p>
 		<p class="col-sm-4">
-			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5" name="game_server" value="{{ $user_active->game_server }}">
+			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5" name="game_server" value="{{ $user_active->game_server }}" disabled="disabled">
 		</p>
 	</div>
 	<div class="bankAuth-bottom clearfix col-xs-12">
@@ -38,24 +38,15 @@
 			<span class="help-inline col-xs-12 col-sm-7"><i class="light-red ace-icon fa fa-asterisk"></i></span>
 		</p>
 	</div>
-	@if($user_active->group_id != 0 && $user_active->win == 0)
-		<div class="bankAuth-bottom clearfix col-xs-12">
-			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 对手：</p>
-			<select name="ugmg_id">
-				@if($user_active->group_b_id == 0)
-					<option value="0" @if($user_active->group_b_id == 0) selected @endif>轮空</option>
-				@endif
-				@if($user_active->group_b_id != 0)
-					<option value="0">轮空</option>
-					<option value="{{$user_active->group_b_id}}" selected>{{$user_active->group_b}}</option>
-				@endif
-				@foreach($user_game_match_results as $game_match_result)
-					<option value="{{$game_match_result->ugmg_id}}" @if($user_active->group_b_id == $game_match_result->id) selected @endif>{{$game_match_result->group}}组{{$game_match_result->num}}号</option>
-				@endforeach
-			</select>
-			</p>
-		</div>
-	@endif
+
+	<div class="bankAuth-bottom clearfix col-xs-12">
+		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 对手：</p>
+		<select name="ugmg_id">
+			<option value="{{$user_active->group_b_id}}" selected>{{$user_active->group_b}}</option>
+		</select>
+		</p>
+	</div>
+
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 比赛结果：</p>
 		<select name="match_result">

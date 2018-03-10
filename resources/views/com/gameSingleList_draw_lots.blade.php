@@ -103,6 +103,7 @@
     $(".group").click(function () {
         var status = $("#status").val();
         var competition = $("#competition").val();
+        alert(competition)
         var _token = $("#_token").val();
 
         $.post('/manage/game/sectionalization',{status:status,_token:_token,type:1,competition:competition}, function (msg){

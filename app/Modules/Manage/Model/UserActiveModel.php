@@ -50,8 +50,8 @@ class UserActiveModel extends Model
     //抽签
     static function sectionalization($group_id,$user_active,$type)
     {
-        $uesr_game_rules = UserGameRulesModel::where('name','报名')->first();
-        //$user_game_relus_first = UserGameRulesModel::where('pid',$uesr_game_rules->id)->orderBy('id','asc')->first();
+        $uesr_game_rules = UserGameRulesModel::where('name','抽签')->first();
+
         $param = array(
             'u_a_id' => $user_active->id,
             'u_g_g_id' => $group_id,
@@ -82,26 +82,6 @@ class UserActiveModel extends Model
                         ->select('user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
                         ->orderBy('id','asc')
                         ->paginate($page);
-       /* foreach($user_active as $value){
-            if($value->group_id == 0){
-                $value->group = '未分组';
-                continue;
-            }
-            if($value->group_id != 0 && $value->match_result == UserActiveModel::MATCH_RESULT_NOT_START){
-                $value->match_result = '暂无结果';
-            }
-            if($value->group_id != 0 && $value->match_result == UserActiveModel::MATCH_RESULT_FAIL){
-                $value->match_result = '失败';
-            }
-            if($value->group_id != 0 && $value->match_result == UserActiveModel::MATCH_RESULT_SUCCESS){
-                $value->match_result = '获胜';
-            }
-
-            $user_game_group = UserGameGroupModel::where('id',$value->group_id)->where('type',UserGameGroupModel::TYPE_SINGLE)
-                                                    ->select('group','num')->first();
-            $value->group = $user_game_group->group.'组'.$user_game_group->num.'号';
-        }*/
-
         return $user_active;
     }
 
@@ -113,7 +93,7 @@ class UserActiveModel extends Model
             ->where('user_active.type','=',1)
             ->leftJoin('users','users.id','=','user_active.uid')
             ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
-            ->select('user_game_group.group','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+            ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
             ->orderBy('id','asc')
             ->paginate($page);
 
