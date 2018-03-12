@@ -56,7 +56,7 @@ class UserActiveModel extends Model
             'u_a_id' => $user_active->id,
             'u_g_g_id' => $group_id,
             'type' => $type,
-            'competition' => $uesr_game_rules->id
+           /* 'competition' => $uesr_game_rules->id*/
         );
         UserActiveGroupModel::createOne($param);
 
@@ -77,20 +77,30 @@ class UserActiveModel extends Model
                         ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
                         ->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)
                         ->where('user_active.type','=',1)
+                        ->where('user_active_game_rule.type',1)
+                        ->where('user_active_game_rule.u_g_r_id',$param['competition'])
+                        ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
                         ->leftJoin('users','users.id','=','user_active.uid')
                         ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
-                        ->select('user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+                        ->select('user_active.id','user_active.created_at','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
                         ->orderBy('id','asc')
                         ->paginate($page);
         return $user_active;
     }
 
+    //个人及对手详情
     static function getListAll($param,$userActive,$page)
     {
         $user_active = $userActive->where('pid',0)
             ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
             ->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)
             ->where('user_active.type','=',1)
+            ->where('user_active_game_rule.type',1)
+            ->where('user_game_group.type',1)
+            ->where('user_active_game_rule.u_g_r_id',$param['competition'])
+            ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
+            ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
+            ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
             ->leftJoin('users','users.id','=','user_active.uid')
             ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
             ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')

@@ -4,6 +4,7 @@ namespace App\Modules\Manage\Http\Controllers;
 use App\Modules\Manage\Model\UserActiveGameRuleModel;
 use App\Modules\Manage\Model\UserActiveGroupModel;
 use App\Modules\Manage\Model\UserActiveModel;
+use App\Modules\Manage\Model\UserActiveSortVoteModel;
 use App\Modules\Manage\Model\UserActiveTeamModel;
 use App\Modules\Manage\Model\UserGameGroupModel;
 use App\Modules\Manage\Model\UserGameMatchResultModel;
@@ -33,217 +34,193 @@ class GameController extends ManageController
         //$this->theme->set('manageType', 'task');
     }
 
-    /**
-     * 单人列表
-     * @param Request $request
-     * @return mixed
-     */
     public function single(Request $request)
     {
         $param = array();
         $status = $request->input('status',1);
         $param['competition'] = $request->input('competition',0);
-        $param['group_child'] = $request->input('group_child',0);
         $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
 
         $userActive = new UserActiveModel();
 
-        if($param['competition'] == 0){
-            $user_game_rule = UserGameRulesModel::where('name','报名')->first();
+        $user_game_rule = UserGameRulesModel::where('id',$param['competition'])->first();
+
+        if(is_null($user_game_rule) || $param['competition'] == 0) {
+            $user_game_rule = UserGameRulesModel::where('name', '报名')->first();
             $status = 1;
-        }else{
-            $user_game_rule = UserGameRulesModel::where('id',$param['competition'])->first();
-            if($user_game_rule->name == "报名"){
-                $status = 1;
-            }
+        }
+
+        if(!is_null($user_game_rule)) {
             if($user_game_rule->name == "抽签"){
                 $status = 2;
             }
             if($user_game_rule->name == "海选"){
-                $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule->id)->orderBy('sort','asc')->get()->toArray();
-                if($param['group_child'] == 0){
-                    $param['group_child'] = $user_game_rule_hx_first[0]['id'];
-                }
                 $status = 3;
+            }
+            if($user_game_rule->name == "小组赛"){
+                $status = 4;
             }
         }
 
         if($status == 1){
             $param['competition'] = $user_game_rule->id;
-            $userActive = $userActive->where('user_active_game_rule.type',1)
-                                    ->where('user_active_game_rule.u_g_r_id',$param['competition'])
-                                    ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id');
             $data = self::reportAndDrawLots($userActive,$param,$this->page,$status,$user_game_rules);
         }
-        //抽签
+
         if($status == 2){
-            $userActive = $userActive->where('user_active_group.competition',$param['competition'])
-                                        ->where('user_active_game_rule.u_g_r_id',$param['competition'])
-                                        ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
-                                        ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
-                                        ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id');
-            $param['user_game_rule'] = $user_game_rule->status;
+            $param['competition'] = $user_game_rule->id;
+            $param['state'] = $user_game_rule->status;
             $data = self::reportAndDrawLots($userActive,$param,$this->page,$status,$user_game_rules);
         }
-        //海选
+
         if($status == 3){
-
-            $userActive = $userActive->where('user_active_group.competition',$param['competition'])
-                ->where('user_active_game_rule.u_g_r_id',$param['group_child'])
-                ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
-                ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
-                ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id');
-
-            $data = self::audition($userActive,$param,$this->page,$status,$user_game_rules);
-
-            for($i=0;$i<count($user_game_rule_hx_first);$i++){
-                if($param['group_child'] == $user_game_rule_hx_first[$i]['id'] && isset($user_game_rule_hx_first[$i+1])){
-                    $data['group_child_next'] = $user_game_rule_hx_first[$i+1]['id'];
-                }
-                if($param['group_child'] == $user_game_rule_hx_first[$i]['id'] && !isset($user_game_rule_hx_first[$i+1])){
-                    $user_game_rule = UserGameRulesModel::where('name','小组赛')->first();
-                    $data['group_child_next'] = $user_game_rule->id;
-                }
-            }
+            $param['competition'] = $user_game_rule->id;
+            $data = self::audition($userActive,$param,$this->page,$status,$user_game_rules,1);
         }
 
+        if($status == 4){
+            $param['competition'] = $user_game_rule->id;
+            $data = self::audition($userActive,$param,$this->page,$status,$user_game_rules,1);
+        }
+        //dd($data);
         return $this->theme->scope('manage.gameSingleList', $data)->render();
+
     }
 
-    //单人赛编辑
+    //单人编辑
     public function singleEdit($id,Request $request)
     {
-        $User_active_game_rule = UserActiveGameRuleModel::where('u_a_id',$id)->orderBy('id','desc')->first();
-        $user_game_rule = UserGameRulesModel::where('id',$User_active_game_rule->u_g_r_id)->first();
+        $id_array = explode("_",$id);
+        $user_active = UserActiveModel::where('user_active.id', $id_array[1])
+            ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
+            ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
+            ->leftJoin('users','users.id','=','user_active.uid')
+            ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
+            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+            ->select('user_game_group.group','user_active_game_rule.u_g_r_id','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+            ->orderBy('user_active_game_rule.id','desc')
+            ->first();
 
-        $user_active = UserActiveModel::where('user_active.id', $id)
-                            ->where('user_active_group.competition',$user_game_rule->pid)
-                             ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
-                             ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
-                            ->leftJoin('users','users.id','=','user_active.uid')
-                            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
-                            ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
-                            ->first();
+        $user_game_match_result = UserGameMatchResultModel::where('id',$id_array[0])->first();
 
-        $user_active->group = $user_active->group.'组'.$user_active->num.'号';
+        $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
+        //$user_game_rule = UserGameRulesModel::where('id',$user_game_match_result->competition)->first();
 
-        $user_game_match_result = UserGameMatchResultModel::where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id)->where('competition',$user_game_rule->id)->first();
-        $user_active->u_g_m_r_id = $user_game_match_result->id;
-
-        if($user_game_match_result->group_a == $user_active->group_id){
-            $group_id = $user_game_match_result->group_b;
-        }else{
-            $group_id = $user_game_match_result->group_a;
-        }
-        $user_game_group = UserGameGroupModel::where('id',$group_id)->first();
-        $user_active->win =  $user_game_match_result->win;
-
-        $user_active->group_b_id = $group_id;
-        $user_active->group_b = '轮空';
-        if(!is_null($user_game_group)){
-            $user_active->group_b = $user_game_group->group.'组'.$user_game_group->num.'号';
+        if($user_game_match_result->competition != $user_active->u_g_r_id){
+            return 1;
         }
 
-        if ($request->isMethod('post')) {
-
-            $date = $request->except('_token');
-            UserGameMatchResultModel::where('id',$date['u_a_m_r_id'])->update(['win' => $date['match_result']]);
-
-            return  redirect('manage/game/single?competition='.$user_game_rule->pid.'&status=1');
+        $user_active->group_b_id = $user_game_match_result->group_a;
+        if($user_active->group_id == $user_game_match_result->group_a){
+            $user_active->group_b_id = $user_game_match_result->group_b;
         }
 
-        $data['user_active'] = $user_active;
+        if($request->isMethod('post')){
+            $data = $request->except("_token");
+            if($data['u_g_r_id'] != 0){
+                $user_active_game_rule = UserActiveGameRuleModel::where('u_g_r_id',$data['u_g_r_id'])->where('u_a_id',$id_array[1])->where('type',1)->first();
+                if(is_null($user_active_game_rule)){
+                    $param = array(
+                        'u_g_r_id' => $data['u_g_r_id'],
+                        'u_a_id' => $id_array[1],
+                        'type' => 1
+                    );
+                    UserActiveGameRuleModel::createOne($param);
+                }
+            }
+
+            if($data['match_result'] == 1){
+                UserGameMatchResultModel::where('id',$id_array[0])->update(['win' => $user_active->group_id]);
+            }else{
+                UserGameMatchResultModel::where('id',$id_array[0])->update(['win' => $user_active->group_b_id]);
+            }
+
+            return  redirect('manage/game/single?competition='.$user_game_match_result->competition.'&status=1');
+
+        }
+
+        $data = array(
+            'user_game_rules' => $user_game_rules,
+            'user_active' => $user_active,
+            'id' =>$id
+        );
 
         return $this->theme->scope('manage.gameSingelDetail', $data)->render();
-
     }
 
-    //大分组
+
+    //首次分组
     public function sectionalization(Request $request)
     {
         $data = $request->except('_token');
         $user_game_setting = UserGameSettingModel::where('type',$data['type'])->first();
-        $group_ids = UserActiveGroupModel::where('competition',$data['competition'])->where('type',$data['type'])->orderBy('u_g_g_id','asc')->lists('u_g_g_id')->toArray();
-        $user_ids = UserActiveGroupModel::where('competition',$data['competition'])->where('type',$data['type'])->orderBy('u_g_g_id','asc')->lists('u_a_id')->toArray();
-        if($data['type'] == 1){
+        $group_ids = UserActiveGroupModel::where('type',$data['type'])->orderBy('u_g_g_id','asc')->lists('u_g_g_id')->toArray();
+        $user_ids = UserActiveGroupModel::where('type',$data['type'])->orderBy('u_g_g_id','asc')->lists('u_a_id')->toArray();
+        $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
 
-            if($data['status'] == 2){
-                $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
-                $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('sort','asc')->first();
-                $user_active_groups = UserActiveGroupModel::where('competition',$data['competition'])->get();
-                foreach($user_active_groups as $k=>$user_active_group ){
-                    $param = array(
-                        'u_a_id' => $user_ids[$k],
-                        'u_g_g_id' => $user_active_group->u_g_g_id,
-                        'type' => $data['type'],
-                        'competition' => $user_game_rule_hx->id,
-                    );
-                    UserActiveGroupModel::createOne($param);
-                }
-                UserGameRulesModel::where('id',$data['competition'])->update(['status' => 3]);
-                UserGameRulesModel::whereIn('id',array($user_game_rule_hx->id,$user_game_rule_hx_first->id))->update(['status' => 2]);
-            }
+        if($data['type'] == 1){
+            UserGameRulesModel::where('id',$data['competition'])->update(['status' => 3]);
 
             for($i=0;$i<count($user_ids);$i++){
                 $param = array(
                     'u_a_id' => $user_ids[$i],
-                    'u_g_r_id' => $user_game_rule_hx_first->id,
+                    'u_g_r_id' => $user_game_rule_hx->id,
                     'type' => $data['type']
                 );
                 UserActiveGameRuleModel::createOne($param);
             }
-            UserGameMatchResultModel::detail($data['type'],$user_game_rule_hx->id,$group_ids,$user_game_setting);
         }
+
+        UserGameMatchResultModel::detail($data['type'],$user_game_rule_hx->id,$group_ids,$user_game_setting);
 
         return 1;
     }
 
-    //小分组
-    public function hXSectionalization(Request $request)
+    //手动分组
+    public function binarySectionalization(Request $request)
     {
         $data = $request->except('_token');
-        $user_game_setting = UserGameSettingModel::where('type',$data['type'])->first();
-        $user_active_match_result_ids = UserGameMatchResultModel::where('competition',$data['competition'])->where('type',$data['type'])->lists('win')->toArray();
-        $user_game_rule_child_up = UserGameRulesModel::where('id',$data['competition'])->first();
-        $user_game_rule_next = UserGameRulesModel::where('id',$data['competition_next'])->first();
-
-        $user_ids = UserActiveGroupModel::whereIn('u_g_g_id',$user_active_match_result_ids)->where('competition',$user_game_rule_child_up->pid)->where('type',$data['type'])->first();
-
-        UserGameRulesModel::where('id',$data['competition'])->update(['status' => 3]);
-        UserGameRulesModel::where('id',$data['competition_next'])->update(['status' => 2]);
-
-        for($i=0;$i<count($user_ids);$i++){
-            $param = array(
-                'u_a_id' => $user_ids[$i],
-                'u_g_r_id' => $data['competition_next'],
-                'type' => $data['type']
-            );
-            UserActiveGameRuleModel::createOne($param);
+        $count = count($data['id']);
+        if($count == 1){
+            $group_b = 0;
+        }else{
+            $group_b = UserActiveGroupModel::where('u_a_id',$data['id'][1])->where('type',$data['type'])->pluck('u_g_g_id');
         }
 
-        if($user_game_rule_next->name == "小组赛"){
-            return  1;
-        }
+        $user_group_id = UserActiveGroupModel::where('u_a_id',$data['id'][0])->where('type',$data['type'])->pluck('u_g_g_id');
 
-        UserGameMatchResultModel::detail($data['type'],$data['competition_next'],$user_active_match_result_ids,$user_game_setting);
-        return  1;
 
+        $param = array(
+            'type' => $data['type'],
+            'competition' => $data['competition'],
+            'group_a' => $user_group_id,
+            'group_b' => $group_b,
+            'created_at' => date("Y-m-d H:i:s")
+        );
+
+        UserGameMatchResultModel::createOne($param);
+
+
+
+        return 1;
     }
 
-    static function binarySectionalization($user_game_setting,$group_ids,$type)
+    //二次分组
+    public function sectionalizationDetail(Request $request)
     {
-        if($user_game_setting->num == 4){
-            for($i=1;$i<=4;$i++){
-                $user_game_groups = UserGameGroupModel::whereIn('id',$group_ids)->where('group_mark',$i)->get();
-                if(!$user_game_groups->isEmpty()){
-                    $user_game_groups = $user_game_groups->toArray();
-
-                }
-            }
-
+        $data = $request->except('_token');
+        $result = UserGameMatchResultModel::where('competition',$data['competition'])->where('win',0)->first();
+        if(!is_null($result)){
+            return 0;
         }
+        $group_ids = UserGameMatchResultModel::where('competition',$data['competition'])->where('win','!=',0)->lists('win');
+        $user_game_setting = UserGameSettingModel::where('type',$data['type'])->first();
+        UserGameMatchResultModel::detail($data['type'],$data['competition'],$group_ids,$user_game_setting);
 
+        return 1;
     }
+
+
 
     //团队列表
     public function team($type,Request $request)
@@ -488,17 +465,8 @@ class GameController extends ManageController
         $single_remainder = self::theRemainder($single_remainder);
         $couple_remainder = self::theRemainder($couple_remainder);
 
-        $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
-        $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('sort','asc')->first();
-
-        $user_game_group_single = UserGameGroupModel::createOne($single_remainder['array'],UserGameGroupModel::TYPE_SINGLE,$user_game_rule_hx_first->id);
-        $user_game_group_couple = UserGameGroupModel::createOne($couple_remainder['array'],UserGameGroupModel::TYPE_COUPLE,$user_game_rule_hx_first->id);
-
-        /*$user_game_group_single = self::initQueue($user_game_group_single);
-        $user_game_group_couple = self::initQueue($user_game_group_couple);*/
-
-        /*UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_SINGLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_single);
-        UserGameMatchResultModel::detail(UserGameMatchResultModel::TYPE_COUPLE,UserGameGroupModel::COMPETITION_NOT_START,$user_game_group_couple);*/
+        $user_game_group_single = UserGameGroupModel::createOne($single_remainder['array'],UserGameGroupModel::TYPE_SINGLE,1);
+        $user_game_group_couple = UserGameGroupModel::createOne($couple_remainder['array'],UserGameGroupModel::TYPE_COUPLE,1);
 
         UserGameSettingModel::createOne(UserGameSettingModel::TYPE_SINGLE,$single_num);
         UserGameSettingModel::createOne(UserGameSettingModel::TYPE_COUPLE,$couple_num);
@@ -569,9 +537,9 @@ class GameController extends ManageController
             $user_active = UserActiveModel::getAllList($param,$userActive,$page);
         }
 
-        if(isset($param['user_game_rule'])){
-            $data['state'] = $param['user_game_rule'];
-            unset($param['user_game_rule']);
+        if(isset($param['state'])){
+            $data['state'] = $param['state'];
+            unset($param['state']);
         }
 
         $data['singles'] = $user_active;
@@ -581,38 +549,41 @@ class GameController extends ManageController
         return $data;
     }
 
-    //海选
-    static function audition($userActive,$param,$page,$status,$user_game_rules)
+    //海选-小组
+    static function audition($userActive,$param,$page,$status,$user_game_rules,$type)
     {
-        $user_game_rules_child = UserGameRulesModel::where('pid',$param['competition'])->orderBy('id','asc')->get()->toArray();
-
-        $user_game_rules_count = count($user_game_rules_child);
-        if($user_game_rules_child[$user_game_rules_count -1]['id'] == $param['group_child']){
-            $user_game_rule_ch = UserGameRulesModel::where('name','小组赛')->first();
-        }else{
-            for($i = 0;$i < $user_game_rules_count ;$i++){
-                if($user_game_rules_child[$i]['id'] == $param['group_child']){
-                    $user_game_rule_ch = UserGameRulesModel::where('id',$user_game_rules_child[$i]['id'])->first();//自己
-                }
-            }
-        }
 
         $user_actives = UserActiveModel::getListAll($param,$userActive,$page);
-        //dd($user_game_rule_ch);
         foreach($user_actives as $user_active){
-            $user_game_match_result = UserGameMatchResultModel::where('competition',$param['group_child'])->where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id)->first();
-            if($user_game_match_result->group_a == $user_active->group_id){
-                $group_id = $user_game_match_result->group_b;
-            }else{
-                $group_id = $user_game_match_result->group_a;
-            }
-            $user_game_group = UserGameGroupModel::where('id',$group_id)->first();
+            $user_game_match_results = UserGameMatchResultModel::where('type',$type)->where('competition',$param['competition'])->where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id)->get();
+            $count = count($user_game_match_results);
+            foreach($user_game_match_results as $key=>$user_game_match_result){
+                if($user_game_match_result->group_a == $user_active->group_id){
+                    $group_id = $user_game_match_result->group_b;
+                }else{
+                    $group_id = $user_game_match_result->group_a;
+                }
+                $user_game_group = UserGameGroupModel::where('id',$group_id)->first();
 
-            $user_active->win = $user_game_match_result->win;
-            $user_active->group_b = '轮空';
-            if(!is_null($user_game_group)){
-                $user_active->group_b = $user_game_group->group.'组'.$user_game_group->num.'号';
+                if($key == $count - 1){
+                    $user_active->match_status = 0;
+                }
+
+                $user_game_match_result->group_b_num = '轮空';
+                if(!is_null($user_game_group)){
+                    if($key == $count - 1){
+                        $user_active->match_status = 1;
+                    }
+                    $user_game_match_result->group_b_num = $user_game_group->group.'组'.$user_game_group->num.'号';
+                }
             }
+
+            $user_active_sort_vote = UserActiveSortVoteModel::where('u_a_id',$user_active->id)->where('type',$type)->where('competition',$param['competition'])->first();
+            if(!is_null($user_active_sort_vote)){
+                $user_active->sort_vote = $user_active_sort_vote;
+            }
+
+            $user_active->result = $user_game_match_results;
         }
 
         $data = array(
@@ -620,8 +591,6 @@ class GameController extends ManageController
             'param' => $param,
             'status' => $status,
             'user_game_rules' => $user_game_rules,//大选项
-            'user_game_rules_child' => $user_game_rules_child,//子选项
-            'user_game_rule_ch' => $user_game_rule_ch//当前第几轮
         );
         return $data;
     }

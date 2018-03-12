@@ -77,7 +77,7 @@
                             </td>
                         </tr>
                     @endforeach
-                        @if($state != 3)
+                       @if($state != 3)
                             <tr class="draw_lots">
                                 <td colspan="7">若抽签步骤完成，请按按钮进行分组<button type="button" class="btn btn-primary btn-sm group">分组</button></td>
                             </tr>
@@ -103,12 +103,11 @@
     $(".group").click(function () {
         var status = $("#status").val();
         var competition = $("#competition").val();
-        alert(competition)
         var _token = $("#_token").val();
-
         $.post('/manage/game/sectionalization',{status:status,_token:_token,type:1,competition:competition}, function (msg){
             $("#draw_lots").remove();
             alert("分组成功");
+            $(".draw_lots").hide();
         })
     })
 </script>

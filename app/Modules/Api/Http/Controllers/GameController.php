@@ -901,23 +901,23 @@ class GameController extends ApiBaseController
         }
 
         //TODO::超时判断
-        $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
-        $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('id','asc')->first();
-
+       /* $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
+        $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('id','asc')->first();*/
 
         if($data['type'] == 1){//1v1
             $where = [
                 'uid'=>$this->uid,
                 'type' => UserActiveModel::ACTIVE_TYPE_WX,
                 'active_type' => 1,
-                'cantain' => UserActiveModel::ACTIVE_CANTAIN_ONE
+                'cantain' => UserActiveModel::ACTIVE_CANTAIN_ONE,
+                'pid' => 0
             ];
             $user_active = UserActiveModel::userIsExist($where);
 
             if(is_null($user_active)){
                 return $this->formateResponse(1001,'您还没有报名，请先报名');
             }
-
+            //dd($user_active);
             $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active->id)->first();
 
             if(!is_null($user_active_group)){
@@ -934,7 +934,7 @@ class GameController extends ApiBaseController
 
         $user_active_group_id = UserActiveGroupModel::where('type',$data['type'])->lists('u_g_g_id')->toArray();
 
-        $user_game_group = UserGameGroupModel::where('type',$data['type'])->where('competition',$user_game_rule_hx_first->id)->lists('id')->toArray();
+        $user_game_group = UserGameGroupModel::where('type',$data['type'])->lists('id')->toArray();
         $D_value = array_diff($user_game_group,$user_active_group_id);
 
         $group_id = $user_game_group[array_rand($D_value)];

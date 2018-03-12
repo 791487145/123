@@ -5,11 +5,10 @@
 	@include('com.gameSingleList_draw_lots')
 @endif
 @if($status == 3)
-	@if($user_game_rule_ch->status == 1)
-		当前比赛还未开始，请耐心等待
-	@else
 	@include('com.gameSingleList_audition')
-	@endif
+@endif
+@if($status == 4)
+	@include('com.gameSingleList_group_game')
 @endif
 <script>
     //全选

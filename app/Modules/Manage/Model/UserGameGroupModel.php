@@ -34,7 +34,7 @@ class UserGameGroupModel extends Model
                 $param['num'] = $j + 1;
                 $param['server'] = self::SERVER_WX;
                 $param['type'] = $type;
-                $param['competition'] = $competition;
+                /*$param['competition'] = $competition;*/
                 $param['group_mark'] = $i + 1;
                 self::create($param);
             }

@@ -25,6 +25,13 @@ class UserGameMatchResultModel extends Model
 
     public $timestamps = false;
 
+    static function createOne($param)
+    {
+        self::insert($param);
+
+        return true;
+    }
+
     //对决详情展示
     static function detail($type,$competition,$group_ids,$user_game_setting)
     {
@@ -58,4 +65,6 @@ class UserGameMatchResultModel extends Model
 
         return true;
     }
+
+
 }

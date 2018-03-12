@@ -40,9 +40,12 @@
 	</div>
 
 	<div class="bankAuth-bottom clearfix col-xs-12">
-		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 对手：</p>
-		<select name="ugmg_id">
-			<option value="{{$user_active->group_b_id}}" selected>{{$user_active->group_b}}</option>
+		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 晋级：</p>
+		<select name="u_g_r_id">
+			<option value="0" selected>暂不晋级</option>
+			@foreach($user_game_rules as $user_game_rule)
+				<option value="{{$user_game_rule->id}}">{{$user_game_rule->name}}</option>
+			@endforeach
 		</select>
 		</p>
 	</div>
@@ -50,11 +53,8 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 比赛结果：</p>
 		<select name="match_result">
-			<option value="0" @if($user_active->win == 0) selected @endif>暂无结果</option>
-			<option value="{{$user_active->group_id}}" @if($user_active->group_id == $user_active->win) selected @endif>获胜</option>
-			@if($user_active->group_b_id != 0)
-				<option value="{{$user_active->group_b_id}}" @if($user_active->group_b_id == $user_active->win) selected @endif>失败</option>
-			@endif
+			<option value="1">获胜</option>
+			<option value="0">失败</option>
 		</select>
 		</p>
 	</div>

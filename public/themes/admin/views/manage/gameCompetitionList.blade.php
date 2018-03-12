@@ -62,9 +62,9 @@
                                    {{-- <a class="btn btn-xs btn-danger" onclick="del({{$user_game_rule['id']}})" href="javascript:void(0)">
                                         <i class="fa fa-trash-o"></i>删除
                                     </a>--}}
-                                    <a  href="/manage/game/competition/add/{{$user_game_rule['id']}}" title="添加" class="btn btn-xs btn-orange">
+                                  {{--  <a  href="/manage/game/competition/add/{{$user_game_rule['id']}}" title="添加" class="btn btn-xs btn-orange">
                                         <i class="fa fa-edit bigger-120"></i>添加
-                                    </a>
+                                    </a>--}}
                                    {{--
                                     <a href="/manage/taskDetail/{{ $single->id }}" class="btn btn-xs btn-info">
                                         <i class="ace-icon fa fa-edit bigger-120">详情</i>

@@ -42,6 +42,9 @@
                         组别
                     </th>
                     <th>
+                        分数
+                    </th>
+                    <th>
                         对手组别
                     </th>
                     <th>
@@ -79,6 +82,18 @@
                             <td rowspan = '{{count($single->result)}}'>
                                 {!! $single->group !!}组{!! $single->num !!}号
                             </td>
+                            <td rowspan = '{{count($single->result)}}'>
+                                @if(isset($single->sort_vote))
+                                    {{$single->sort_vote->sort}}
+                                @else
+                                    0
+                                @endif
+                            </td>
+                        @if($single->result->isEmpty())
+                            <td>无</td>
+                            <td>无</td>
+                            <td>无</td>
+                        @else
                             @foreach($single->result as $k=>$result)
                                 @if($k >0)
                                     <tr>
@@ -110,11 +125,12 @@
                                     </tr>
                                 @endif
                             @endforeach
+                        @endif
                         </tr>
                     @endforeach
 
                     <tr class="draw_lots">
-                        <td colspan="4"><button type="button" class="btn btn-primary btn-sm group">分组</button></td>
+                       {{-- <td colspan="4"><button type="button" class="btn btn-primary btn-sm group">分组</button></td>--}}
                         <td colspan="5"><button type="button" class="btn btn-primary btn-sm binarySectionalization">手动筛选确认</button></td>
                     </tr>
 
