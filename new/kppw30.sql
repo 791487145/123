@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-03-12 17:32:15
+Date: 2018-03-14 17:28:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47430,7 +47430,7 @@ CREATE TABLE `kppw_system_log` (
   `IP` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'IP地址',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_system_log
@@ -47554,6 +47554,8 @@ INSERT INTO `kppw_system_log` VALUES ('116', '0', '1', 'sjlmadmin', '0', 'sjlmad
 INSERT INTO `kppw_system_log` VALUES ('117', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-09 14:41:43登录', '127.0.0.1', '2018-03-09 14:41:43');
 INSERT INTO `kppw_system_log` VALUES ('118', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-10 09:13:04登录', '127.0.0.1', '2018-03-10 09:13:04');
 INSERT INTO `kppw_system_log` VALUES ('119', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-12 09:21:01登录', '127.0.0.1', '2018-03-12 09:21:01');
+INSERT INTO `kppw_system_log` VALUES ('120', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-14 09:22:26登录', '127.0.0.1', '2018-03-14 09:22:26');
+INSERT INTO `kppw_system_log` VALUES ('121', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-14 14:07:35登录', '127.0.0.1', '2018-03-14 14:07:35');
 
 -- ----------------------------
 -- Table structure for kppw_system_tasks
@@ -48165,7 +48167,7 @@ CREATE TABLE `kppw_user_active_game_rule` (
   `u_g_r_id` int(11) DEFAULT NULL COMMENT 'user_game_rule的id',
   `type` int(11) DEFAULT '1' COMMENT '1个人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='用户赛制';
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户赛制';
 
 -- ----------------------------
 -- Records of kppw_user_active_game_rule
@@ -48186,6 +48188,18 @@ INSERT INTO `kppw_user_active_game_rule` VALUES ('18', '8', '4', '1');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('19', '34', '4', '1');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('20', '35', '4', '1');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('21', '36', '4', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('22', '8', '10', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('23', '34', '3', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('24', '35', '3', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('25', '36', '3', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('26', '36', '12', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('27', '34', '11', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('28', '35', '11', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('29', '8', '11', '1');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('30', '17', '8', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('31', '18', '8', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('32', '25', '8', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('33', '26', '8', '2');
 
 -- ----------------------------
 -- Table structure for kppw_user_active_group
@@ -48196,19 +48210,22 @@ CREATE TABLE `kppw_user_active_group` (
   `u_a_id` int(11) DEFAULT NULL COMMENT 'user_active',
   `u_g_g_id` int(11) DEFAULT NULL COMMENT 'user_game_group',
   `type` int(11) DEFAULT '1' COMMENT '1个人；2团队',
-  `competition` int(11) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='用户分组';
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户分组';
 
 -- ----------------------------
 -- Records of kppw_user_active_group
 -- ----------------------------
-INSERT INTO `kppw_user_active_group` VALUES ('1', '8', '2', '1', '8');
-INSERT INTO `kppw_user_active_group` VALUES ('7', '37', '9', '1', '1');
-INSERT INTO `kppw_user_active_group` VALUES ('8', '36', '6', '1', '1');
-INSERT INTO `kppw_user_active_group` VALUES ('9', '35', '5', '1', '1');
-INSERT INTO `kppw_user_active_group` VALUES ('10', '34', '7', '1', '1');
-INSERT INTO `kppw_user_active_group` VALUES ('11', '33', '3', '1', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('1', '8', '2', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('7', '37', '9', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('8', '36', '6', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('9', '35', '5', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('10', '34', '7', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('11', '33', '3', '1');
+INSERT INTO `kppw_user_active_group` VALUES ('12', '17', '13', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('13', '18', '14', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('14', '25', '15', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('15', '26', '16', '2');
 
 -- ----------------------------
 -- Table structure for kppw_user_active_sort_vote
@@ -48223,11 +48240,14 @@ CREATE TABLE `kppw_user_active_sort_vote` (
   `vote` int(11) DEFAULT '0' COMMENT '票数',
   `type` int(11) DEFAULT '1' COMMENT '1个人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户票数及计分';
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户票数及计分';
 
 -- ----------------------------
 -- Records of kppw_user_active_sort_vote
 -- ----------------------------
+INSERT INTO `kppw_user_active_sort_vote` VALUES ('3', '34', '7', '4', '4', '0', '1');
+INSERT INTO `kppw_user_active_sort_vote` VALUES ('4', '35', '5', '4', '4', '0', '1');
+INSERT INTO `kppw_user_active_sort_vote` VALUES ('5', '36', '6', '4', '4', '0', '1');
 
 -- ----------------------------
 -- Table structure for kppw_user_active_team
@@ -48249,7 +48269,7 @@ CREATE TABLE `kppw_user_active_team` (
   `status` tinyint(4) NOT NULL DEFAULT '2' COMMENT '审核开启；2正常;1禁赛',
   `user_no` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   `report_status` tinyint(4) DEFAULT '0' COMMENT '是否报名0：否1：是',
-  `remark` varchar(20) DEFAULT NULL COMMENT '备注人数',
+  `remark` int(20) DEFAULT '0' COMMENT '备注人数',
   `match_result` int(11) DEFAULT '0' COMMENT '比赛结果0：未开始',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='战队信息';
@@ -48257,17 +48277,17 @@ CREATE TABLE `kppw_user_active_team` (
 -- ----------------------------
 -- Records of kppw_user_active_team
 -- ----------------------------
-INSERT INTO `kppw_user_active_team` VALUES ('17', '王者不可', null, '8', 'Hanna', '18335162521', '164', null, '2018-01-13 11:31:12', '2018-03-02 13:45:44', '2018011325', '1', '2', '201801131130400000008', '1', '', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('18', 'NB', 'uploads/game/moren/ZDlogo_01.png', '80', 'zfy2', '17696041235', '88', null, '2018-01-18 09:48:50', '2018-03-01 14:16:58', '2018011898', '1', '2', '2018011616113500000080', '1', '', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('25', 'hao', 'uploads\\game\\2018/01/24\\c4f48cfda23f5c62e8e7bbfdbb724f5f.jpg', '0', 'hah', '0', '0', null, '2018-01-24 10:53:08', '2018-03-01 14:16:58', '2018012425', '1', '2', '0', '1', '5', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('26', '34', 'uploads\\game\\2018/02/02\\9232b9c50553728f62a020bfa744f1c9.jpg', '0', '2', '', '0', null, '2018-02-02 14:33:28', '2018-03-01 14:16:58', null, '1', '2', '', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('27', '4', 'uploads\\game\\2018/02/02\\734f35afe8fe3b0f36b81d8ce4f4d244.jpeg', '0', '4', '0', '0', null, '2018-02-02 14:34:34', '2018-03-01 14:16:58', null, '1', '2', '0', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('28', '5', 'uploads\\game\\2018/02/02\\932d85eee9ea4dd6ba56460205a85132.jpg', '0', '76', '0', '0', null, '2018-02-02 14:35:18', '2018-03-01 14:16:58', '2018020228', '1', '2', '0', '1', '5', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('29', '08', 'uploads\\game\\2018/02/02\\f4e1e47d749aadc14a3146c7d645bed0.jpeg', '0', '8', '0', '0', null, '2018-02-02 14:35:42', '2018-03-01 14:16:57', '2018020229', '1', '2', '0', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('30', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '0', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '5', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('31', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '0', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '1', '5', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('32', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '0', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '5', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('33', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '0', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '1', '5', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('17', '王者不可', null, '8', 'Hanna', '18335162521', '164', null, '2018-01-13 11:31:12', '2018-03-02 13:45:44', '2018011325', '1', '2', '201801131130400000008', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('18', 'NB', 'uploads/game/moren/ZDlogo_01.png', '80', 'zfy2', '17696041235', '88', null, '2018-01-18 09:48:50', '2018-03-01 14:16:58', '2018011898', '1', '2', '2018011616113500000080', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('25', 'hao', 'uploads\\game\\2018/01/24\\c4f48cfda23f5c62e8e7bbfdbb724f5f.jpg', '8', 'hah', '0', '0', null, '2018-01-24 10:53:08', '2018-03-01 14:16:58', '2018012425', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('26', '34', 'uploads\\game\\2018/02/02\\9232b9c50553728f62a020bfa744f1c9.jpg', '8', '2', '', '0', null, '2018-02-02 14:33:28', '2018-03-01 14:16:58', null, '1', '2', '', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('27', '4', 'uploads\\game\\2018/02/02\\734f35afe8fe3b0f36b81d8ce4f4d244.jpeg', '8', '4', '0', '0', null, '2018-02-02 14:34:34', '2018-03-01 14:16:58', null, '1', '2', '0', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('28', '5', 'uploads\\game\\2018/02/02\\932d85eee9ea4dd6ba56460205a85132.jpg', '8', '76', '0', '0', null, '2018-02-02 14:35:18', '2018-03-01 14:16:58', '2018020228', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('29', '08', 'uploads\\game\\2018/02/02\\f4e1e47d749aadc14a3146c7d645bed0.jpeg', '8', '8', '0', '0', null, '2018-02-02 14:35:42', '2018-03-01 14:16:57', '2018020229', '1', '2', '0', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('30', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('31', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('32', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('33', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for kppw_user_address
@@ -48661,7 +48681,7 @@ CREATE TABLE `kppw_user_game_match_result` (
   `competition` int(11) DEFAULT '1' COMMENT '比赛类型1：海选',
   `sort` int(255) DEFAULT '0' COMMENT '得分',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='比赛详情及结果';
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='比赛详情及结果';
 
 -- ----------------------------
 -- Records of kppw_user_game_match_result
@@ -48676,6 +48696,15 @@ INSERT INTO `kppw_user_game_match_result` VALUES ('12', '2', '1', '2018-03-12 17
 INSERT INTO `kppw_user_game_match_result` VALUES ('13', '5', '1', '2018-03-12 17:27:43', '5', '0', null, '1', '0');
 INSERT INTO `kppw_user_game_match_result` VALUES ('14', '7', '1', '2018-03-12 17:27:36', '7', '9', null, '1', '0');
 INSERT INTO `kppw_user_game_match_result` VALUES ('15', '6', '1', '2018-03-12 17:27:55', '6', '0', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('20', '7', '1', '2018-03-14 10:17:38', '2', '7', null, '4', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('21', '5', '1', '2018-03-14 10:25:12', '5', '0', null, '4', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('22', '6', '1', '2018-03-14 10:25:40', '6', '0', null, '4', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('23', '7', '1', '2018-03-14 15:08:05', '7', '5', null, '3', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('24', '6', '1', '2018-03-14 15:08:24', '5', '6', null, '3', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('25', '6', '1', '2018-03-14 15:08:40', '7', '6', null, '3', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('26', '2', '1', '2018-03-14 15:13:43', '2', '0', null, '10', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('27', '5', '1', '2018-03-14 15:14:07', '5', '2', null, '11', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('28', '7', '1', '2018-03-14 15:14:29', '7', '5', null, '11', '0');
 
 -- ----------------------------
 -- Table structure for kppw_user_game_rules
@@ -48691,7 +48720,7 @@ CREATE TABLE `kppw_user_game_rules` (
   `sort` int(11) DEFAULT '0' COMMENT '排序',
   `pid` int(11) DEFAULT '0' COMMENT '父id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='比赛赛制';
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='比赛赛制';
 
 -- ----------------------------
 -- Records of kppw_user_game_rules
@@ -48699,9 +48728,11 @@ CREATE TABLE `kppw_user_game_rules` (
 INSERT INTO `kppw_user_game_rules` VALUES ('1', '海选', '1', '2018-03-02 15:34:48', '2018-03-10 17:01:08', '1', '2', '0');
 INSERT INTO `kppw_user_game_rules` VALUES ('3', '淘汰赛', '1', null, null, '1', '4', '0');
 INSERT INTO `kppw_user_game_rules` VALUES ('4', '小组赛', '1', null, null, '1', '3', '0');
+INSERT INTO `kppw_user_game_rules` VALUES ('12', '冠军赛', '1', null, null, '1', '6', '0');
 INSERT INTO `kppw_user_game_rules` VALUES ('8', '抽签', '1', null, '2018-03-12 10:26:25', '3', '1', '0');
 INSERT INTO `kppw_user_game_rules` VALUES ('9', '报名', '1', null, null, '1', '0', '0');
 INSERT INTO `kppw_user_game_rules` VALUES ('10', '复活赛', '1', null, '2018-03-12 17:03:10', '1', '3', '0');
+INSERT INTO `kppw_user_game_rules` VALUES ('11', '挑战赛', '1', null, null, '1', '5', '0');
 
 -- ----------------------------
 -- Table structure for kppw_user_game_setting

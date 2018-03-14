@@ -91,6 +91,24 @@ class UserActiveTeamModel extends Model
         return $data;
     }
 
+    //团队及对手详情
+    static function getListAll($param,$userActiveTeam,$page)
+    {
+        $user_active_team = $userActiveTeam->where('user_active_team.report_status',1)
+            ->where('user_active_game_rule.type',2)
+           ->where('user_game_group.type',2)
+            ->where('user_active_game_rule.u_g_r_id',$param['competition'])
+            ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active_team.id')
+            ->select('user_active_team.id','user_active_team.team_name','user_active_team.logo')
+            ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active_team.id')
+            ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
+            ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active_team.id','user_active_team.team_name','user_active_team.logo')
+            ->orderBy('user_active_game_rule.id','asc')
+            ->paginate($page);
+
+        return $user_active_team;
+    }
+
     //属于组别
     static function sectionalization($group_id,$user_active_team,$type)
     {
@@ -110,9 +128,7 @@ class UserActiveTeamModel extends Model
             'type' => $type
         );
         UserActiveGameRuleModel::createOne($data);
-
         return true;
-
     }
 
 

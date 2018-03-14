@@ -42,7 +42,7 @@
                         组别
                     </th>
                     <th>
-                        分数
+                        票数
                     </th>
                     <th>
                         对手组别
@@ -84,7 +84,7 @@
                             </td>
                             <td rowspan = '{{count($single->result)}}'>
                                 @if(isset($single->sort_vote))
-                                    {{$single->sort_vote->sort}}
+                                    {{$single->sort_vote->vote}}
                                 @else
                                     0
                                 @endif

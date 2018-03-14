@@ -34,7 +34,7 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 组号：</p>
 		<p class="col-sm-4">
-			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5"  name="group_id" value="{{ $user_active->group}}" disabled="disabled">
+			<input type="text" id="form-field-1"  class="col-xs-10 col-sm-5"  name="group_id" value="{{ $user_active->group}}组{{ $user_active->num}}号" disabled="disabled">
 			<span class="help-inline col-xs-12 col-sm-7"><i class="light-red ace-icon fa fa-asterisk"></i></span>
 		</p>
 	</div>
@@ -42,9 +42,9 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 晋级：</p>
 		<select name="u_g_r_id">
-			<option value="0" selected>暂不晋级</option>
+			<option value="0">暂不晋级</option>
 			@foreach($user_game_rules as $user_game_rule)
-				<option value="{{$user_game_rule->id}}">{{$user_game_rule->name}}</option>
+				<option value="{{$user_game_rule->id}}" @if($user_active->competition == $user_game_rule->id) selected @endif>{{$user_game_rule->name}}</option>
 			@endforeach
 		</select>
 		</p>
@@ -53,8 +53,9 @@
 	<div class="bankAuth-bottom clearfix col-xs-12">
 		<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 比赛结果：</p>
 		<select name="match_result">
-			<option value="1">获胜</option>
-			<option value="0">失败</option>
+			<option value="0" @if($user_active->winner == 0) selected @endif>暂不选择</option>
+			<option value="2" @if($user_active->winner == $user_active->group_id) selected @endif>获胜</option>
+			<option value="1" @if($user_active->winner == $user_active->group_b_id) selected @endif>失败</option>
 		</select>
 		</p>
 	</div>

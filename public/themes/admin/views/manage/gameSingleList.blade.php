@@ -7,8 +7,11 @@
 @if($status == 3)
 	@include('com.gameSingleList_audition')
 @endif
-@if($status == 4)
+@if($status == 4 || $status == 6 || $status == 7 || $status == 8)
 	@include('com.gameSingleList_group_game')
+@endif
+@if($status == 5)
+	@include('com.gameSingleList_resurgence')
 @endif
 <script>
     //全选

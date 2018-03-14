@@ -11,7 +11,7 @@ class UserActiveGroupModel extends Model
 
 
     protected $fillable = [
-        'id','u_a_id','u_g_g_id','type','competition'
+        'id','u_a_id','u_g_g_id','type'
     ];
 
     public $timestamps = false;

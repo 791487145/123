@@ -56,7 +56,6 @@ class UserActiveModel extends Model
             'u_a_id' => $user_active->id,
             'u_g_g_id' => $group_id,
             'type' => $type,
-           /* 'competition' => $uesr_game_rules->id*/
         );
         UserActiveGroupModel::createOne($param);
 
@@ -104,10 +103,11 @@ class UserActiveModel extends Model
             ->leftJoin('users','users.id','=','user_active.uid')
             ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
             ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
-            ->orderBy('id','asc')
+            ->orderBy('user_active_game_rule.id','asc')
             ->paginate($page);
 
         return $user_active;
     }
+
 
 }

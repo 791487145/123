@@ -917,7 +917,7 @@ class GameController extends ApiBaseController
             if(is_null($user_active)){
                 return $this->formateResponse(1001,'您还没有报名，请先报名');
             }
-            //dd($user_active);
+
             $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active->id)->first();
 
             if(!is_null($user_active_group)){
@@ -930,7 +930,15 @@ class GameController extends ApiBaseController
             if (is_null($user_active_team)) {
                 return $this->formateResponse(1001, '您不是队长或战队未报名');
             }
+
+            $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active_team->id)->first();
+
+            if(!is_null($user_active_group)){
+                return $this->formateResponse(1001,'您已抽签，不能重复操作');
+            }
         }
+
+
 
         $user_active_group_id = UserActiveGroupModel::where('type',$data['type'])->lists('u_g_g_id')->toArray();
 

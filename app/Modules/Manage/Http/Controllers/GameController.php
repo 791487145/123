@@ -34,6 +34,7 @@ class GameController extends ManageController
         //$this->theme->set('manageType', 'task');
     }
 
+    //个人
     public function single(Request $request)
     {
         $param = array();
@@ -47,19 +48,10 @@ class GameController extends ManageController
 
         if(is_null($user_game_rule) || $param['competition'] == 0) {
             $user_game_rule = UserGameRulesModel::where('name', '报名')->first();
-            $status = 1;
         }
 
         if(!is_null($user_game_rule)) {
-            if($user_game_rule->name == "抽签"){
-                $status = 2;
-            }
-            if($user_game_rule->name == "海选"){
-                $status = 3;
-            }
-            if($user_game_rule->name == "小组赛"){
-                $status = 4;
-            }
+            $status = self::assignment($user_game_rule);
         }
 
         if($status == 1){
@@ -78,11 +70,10 @@ class GameController extends ManageController
             $data = self::audition($userActive,$param,$this->page,$status,$user_game_rules,1);
         }
 
-        if($status == 4){
+        if($status >= 4){
             $param['competition'] = $user_game_rule->id;
             $data = self::audition($userActive,$param,$this->page,$status,$user_game_rules,1);
         }
-        //dd($data);
         return $this->theme->scope('manage.gameSingleList', $data)->render();
 
     }
@@ -104,20 +95,25 @@ class GameController extends ManageController
         $user_game_match_result = UserGameMatchResultModel::where('id',$id_array[0])->first();
 
         $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
-        //$user_game_rule = UserGameRulesModel::where('id',$user_game_match_result->competition)->first();
+        $user_game_rule = UserGameRulesModel::where('id',$user_game_match_result->competition)->first();
 
         if($user_game_match_result->competition != $user_active->u_g_r_id){
             return 1;
         }
 
         $user_active->group_b_id = $user_game_match_result->group_a;
+        $user_active->winner = $user_game_match_result->win;
+        $user_active->competition = $user_game_rule->id;
         if($user_active->group_id == $user_game_match_result->group_a){
             $user_active->group_b_id = $user_game_match_result->group_b;
         }
 
+        $u_a_id_b = UserActiveGroupModel::where('u_g_g_id',$user_active->group_b_id)->where('type',1)->first();
+
         if($request->isMethod('post')){
             $data = $request->except("_token");
-            if($data['u_g_r_id'] != 0){
+
+            if($data['u_g_r_id'] != 0 && $data['u_g_r_id'] != $user_game_rule->id){
                 $user_active_game_rule = UserActiveGameRuleModel::where('u_g_r_id',$data['u_g_r_id'])->where('u_a_id',$id_array[1])->where('type',1)->first();
                 if(is_null($user_active_game_rule)){
                     $param = array(
@@ -129,9 +125,33 @@ class GameController extends ManageController
                 }
             }
 
-            if($data['match_result'] == 1){
+            if($data['match_result'] == 2){
+                if($user_game_rule->name == "小组赛"){
+                    $array = array(
+                        'u_a_id' => $id_array[1],
+                        'u_g_g_id' => $user_active->group_id,
+                        'competition' => $user_game_rule->id,
+                        'type' => 1,
+                        'vote' => 0,
+                        'sort' => 2
+                    );
+                    UserActiveSortVoteModel::createOneSort($array);
+                }
                 UserGameMatchResultModel::where('id',$id_array[0])->update(['win' => $user_active->group_id]);
-            }else{
+            }
+
+            if($data['match_result'] == 1){
+                if($user_game_rule->name == "小组赛"){
+                    $array = array(
+                        'u_a_id' => $u_a_id_b->u_a_id,
+                        'u_g_g_id' => $user_active->group_b_id,
+                        'competition' => $user_game_rule->id,
+                        'type' => 1,
+                        'vote' => 0,
+                        'sort' => 2
+                    );
+                    UserActiveSortVoteModel::createOneSort($array);
+                }
                 UserGameMatchResultModel::where('id',$id_array[0])->update(['win' => $user_active->group_b_id]);
             }
 
@@ -200,8 +220,6 @@ class GameController extends ManageController
 
         UserGameMatchResultModel::createOne($param);
 
-
-
         return 1;
     }
 
@@ -225,45 +243,70 @@ class GameController extends ManageController
     //团队列表
     public function team($type,Request $request)
     {
-        $param['report_status'] = $request->input('report_status',$this->all);
+        $param = array();
+        $status = $request->input('status',0);
+        $param['competition'] = $request->input('competition',0);
+        $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
 
         $userActiveTeam = new UserActiveTeamModel();
 
-        if($param['report_status'] != $this->all){
-            $userActiveTeam = UserActiveTeamModel::where('report_status',$param['report_status']);
-        }
-
         if($type == 0){
-            $userActiveTeam = $userActiveTeam->where('remark','');
+            $userActiveTeam = $userActiveTeam->where('user_active_team.type',1);
+        }else{
+            $userActiveTeam = $userActiveTeam->where('user_active_team.type',0);
         }
 
-        if($type == 1){
-            $userActiveTeam = $userActiveTeam->where('remark',5);
+
+        $user_game_rule = UserGameRulesModel::where('id',$param['competition'])->first();
+
+        if(is_null($user_game_rule) || $param['competition'] == 0) {
+            $status = 0;
         }
 
-        $user_active_teams = $userActiveTeam->orderBy('id','asc')->paginate($this->page);
+        if(!is_null($user_game_rule)) {
+            $status = self::assignment($user_game_rule);
+        }
+
+        if($status == 0 || $status == 1){
+            $data = self::notReportAndReport($type,$userActiveTeam,$this->page,$param,$status,$user_game_rules);
+        }
+
+        if($status == 1){
+            $data = self::notReportAndReport($type,$userActiveTeam,$this->page,$param,$status,$user_game_rules);
+        }
+
+        if($status == 2){
+            $data = self::groupDrawLots($type,$userActiveTeam,$this->page,$param,$status,$user_game_rules);
+        }
+
+        return $this->theme->scope('manage.gameTeamList', $data)->render();
+    }
+
+    //团队未报名or报名
+    static function notReportAndReport($type,$userActiveTeam,$page,$param,$status,$user_game_rules)
+    {
+        if($status == 0){
+            $userActiveTeam = $userActiveTeam->where('report_status',0);
+        }else{
+            $userActiveTeam = $userActiveTeam->where('report_status',1);
+        }
+
+        $user_active_teams = $userActiveTeam->orderBy('id','asc')->paginate($page);
 
         foreach($user_active_teams as $user_active_team){
-
-            if($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
-                $user_active_team->report_status = '已报名';
-            }else{
-                $user_active_team->report_status = '未报名';
-            }
-
             $user_active_team->total = UserActiveModel::where('pid',$user_active_team->id)->count();
             if($user_active_team->remark == 5){
                 $user_active_team->total = 5;
             }
-
         }
-
         $data = array(
             'teams' => $user_active_teams,
             'param' => $param,
-            'type' => $type
+            'type' => $type,
+            'status' => $status,
+            'user_game_rules' => $user_game_rules
         );
-        return $this->theme->scope('manage.gameTeamList', $data)->render();
+        return $data;
     }
 
     //删除
@@ -383,6 +426,7 @@ class GameController extends ManageController
         return $this->theme->scope('manage.gameCompetitionList', $data)->render();
     }
 
+    //赛制添加
     public function competitionAdd($id,Request $request)
     {
         if($request->isMethod("post")){
@@ -527,7 +571,7 @@ class GameController extends ManageController
         return $user_actives;
     }
 
-    //报名
+    //个人报名
     static function reportAndDrawLots($userActive,$param,$page,$status,$user_game_rules)
     {
         if($status == 2){
@@ -549,13 +593,37 @@ class GameController extends ManageController
         return $data;
     }
 
+    //团队抽签
+    static function groupDrawLots($type,$userActiveTeam,$page,$param,$status,$user_game_rules)
+    {
+        $user_active_teams = UserActiveTeamModel::getListAll($param,$userActiveTeam,$page);
+        //dd($user_active_teams);
+        if(isset($param['state'])){
+            $data['state'] = $param['state'];
+            unset($param['state']);
+        }
+
+        $data = array(
+            'teams' => $user_active_teams,
+            'param' => $param,
+            'type' => $type,
+            'status' => $status,
+            'user_game_rules' => $user_game_rules
+        );
+        return $data;
+    }
+
     //海选-小组
     static function audition($userActive,$param,$page,$status,$user_game_rules,$type)
     {
 
         $user_actives = UserActiveModel::getListAll($param,$userActive,$page);
+        //dd($param);
         foreach($user_actives as $user_active){
-            $user_game_match_results = UserGameMatchResultModel::where('type',$type)->where('competition',$param['competition'])->where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id)->get();
+            $user_game_match_results = UserGameMatchResultModel::where('type',$type)->where('competition',$param['competition'])->where(function ($query) use($user_active){
+                $query->where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id);
+            })->get();
+
             $count = count($user_game_match_results);
             foreach($user_game_match_results as $key=>$user_game_match_result){
                 if($user_game_match_result->group_a == $user_active->group_id){
@@ -593,6 +661,37 @@ class GameController extends ManageController
             'user_game_rules' => $user_game_rules,//大选项
         );
         return $data;
+    }
+
+    //赋值status
+    static function assignment($user_game_rule)
+    {
+        if($user_game_rule->name == "报名"){
+            $status = 1;
+        }
+        if($user_game_rule->name == "抽签"){
+            $status = 2;
+        }
+        if($user_game_rule->name == "海选"){
+            $status = 3;
+        }
+        if($user_game_rule->name == "小组赛"){
+            $status = 4;
+        }
+        if($user_game_rule->name == "复活赛"){
+            $status = 5;
+        }
+        if($user_game_rule->name == "淘汰赛"){
+            $status = 6;
+        }
+        if($user_game_rule->name == "挑战赛"){
+            $status = 7;
+        }
+        if($user_game_rule->name == "冠军赛"){
+            $status = 8;
+        }
+
+        return $status;
     }
 
 
