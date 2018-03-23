@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-03-14 17:28:51
+Date: 2018-03-23 17:27:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -261,6 +261,26 @@ CREATE TABLE `kppw_answer_praise` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for kppw_app_navigation
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_app_navigation`;
+CREATE TABLE `kppw_app_navigation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  `status` int(11) DEFAULT '1' COMMENT '1:正常；-1删除',
+  `url` varchar(55) DEFAULT NULL,
+  `sort` int(11) DEFAULT '1' COMMENT '排序',
+  `remark` varchar(20) DEFAULT NULL COMMENT '备用',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='app导航栏';
+
+-- ----------------------------
+-- Records of kppw_app_navigation
+-- ----------------------------
+INSERT INTO `kppw_app_navigation` VALUES ('2', '官方1', '-1', '', '0', null);
+INSERT INTO `kppw_app_navigation` VALUES ('3', '官方', '1', '', '0', null);
+
+-- ----------------------------
 -- Table structure for kppw_article
 -- ----------------------------
 DROP TABLE IF EXISTS `kppw_article`;
@@ -286,19 +306,21 @@ CREATE TABLE `kppw_article` (
   `keywords` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'SEO关键词',
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'SEO描述',
   `display_order` int(11) DEFAULT NULL COMMENT '排序',
-  `is_recommended` tinyint(4) DEFAULT NULL COMMENT '是否推荐 1->是 2->否',
+  `is_recommended` tinyint(4) DEFAULT '2' COMMENT '是否推荐 1->是 2->否',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   `thumb_pic` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '缩略图',
   `thumb_up_number` int(11) NOT NULL DEFAULT '0' COMMENT '点赞数量',
+  `comment_num` int(11) DEFAULT '0' COMMENT '评论数量',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_article
 -- ----------------------------
-INSERT INTO `kppw_article` VALUES ('1', '60', '0', null, '2018“赏金杯”王者荣耀争霸赛，等你开团', '官方', null, null, null, '', null, null, null, '2018-01-06 15:48:02', null, '&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0); font-size: 20px;&quot;&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515224878.png&quot; title=&quot;1515224878.png&quot; alt=&quot;1515224878.png&quot; width=&quot;356&quot; height=&quot;143.5&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 356px; height: 143.5px;&quot;/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0); font-size: 20px;&quot;&gt;即将迎来新的一年——2018&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;为了回馈内测用户的支持，我们将推出王者荣耀争霸赛&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;海量礼品、高额奖金、精美皮肤、IphoneX手机等你拿&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;报名时间：2018年1月10日——2018年3月31日&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;活动范围：赏金联盟所有注册用户&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;比赛模式：1V1solo赛、5V5战队赛&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;比赛赛制：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.海选采用BO1淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.小组采用2轮循环BO1积分赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3.8强和4强采用BO3双败制淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.总决赛采用BO5淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;5.小组未出线的用户采用复活冒泡赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【比赛流程】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;报名——抽签分组——海选——小组赛——8强——4强——决赛——冒泡冠军赛——冠军赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【复活赛】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;小组未出线用户，均进入最受欢迎投票环节。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;票数最多的4组选手，BO3两两对决，决出最终复活选手，通过冒泡赛的方式挑战8强选手，最终挑战败者组冠军。&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【报名规则】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;1.报名时间2018-1-10至2018年4月1日&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;2.必须注册并激活成为“赏金联盟APP”正式会员才能获得报名资格。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;3.报名前，需要完善会员基本信息，如学校、实名认证、地址等&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;4.本次比赛为微信服比赛，QQ服用户暂时无法参加报名。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;5.比赛自备账号，等级、符文、皮肤不限。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;6.每个会员可以同时报名1V1和5V5的比赛，但只能参加一个队伍。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;7.5v5团队赛报名要先进行建立团队的操作，最少5人，最多6人参赛，队员不限制必须为同校学生，但必须为“赏金联盟APP”正式会员。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;8.报名个人或团队需要填写绑定游戏账号，并且报名后不允许更改游戏昵称。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;9.报名无须缴纳任何报名费用，填写相关信息后，提交即可完成报名。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '13', '', '', '', '3', null, '2018-01-06 15:51:33', 'uploads/article/fbeb22436f29872bc7b5c4179a403869.png', '1');
-INSERT INTO `kppw_article` VALUES ('2', '60', '0', null, '春节回家，免费领车钱', '官方', null, null, null, '', null, null, null, '2018-01-06 16:18:25', null, '&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226669.png&quot; title=&quot;1515226669.png&quot; alt=&quot;1515226669.png&quot; width=&quot;360&quot; height=&quot;150&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 360px; height: 150px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;同学们，即将完结的考试，同时也迎来了寒假。&lt;/p&gt;&lt;p&gt;马上就可以回家看父母了，给父母买点什么呢？&lt;/p&gt;&lt;p&gt;马上就可以回家和朋友聚聚了，去哪里吃好呢？&lt;/p&gt;&lt;p&gt;马上就可以收拾东西上车了，是坐动车呢还是坐飞机呢？&lt;/p&gt;&lt;p&gt;看看卡上仅剩的几百块！有点想多了。&lt;/p&gt;&lt;p&gt;我们帮大家解决难题。&lt;br/&gt;&lt;/p&gt;&lt;p&gt;自12月24日，平安夜之际，我们正式开启“春节回家，免费领车钱”活动&lt;/p&gt;&lt;p&gt;输入您想要的数，我们来给你发钱！&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226128.jpg&quot; title=&quot;1515226128.jpg&quot; alt=&quot;1515226128.jpg&quot; width=&quot;250&quot; height=&quot;203.5&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 250px; height: 203.5px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;参与活动，赶快到首页找到&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226191.png&quot; title=&quot;1515226191.png&quot; alt=&quot;首页ICON_18.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;猛击图标领钱&lt;/p&gt;', '4', '', '', '', '3', null, '2018-01-06 16:18:25', 'uploads/article/4dd8c8dc129f1399e8635eaee81ce044.png', '1');
-INSERT INTO `kppw_article` VALUES ('3', '60', '0', null, '邀请好友抢现金，50万现金等你拿', '官方', null, null, null, '', null, null, null, '2018-01-06 16:34:39', null, '&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227661.png&quot; title=&quot;1515227661.png&quot; alt=&quot;1515227661.png&quot; width=&quot;360&quot; height=&quot;150&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 360px; height: 150px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;庆双蛋，50万现金等你抢，邀请好友得奖金&lt;/p&gt;&lt;p&gt;活动时间：1月1日-3月1日（2018）&lt;/p&gt;&lt;p&gt;APP内置的推广系统，邀请好友就可以获得3元奖励金。&lt;br/&gt;&lt;/p&gt;&lt;p&gt;内测以来，双倍奖励，3元变6元。&lt;/p&gt;&lt;p&gt;此外发钱模式开启。&lt;/p&gt;&lt;p&gt;满足条件额外可以获得大奖。&lt;/p&gt;&lt;p&gt;最高可得5万元奖励金➕IphoneX一部&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227604.gif&quot; title=&quot;1515227604.gif&quot; alt=&quot;timg.gif&quot;/&gt;&lt;/p&gt;&lt;p&gt;马上抢钱，首页找到&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227624.png&quot; title=&quot;1515227624.png&quot; alt=&quot;首页ICON_21.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;猛戳&lt;/p&gt;', '1', '', '', '', '3', null, '2018-01-06 16:34:39', 'uploads/article/42db96cf892ec8403c504a699d930a78.png', '0');
+INSERT INTO `kppw_article` VALUES ('1', '60', '0', null, '2018“赏金杯”王者荣耀争霸赛，等你开团', '官方', null, null, null, '', null, null, null, '2018-01-06 15:48:02', null, '&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0); font-size: 20px;&quot;&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515224878.png&quot; title=&quot;1515224878.png&quot; alt=&quot;1515224878.png&quot; width=&quot;356&quot; height=&quot;143.5&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 356px; height: 143.5px;&quot;/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&lt;span style=&quot;margin: 0px; padding: 0px; color: rgb(255, 0, 0); font-size: 20px;&quot;&gt;即将迎来新的一年——2018&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;为了回馈内测用户的支持，我们将推出王者荣耀争霸赛&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;海量礼品、高额奖金、精美皮肤、IphoneX手机等你拿&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;报名时间：2018年1月10日——2018年3月31日&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;活动范围：赏金联盟所有注册用户&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;比赛模式：1V1solo赛、5V5战队赛&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;比赛赛制：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.海选采用BO1淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.小组采用2轮循环BO1积分赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;3.8强和4强采用BO3双败制淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;4.总决赛采用BO5淘汰赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;5.小组未出线的用户采用复活冒泡赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【比赛流程】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;报名——抽签分组——海选——小组赛——8强——4强——决赛——冒泡冠军赛——冠军赛&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【复活赛】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;小组未出线用户，均进入最受欢迎投票环节。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;票数最多的4组选手，BO3两两对决，决出最终复活选手，通过冒泡赛的方式挑战8强选手，最终挑战败者组冠军。&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;br style=&quot;margin: 0px; padding: 0px;&quot;/&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;【报名规则】：&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;1.报名时间2018-1-10至2018年4月1日&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;2.必须注册并激活成为“赏金联盟APP”正式会员才能获得报名资格。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;3.报名前，需要完善会员基本信息，如学校、实名认证、地址等&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;4.本次比赛为微信服比赛，QQ服用户暂时无法参加报名。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;5.比赛自备账号，等级、符文、皮肤不限。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;6.每个会员可以同时报名1V1和5V5的比赛，但只能参加一个队伍。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;7.5v5团队赛报名要先进行建立团队的操作，最少5人，最多6人参赛，队员不限制必须为同校学生，但必须为“赏金联盟APP”正式会员。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;8.报名个人或团队需要填写绑定游戏账号，并且报名后不允许更改游戏昵称。&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0px; padding: 0px; clear: both; font-family: &amp;quot;Helvetica Neue&amp;quot;, Helvetica, &amp;quot;Hiragino Sans GB&amp;quot;, &amp;quot;Microsoft YaHei&amp;quot;, Arial, sans-serif; font-size: medium; white-space: normal;&quot;&gt;&lt;strong&gt;9.报名无须缴纳任何报名费用，填写相关信息后，提交即可完成报名。&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '13', '', '', '', '3', '2', '2018-01-06 15:51:33', 'uploads/article/fbeb22436f29872bc7b5c4179a403869.png', '1', '0');
+INSERT INTO `kppw_article` VALUES ('2', '60', '0', null, '春节回家，免费领车钱', '官方', null, null, null, '', null, null, null, '2018-01-06 16:18:25', null, '&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226669.png&quot; title=&quot;1515226669.png&quot; alt=&quot;1515226669.png&quot; width=&quot;360&quot; height=&quot;150&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 360px; height: 150px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;同学们，即将完结的考试，同时也迎来了寒假。&lt;/p&gt;&lt;p&gt;马上就可以回家看父母了，给父母买点什么呢？&lt;/p&gt;&lt;p&gt;马上就可以回家和朋友聚聚了，去哪里吃好呢？&lt;/p&gt;&lt;p&gt;马上就可以收拾东西上车了，是坐动车呢还是坐飞机呢？&lt;/p&gt;&lt;p&gt;看看卡上仅剩的几百块！有点想多了。&lt;/p&gt;&lt;p&gt;我们帮大家解决难题。&lt;br/&gt;&lt;/p&gt;&lt;p&gt;自12月24日，平安夜之际，我们正式开启“春节回家，免费领车钱”活动&lt;/p&gt;&lt;p&gt;输入您想要的数，我们来给你发钱！&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226128.jpg&quot; title=&quot;1515226128.jpg&quot; alt=&quot;1515226128.jpg&quot; width=&quot;250&quot; height=&quot;203.5&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 250px; height: 203.5px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;参与活动，赶快到首页找到&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515226191.png&quot; title=&quot;1515226191.png&quot; alt=&quot;首页ICON_18.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;猛击图标领钱&lt;/p&gt;', '4', '', '', '', '3', '2', '2018-01-06 16:18:25', 'uploads/article/4dd8c8dc129f1399e8635eaee81ce044.png', '1', '0');
+INSERT INTO `kppw_article` VALUES ('3', '60', '0', null, '邀请好友抢现金，50万现金等你拿', '官方', null, null, null, '', null, null, null, '2018-01-06 16:34:39', null, '&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227661.png&quot; title=&quot;1515227661.png&quot; alt=&quot;1515227661.png&quot; width=&quot;360&quot; height=&quot;150&quot; border=&quot;0&quot; vspace=&quot;0&quot; style=&quot;width: 360px; height: 150px;&quot;/&gt;&lt;/p&gt;&lt;p&gt;庆双蛋，50万现金等你抢，邀请好友得奖金&lt;/p&gt;&lt;p&gt;活动时间：1月1日-3月1日（2018）&lt;/p&gt;&lt;p&gt;APP内置的推广系统，邀请好友就可以获得3元奖励金。&lt;br/&gt;&lt;/p&gt;&lt;p&gt;内测以来，双倍奖励，3元变6元。&lt;/p&gt;&lt;p&gt;此外发钱模式开启。&lt;/p&gt;&lt;p&gt;满足条件额外可以获得大奖。&lt;/p&gt;&lt;p&gt;最高可得5万元奖励金➕IphoneX一部&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227604.gif&quot; title=&quot;1515227604.gif&quot; alt=&quot;timg.gif&quot;/&gt;&lt;/p&gt;&lt;p&gt;马上抢钱，首页找到&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180106/1515227624.png&quot; title=&quot;1515227624.png&quot; alt=&quot;首页ICON_21.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;猛戳&lt;/p&gt;', '1', '', '', '', '3', '1', '2018-03-23 14:40:48', 'uploads/article/42db96cf892ec8403c504a699d930a78.png', '0', '0');
+INSERT INTO `kppw_article` VALUES ('4', '60', '0', null, '123456', '456', null, null, null, '456', null, null, null, '2018-03-23 17:06:00', null, '&lt;p&gt;456456&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180323/1521795944.jpg&quot; style=&quot;&quot; title=&quot;1521795944.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;http://www.zfy0351.cn/ueditor/php/upload/image/20180323/1521795945.jpg&quot; style=&quot;&quot; title=&quot;1521795945.jpg&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '0', '345', '345', '345', '456', '2', '2018-03-23 17:06:00', 'uploads/article/6b455c913db63eddd15e4ca77cf92e16.jpg', '0', '0');
 
 -- ----------------------------
 -- Table structure for kppw_article_category
@@ -319,7 +341,7 @@ CREATE TABLE `kppw_article_category` (
   `keyword` text COLLATE utf8_unicode_ci COMMENT 'SEO关键词',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_article_category
@@ -344,6 +366,7 @@ INSERT INTO `kppw_article_category` VALUES ('44', '36', '新手问题', '0', '1'
 INSERT INTO `kppw_article_category` VALUES ('50', '50', '行业动态', null, '2', null, null, null, '2016-08-03 15:47:22', null, null, null, '2016-08-03 15:55:57');
 INSERT INTO `kppw_article_category` VALUES ('51', '50', '新闻', null, '0', null, null, null, '2016-08-03 15:54:06', null, null, null, '2016-08-03 15:55:01');
 INSERT INTO `kppw_article_category` VALUES ('60', '1', '活动', null, '5', null, null, null, '2017-12-08 10:00:55', null, null, null, '2017-12-08 10:00:55');
+INSERT INTO `kppw_article_category` VALUES ('61', '1', '资讯', null, '5', null, null, null, '2018-03-23 15:46:50', null, null, null, '2018-03-23 15:46:53');
 
 -- ----------------------------
 -- Table structure for kppw_article_comment
@@ -719,12 +742,14 @@ CREATE TABLE `kppw_campus_recruitment` (
   `thumb_pic` varchar(100) NOT NULL DEFAULT '' COMMENT '公司logo',
   `status` varchar(10) NOT NULL DEFAULT 'valid' COMMENT '状态（valid 有效的  invalid无效的）',
   `create_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
+  `is_recommended` tinyint(4) DEFAULT '2' COMMENT '是否推荐 1->是 2->否',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='校园招聘';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='校园招聘';
 
 -- ----------------------------
 -- Records of kppw_campus_recruitment
 -- ----------------------------
+INSERT INTO `kppw_campus_recruitment` VALUES ('1', '43', '3', '34534', '345', '3444', '<p>345</p>', '', '', '', '', 'valid', '2018-03-23 15:09:49', '1');
 
 -- ----------------------------
 -- Table structure for kppw_cashout
@@ -45029,7 +45054,7 @@ CREATE TABLE `kppw_icon` (
   `status` varchar(8) NOT NULL DEFAULT 'valid' COMMENT '状态（valid有效 invalid 无效的）',
   `sort` tinyint(3) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of kppw_icon
@@ -45054,6 +45079,8 @@ INSERT INTO `kppw_icon` VALUES ('17', 'uploads/icon/caa53c0bab450ca2496cdaa26320
 INSERT INTO `kppw_icon` VALUES ('18', 'uploads/icon/93ee86004a9df524fe808d43afaa04df.png', 'http://html.zfy0351.cn/download/hj.html', 'carousel', '火车票报销', 'valid', '1');
 INSERT INTO `kppw_icon` VALUES ('19', 'uploads/icon/0ad8ac0c91554e1c22b3a09431df7203.png', '#', 'advertisement', '', 'valid', '1');
 INSERT INTO `kppw_icon` VALUES ('20', 'uploads/icon/3082b1d9e04bddc6093db37d7c7b7c20.png', 'http://html.zfy0351.cn/download/hj.html', 'carousel', '注册', 'valid', '2');
+INSERT INTO `kppw_icon` VALUES ('21', 'uploads/icon/f650a5104d6654cc2fd08dd0e11faaa6.jpg', '23', 'menu', '官方', 'valid', '2');
+INSERT INTO `kppw_icon` VALUES ('22', 'uploads/icon/cf41d0d9e5cd988c881d87f41ccd84e5.jpeg', '56', 'menu', '任务', 'valid', '2');
 
 -- ----------------------------
 -- Table structure for kppw_icon_type
@@ -45332,7 +45359,7 @@ CREATE TABLE `kppw_menu` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台菜单';
 
 -- ----------------------------
 -- Records of kppw_menu
@@ -45482,6 +45509,10 @@ INSERT INTO `kppw_menu` VALUES ('236', '任务列表', 'manage/taskWaterList', '
 INSERT INTO `kppw_menu` VALUES ('237', '图库', 'manage/imageStore', '235', '3', '', '0', '2018-01-30 10:19:12', null);
 INSERT INTO `kppw_menu` VALUES ('238', '比赛赛制', 'manage/game/competition', '232', '3', '', '0', '2018-03-02 15:32:07', null);
 INSERT INTO `kppw_menu` VALUES ('239', '基本设置', 'manage/game/gameConfig', '232', '3', '', '0', '2018-03-06 13:18:36', null);
+INSERT INTO `kppw_menu` VALUES ('240', 'app设置', '', '0', '1', '', '2', '2018-03-23 11:02:11', null);
+INSERT INTO `kppw_menu` VALUES ('241', '基本设置', '', '1', '2', '', '0', '2018-03-23 11:03:54', null);
+INSERT INTO `kppw_menu` VALUES ('242', '基本设置', '', '240', '2', '', '0', '2018-03-23 11:11:35', null);
+INSERT INTO `kppw_menu` VALUES ('243', '导航设置', 'manage/appSetting', '242', '3', '', '0', '2018-03-23 11:11:46', null);
 
 -- ----------------------------
 -- Table structure for kppw_menu_permission
@@ -45492,7 +45523,7 @@ CREATE TABLE `kppw_menu_permission` (
   `menu_id` int(11) NOT NULL COMMENT '菜单id',
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=516 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=519 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_menu_permission
@@ -45834,6 +45865,9 @@ INSERT INTO `kppw_menu_permission` VALUES ('512', '238', '444');
 INSERT INTO `kppw_menu_permission` VALUES ('513', '238', '445');
 INSERT INTO `kppw_menu_permission` VALUES ('514', '239', '446');
 INSERT INTO `kppw_menu_permission` VALUES ('515', '238', '447');
+INSERT INTO `kppw_menu_permission` VALUES ('516', '243', '448');
+INSERT INTO `kppw_menu_permission` VALUES ('517', '243', '449');
+INSERT INTO `kppw_menu_permission` VALUES ('518', '243', '450');
 
 -- ----------------------------
 -- Table structure for kppw_message_receive
@@ -46210,7 +46244,7 @@ CREATE TABLE `kppw_permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=448 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=451 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_permissions
@@ -46541,6 +46575,9 @@ INSERT INTO `kppw_permissions` VALUES ('444', 'competition', '比赛赛制', '',
 INSERT INTO `kppw_permissions` VALUES ('445', 'competitionAdd', '赛制添加', '', '238', null, null);
 INSERT INTO `kppw_permissions` VALUES ('446', 'gameConfig', '基本设置', '', '239', null, null);
 INSERT INTO `kppw_permissions` VALUES ('447', 'competitionEdit', '赛制排序', '', '238', null, null);
+INSERT INTO `kppw_permissions` VALUES ('448', 'navigationList', 'app导航列表', '', '243', null, null);
+INSERT INTO `kppw_permissions` VALUES ('449', 'navigationEdit', 'app导航编辑', '', '243', null, null);
+INSERT INTO `kppw_permissions` VALUES ('450', 'navigationAdd', 'app导航添加', '', '243', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_permission_role
@@ -46703,7 +46740,7 @@ INSERT INTO `kppw_phone_auth` VALUES ('3', '17635165720', '114628', '2017-12-28 
 INSERT INTO `kppw_phone_auth` VALUES ('4', '18234482954', '489020', '2017-12-28 16:46:58', '2017-12-28 16:16:58', '2');
 INSERT INTO `kppw_phone_auth` VALUES ('5', '18335162521', '749494', '2017-12-28 14:42:39', '2017-12-28 14:12:39', '2');
 INSERT INTO `kppw_phone_auth` VALUES ('6', '15235140061', '234732', '2017-12-28 10:55:26', '2017-12-28 10:25:26', '2');
-INSERT INTO `kppw_phone_auth` VALUES ('7', '17696041235', '843783', '2017-12-28 15:59:30', '2017-12-28 15:29:30', '2');
+INSERT INTO `kppw_phone_auth` VALUES ('7', '17696041235', '652117', '2018-03-16 16:07:57', '2018-03-16 15:37:57', '2');
 INSERT INTO `kppw_phone_auth` VALUES ('8', '13834598886', '678246', '2017-12-29 16:16:26', '2017-12-29 15:46:26', '2');
 INSERT INTO `kppw_phone_auth` VALUES ('9', '13007077112', '898293', '2017-12-29 17:51:29', '2017-12-29 17:21:29', '2');
 INSERT INTO `kppw_phone_auth` VALUES ('10', '18634337338', '418094', '2018-01-03 18:05:39', '2018-01-03 17:35:39', '2');
@@ -47430,7 +47467,7 @@ CREATE TABLE `kppw_system_log` (
   `IP` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'IP地址',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_system_log
@@ -47556,6 +47593,14 @@ INSERT INTO `kppw_system_log` VALUES ('118', '0', '1', 'sjlmadmin', '0', 'sjlmad
 INSERT INTO `kppw_system_log` VALUES ('119', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-12 09:21:01登录', '127.0.0.1', '2018-03-12 09:21:01');
 INSERT INTO `kppw_system_log` VALUES ('120', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-14 09:22:26登录', '127.0.0.1', '2018-03-14 09:22:26');
 INSERT INTO `kppw_system_log` VALUES ('121', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-14 14:07:35登录', '127.0.0.1', '2018-03-14 14:07:35');
+INSERT INTO `kppw_system_log` VALUES ('122', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-15 09:16:46登录', '127.0.0.1', '2018-03-15 09:16:46');
+INSERT INTO `kppw_system_log` VALUES ('123', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-15 14:02:12登录', '127.0.0.1', '2018-03-15 14:02:12');
+INSERT INTO `kppw_system_log` VALUES ('124', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-19 15:42:38登录', '127.0.0.1', '2018-03-19 15:42:38');
+INSERT INTO `kppw_system_log` VALUES ('125', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-20 13:58:00登录', '127.0.0.1', '2018-03-20 13:58:00');
+INSERT INTO `kppw_system_log` VALUES ('126', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-22 15:04:31登录', '127.0.0.1', '2018-03-22 15:04:31');
+INSERT INTO `kppw_system_log` VALUES ('127', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 09:31:23登录', '127.0.0.1', '2018-03-23 09:31:23');
+INSERT INTO `kppw_system_log` VALUES ('128', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 13:50:35登录', '127.0.0.1', '2018-03-23 13:50:35');
+INSERT INTO `kppw_system_log` VALUES ('129', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 14:12:05登录', '127.0.0.1', '2018-03-23 14:12:05');
 
 -- ----------------------------
 -- Table structure for kppw_system_tasks
@@ -48084,7 +48129,7 @@ CREATE TABLE `kppw_users` (
   `function_order` varchar(50) DEFAULT NULL COMMENT '功能',
   `last_login_uuid` varchar(40) DEFAULT NULL COMMENT '用户上次登录手机标识',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of kppw_users
@@ -48095,23 +48140,26 @@ INSERT INTO `kppw_users` VALUES ('7', '22669265', 'uploads/task_proof/2017-12-29
 INSERT INTO `kppw_users` VALUES ('8', 'Hanna', 'uploads\\head_img\\moren.png', '18335162521', '14b8f6d6f6f69d2b1512b92e5080e41a', 'qiTg', '2', '2', null, '1', null, null, null, null, '2017-12-28 14:12:58', null, '100009', '0', null, null, '2017-12-28 14:12:58', '2017-12-29 17:21:57', null, '58966');
 INSERT INTO `kppw_users` VALUES ('10', 'a1234', 'uploads\\head_img\\moren.png', '17635165720', 'c8aacce81cfb8a1fe3e9231f398f273c', 'UIlI', '2', '0', null, '1', null, null, null, null, '2017-12-28 14:52:12', null, '100012', '0', null, null, '2017-12-28 14:52:12', '2017-12-28 15:30:07', null, null);
 INSERT INTO `kppw_users` VALUES ('11', 'a1111', 'uploads\\head_img\\moren.png', '13453444513', 'e26828cd3b2ba2aee481f6dcb8814db7', 'qqGY', '2', '0', null, '1', null, null, null, null, '2017-12-28 15:24:07', null, '100012', '0', null, null, '2017-12-28 15:24:07', '2018-01-03 17:33:24', null, null);
-INSERT INTO `kppw_users` VALUES ('12', 'szh123', 'uploads\\head_img\\moren.png', '17696041235', '1182437af2955d32e2b1af7757f79709', 'GNNU', '2', '2', null, '1', null, null, null, null, '2017-12-28 15:30:07', null, '100012', '0', null, null, '2017-12-28 15:30:07', '2017-12-28 15:31:23', null, null);
+INSERT INTO `kppw_users` VALUES ('12', 'szh123', 'uploads\\head_img\\moren.png', '17696041236', '1182437af2955d32e2b1af7757f79709', 'GNNU', '2', '2', null, '1', null, null, null, null, '2017-12-28 15:30:07', null, '100012', '0', null, null, '2017-12-28 15:30:07', '2017-12-28 15:31:23', null, null);
 INSERT INTO `kppw_users` VALUES ('13', 'wh123', 'uploads\\head_img\\moren.png', '13834598886', '5b71bc70f5a9cab108dace6b077b30f4', 'tUdH', '2', '1', null, '1', null, null, null, null, '2017-12-29 15:47:44', null, '100013', '0', null, null, '2017-12-29 15:47:44', '2017-12-29 15:47:44', null, null);
 INSERT INTO `kppw_users` VALUES ('14', 'liyun8090', 'uploads\\head_img\\moren.png', '13007077112', 'e0ca0200cd3a80d12f2d34002e52ecc9', 'p9F0', '2', '1', null, '1', null, null, null, null, '2017-12-29 17:21:57', null, '100014', '0', null, null, '2017-12-29 17:21:57', '2017-12-29 17:21:57', null, null);
 INSERT INTO `kppw_users` VALUES ('16', 'tl123', 'uploads\\head_img\\moren.png', '18634337338', '29b42059b2db5aff57a9d1f1808452cb', 'JN3p', '2', '1', null, '1', null, null, null, null, '2018-01-03 17:33:24', null, '100016', '0', null, null, '2018-01-03 17:33:24', '2018-01-03 17:33:24', null, null);
 INSERT INTO `kppw_users` VALUES ('17', '00001', 'uploads\\head_img\\moren.png', '13363445000', '63eb2cc9c0a896c1e05be824513d5dfc', 'PmTS', '1', '1', null, '1', null, null, null, null, '2018-01-03 19:16:01', null, '100017', '0', null, null, '2018-01-03 19:16:01', '2018-01-03 19:16:01', null, null);
 INSERT INTO `kppw_users` VALUES ('18', 'yajie1086', null, '15238496758', 'eac84cb98d47b7ba9e7b868255ed4b7e', 'EJPO', '1', '1', null, '1', null, null, null, null, null, null, null, '0', null, null, '2018-01-06 16:51:34', '2018-01-06 16:51:34', null, null);
-INSERT INTO `kppw_users` VALUES ('79', 'zfy1', null, '17696041235', '4986e666914010715efd2f9075e35a6d', '6Mrs', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'tZIQ96', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('80', 'zfy2', null, '17696041235', 'a6cf2d62770ddf3868c8b6986c9c9603', 'Ug3O', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'HuIXDj', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('81', 'zfy3', null, '17696041235', 'f55e214c4810c074127fa7977854433a', 'o0EP', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', '9mjglQ', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('82', 'zfy4', null, '17696041235', '1f147fc35785aecd6995ba411ef92ef0', 'uCPv', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'ZpMJbq', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('83', 'zfy5', null, '17696041235', 'e53a5d9409079859067cc5175e7509c4', 'Mdta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'BN3U6J', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('84', 'zfy6', null, '17696041235', '04cadbcc5efabd39c6c116d52658f669', 'Jpdt', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'CueIYy', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
-INSERT INTO `kppw_users` VALUES ('85', 'zfy7', null, '17696041235', '0b5ca2d2b994bfa2c795f79bf9ef7c38', 'wdO9', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'wgIz5H', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
-INSERT INTO `kppw_users` VALUES ('86', 'zfy8', null, '17696041235', 'e098dc16e175b4a6fbd1657deec4d9f4', 'GJta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'YaCLwv', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
-INSERT INTO `kppw_users` VALUES ('87', 'zfy9', null, '17696041235', 'fecbe64e858ba6bf3166c377faa0cf1f', 'bzwb', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'M17tj2', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
-INSERT INTO `kppw_users` VALUES ('88', 'zfy10', null, '17696041235', '0f748bc20d7f6256f9f065fd155ba236', 'WvM0', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'UhHOWK', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('79', 'zfy1', null, '17696041236', '4986e666914010715efd2f9075e35a6d', '6Mrs', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'tZIQ96', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
+INSERT INTO `kppw_users` VALUES ('80', 'zfy2', null, '1769604123', 'a6cf2d62770ddf3868c8b6986c9c9603', 'Ug3O', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'HuIXDj', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
+INSERT INTO `kppw_users` VALUES ('81', 'zfy3', null, '1769604123', 'f55e214c4810c074127fa7977854433a', 'o0EP', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', '9mjglQ', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
+INSERT INTO `kppw_users` VALUES ('82', 'zfy4', null, '1769604123', '1f147fc35785aecd6995ba411ef92ef0', 'uCPv', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'ZpMJbq', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
+INSERT INTO `kppw_users` VALUES ('83', 'zfy5', null, '1769604123', 'e53a5d9409079859067cc5175e7509c4', 'Mdta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'BN3U6J', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
+INSERT INTO `kppw_users` VALUES ('84', 'zfy6', null, '1769604123', '04cadbcc5efabd39c6c116d52658f669', 'Jpdt', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'CueIYy', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('85', 'zfy7', null, '1769604123', '0b5ca2d2b994bfa2c795f79bf9ef7c38', 'wdO9', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'wgIz5H', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('86', 'zfy8', null, '1769604123', 'e098dc16e175b4a6fbd1657deec4d9f4', 'GJta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'YaCLwv', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('87', 'zfy9', null, '1769604123', 'fecbe64e858ba6bf3166c377faa0cf1f', 'bzwb', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'M17tj2', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('88', 'zfy10', null, '1769604123', '0f748bc20d7f6256f9f065fd155ba236', 'WvM0', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'UhHOWK', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
 INSERT INTO `kppw_users` VALUES ('101', 'qqqq', 'uploads/head_img/2018012215002100000059.jpg', '', '86aae8016482a233769fb64c13201bf0', 'kRxn', '2', '1', null, '1', null, 'oRrdQtwgty2mJ7tRPo9V9StRD6vk', 'oU5YytwbeON8YnaE61DJ6do4XMDw', null, null, null, null, '0', null, null, '2018-01-22 15:00:21', '2018-01-22 15:00:21', null, null);
+INSERT INTO `kppw_users` VALUES ('102', '', 'uploads\\head_img\\moren.png', '1769604123', '1f5d7742815d7e3e28f7f97b17d7c2e8', 'MfPP', '1', '1', null, '1', null, null, null, null, '2018-03-16 15:39:50', null, '100102', '0', null, null, '2018-03-16 15:39:50', '2018-03-16 15:39:50', null, null);
+INSERT INTO `kppw_users` VALUES ('103', '17696041235', 'uploads\\head_img\\moren.png', '1769604123', 'b7da67e94f2c0c74d61f78325ac98eb3', 'wLMv', '2', '1', null, '1', null, null, null, null, '2018-03-16 15:43:41', null, '100103', '0', null, null, '2018-03-16 15:43:41', '2018-03-16 15:43:41', null, null);
+INSERT INTO `kppw_users` VALUES ('104', '17696041235', 'uploads\\head_img\\moren.png', '17696041235', '1d1db23d222be5d2a696d1ec82827e90', 'J3Df', '2', '2', null, '1', null, null, null, null, '2018-03-16 15:53:12', null, '100104', '0', null, null, '2018-03-16 15:53:12', '2018-03-16 15:53:12', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_user_active
@@ -48128,34 +48176,36 @@ CREATE TABLE `kppw_user_active` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_no` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   `match_result` int(11) DEFAULT '1' COMMENT '比赛结果1：未开始；3：赢；2输',
+  `vote_amount` int(11) DEFAULT NULL COMMENT '选票总计',
+  `vote_surplus_num` int(11) DEFAULT NULL COMMENT '选票剩余',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='报名信息';
 
 -- ----------------------------
 -- Records of kppw_user_active
 -- ----------------------------
-INSERT INTO `kppw_user_active` VALUES ('8', '8', '1', '0', '1', '1', '2018-03-08 14:39:56', '2018-03-02 13:44:25', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('32', '8', '1', '17', '2', '1', '2018-03-07 17:00:45', '2018-03-02 13:45:44', '201801131130400000008', '1');
-INSERT INTO `kppw_user_active` VALUES ('33', '79', '1', '0', '1', '1', '2018-03-09 10:22:48', '2018-02-28 14:22:20', null, '1');
-INSERT INTO `kppw_user_active` VALUES ('34', '80', '1', '0', '1', '1', '2018-03-12 10:10:10', '2018-03-01 14:16:58', null, '1');
-INSERT INTO `kppw_user_active` VALUES ('35', '81', '1', '0', '1', '1', '2018-03-12 10:10:11', '2018-03-01 14:16:58', null, '1');
-INSERT INTO `kppw_user_active` VALUES ('36', '82', '1', '0', '1', '1', '2018-03-12 10:10:13', '2018-03-01 14:16:58', null, '1');
-INSERT INTO `kppw_user_active` VALUES ('37', '83', '1', '0', '1', '1', '2018-03-12 10:10:15', '2018-03-01 14:16:58', null, '1');
-INSERT INTO `kppw_user_active` VALUES ('38', '1', '1', '17', '2', '1', '2018-03-07 17:00:45', '2018-03-02 13:45:44', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('39', '8', '1', '0', '1', '1', '2018-03-09 10:26:58', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('40', '8', '1', '0', '1', '1', '2018-03-08 14:40:00', '2018-02-28 14:22:19', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('41', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('42', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('43', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('44', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:19', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('45', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('46', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('47', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('48', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('49', '8', '1', '30', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('50', '8', '1', '31', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:57', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('51', '8', '1', '32', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1');
-INSERT INTO `kppw_user_active` VALUES ('52', '8', '1', '33', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1');
+INSERT INTO `kppw_user_active` VALUES ('8', '8', '1', '0', '1', '1', '2018-03-08 14:39:56', '2018-03-02 13:44:25', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('32', '8', '1', '17', '2', '1', '2018-03-07 17:00:45', '2018-03-02 13:45:44', '201801131130400000008', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('33', '79', '1', '17', '2', '1', '2018-03-21 10:43:11', '2018-02-28 14:22:20', null, '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('34', '80', '1', '0', '1', '1', '2018-03-12 10:10:10', '2018-03-01 14:16:58', null, '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('35', '81', '1', '0', '1', '1', '2018-03-12 10:10:11', '2018-03-01 14:16:58', null, '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('36', '82', '1', '0', '1', '1', '2018-03-12 10:10:13', '2018-03-01 14:16:58', null, '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('37', '83', '1', '0', '1', '1', '2018-03-12 10:10:15', '2018-03-01 14:16:58', null, '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('38', '1', '1', '17', '2', '1', '2018-03-07 17:00:45', '2018-03-02 13:45:44', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('39', '79', '1', '0', '1', '1', '2018-03-21 10:43:13', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('40', '8', '1', '0', '1', '1', '2018-03-08 14:40:00', '2018-02-28 14:22:19', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('41', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('42', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('43', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('44', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:19', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('45', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('46', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('47', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('48', '8', '1', '0', '1', '1', '2018-03-07 17:00:45', '2018-02-28 14:22:20', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('49', '8', '1', '30', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('50', '8', '1', '31', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:57', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('51', '8', '1', '32', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1', null, null);
+INSERT INTO `kppw_user_active` VALUES ('52', '8', '1', '33', '1', '1', '2018-03-07 17:00:45', '2018-03-01 14:16:58', '201801081431420000003', '1', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_user_active_game_rule
@@ -48167,7 +48217,7 @@ CREATE TABLE `kppw_user_active_game_rule` (
   `u_g_r_id` int(11) DEFAULT NULL COMMENT 'user_game_rule的id',
   `type` int(11) DEFAULT '1' COMMENT '1个人',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户赛制';
+) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COMMENT='用户赛制';
 
 -- ----------------------------
 -- Records of kppw_user_active_game_rule
@@ -48200,6 +48250,11 @@ INSERT INTO `kppw_user_active_game_rule` VALUES ('30', '17', '8', '2');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('31', '18', '8', '2');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('32', '25', '8', '2');
 INSERT INTO `kppw_user_active_game_rule` VALUES ('33', '26', '8', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('43', '17', '1', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('44', '18', '1', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('45', '25', '1', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('46', '26', '1', '2');
+INSERT INTO `kppw_user_active_game_rule` VALUES ('47', '17', '10', '2');
 
 -- ----------------------------
 -- Table structure for kppw_user_active_group
@@ -48211,7 +48266,7 @@ CREATE TABLE `kppw_user_active_group` (
   `u_g_g_id` int(11) DEFAULT NULL COMMENT 'user_game_group',
   `type` int(11) DEFAULT '1' COMMENT '1个人；2团队',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='用户分组';
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='用户分组';
 
 -- ----------------------------
 -- Records of kppw_user_active_group
@@ -48222,10 +48277,10 @@ INSERT INTO `kppw_user_active_group` VALUES ('8', '36', '6', '1');
 INSERT INTO `kppw_user_active_group` VALUES ('9', '35', '5', '1');
 INSERT INTO `kppw_user_active_group` VALUES ('10', '34', '7', '1');
 INSERT INTO `kppw_user_active_group` VALUES ('11', '33', '3', '1');
-INSERT INTO `kppw_user_active_group` VALUES ('12', '17', '13', '2');
-INSERT INTO `kppw_user_active_group` VALUES ('13', '18', '14', '2');
-INSERT INTO `kppw_user_active_group` VALUES ('14', '25', '15', '2');
-INSERT INTO `kppw_user_active_group` VALUES ('15', '26', '16', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('16', '17', '13', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('17', '18', '14', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('18', '25', '15', '2');
+INSERT INTO `kppw_user_active_group` VALUES ('19', '26', '16', '2');
 
 -- ----------------------------
 -- Table structure for kppw_user_active_sort_vote
@@ -48279,15 +48334,33 @@ CREATE TABLE `kppw_user_active_team` (
 -- ----------------------------
 INSERT INTO `kppw_user_active_team` VALUES ('17', '王者不可', null, '8', 'Hanna', '18335162521', '164', null, '2018-01-13 11:31:12', '2018-03-02 13:45:44', '2018011325', '1', '2', '201801131130400000008', '1', '0', '0');
 INSERT INTO `kppw_user_active_team` VALUES ('18', 'NB', 'uploads/game/moren/ZDlogo_01.png', '80', 'zfy2', '17696041235', '88', null, '2018-01-18 09:48:50', '2018-03-01 14:16:58', '2018011898', '1', '2', '2018011616113500000080', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('25', 'hao', 'uploads\\game\\2018/01/24\\c4f48cfda23f5c62e8e7bbfdbb724f5f.jpg', '8', 'hah', '0', '0', null, '2018-01-24 10:53:08', '2018-03-01 14:16:58', '2018012425', '1', '2', '0', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('26', '34', 'uploads\\game\\2018/02/02\\9232b9c50553728f62a020bfa744f1c9.jpg', '8', '2', '', '0', null, '2018-02-02 14:33:28', '2018-03-01 14:16:58', null, '1', '2', '', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('27', '4', 'uploads\\game\\2018/02/02\\734f35afe8fe3b0f36b81d8ce4f4d244.jpeg', '8', '4', '0', '0', null, '2018-02-02 14:34:34', '2018-03-01 14:16:58', null, '1', '2', '0', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('28', '5', 'uploads\\game\\2018/02/02\\932d85eee9ea4dd6ba56460205a85132.jpg', '8', '76', '0', '0', null, '2018-02-02 14:35:18', '2018-03-01 14:16:58', '2018020228', '1', '2', '0', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('29', '08', 'uploads\\game\\2018/02/02\\f4e1e47d749aadc14a3146c7d645bed0.jpeg', '8', '8', '0', '0', null, '2018-02-02 14:35:42', '2018-03-01 14:16:57', '2018020229', '1', '2', '0', '1', null, '0');
-INSERT INTO `kppw_user_active_team` VALUES ('30', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('31', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('32', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
-INSERT INTO `kppw_user_active_team` VALUES ('33', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '8', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '0', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('25', 'hao', 'uploads\\game\\2018/01/24\\c4f48cfda23f5c62e8e7bbfdbb724f5f.jpg', '1', 'hah', '0', '0', null, '2018-01-24 10:53:08', '2018-03-01 14:16:58', '2018012425', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('26', '34', 'uploads\\game\\2018/02/02\\9232b9c50553728f62a020bfa744f1c9.jpg', '2', '2', '', '0', null, '2018-02-02 14:33:28', '2018-03-01 14:16:58', null, '1', '2', '', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('27', '4', 'uploads\\game\\2018/02/02\\734f35afe8fe3b0f36b81d8ce4f4d244.jpeg', '81', '4', '0', '0', null, '2018-02-02 14:34:34', '2018-03-01 14:16:58', null, '1', '2', '0', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('28', '5', 'uploads\\game\\2018/02/02\\932d85eee9ea4dd6ba56460205a85132.jpg', '82', '76', '0', '0', null, '2018-02-02 14:35:18', '2018-03-01 14:16:58', '2018020228', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('29', '08', 'uploads\\game\\2018/02/02\\f4e1e47d749aadc14a3146c7d645bed0.jpeg', '83', '8', '0', '0', null, '2018-02-02 14:35:42', '2018-03-01 14:16:57', '2018020229', '1', '2', '0', '1', null, '0');
+INSERT INTO `kppw_user_active_team` VALUES ('30', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '84', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('31', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '85', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('32', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '86', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:58', '2018020230', '1', '2', '0', '1', '0', '0');
+INSERT INTO `kppw_user_active_team` VALUES ('33', '67', 'uploads\\game\\2018/02/02\\81c834d65a9dee2290c60b636c72d009.jpg', '87', '56', '0', '0', null, '2018-02-02 14:40:59', '2018-03-01 14:16:57', '2018020230', '1', '2', '0', '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for kppw_user_active_vote_log
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_user_active_vote_log`;
+CREATE TABLE `kppw_user_active_vote_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `u_a_id` int(11) DEFAULT NULL COMMENT 'user_active_id',
+  `log` varchar(50) DEFAULT NULL,
+  `active_type` int(11) DEFAULT '1' COMMENT '1王者比赛',
+  `type` int(11) DEFAULT NULL COMMENT '1:买票；2投票；3领票',
+  `created_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='票数日志';
+
+-- ----------------------------
+-- Records of kppw_user_active_vote_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for kppw_user_address
@@ -48391,7 +48464,7 @@ CREATE TABLE `kppw_user_balance` (
   `contigency_completed` tinyint(3) NOT NULL DEFAULT '0' COMMENT '偶发任务完成任务计数',
   `balance_freeze` varchar(100) DEFAULT '0' COMMENT '被冻结金额',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4 COMMENT='用户余额及等级';
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COMMENT='用户余额及等级';
 
 -- ----------------------------
 -- Records of kppw_user_balance
@@ -48469,6 +48542,9 @@ INSERT INTO `kppw_user_balance` VALUES ('85', '50000', '86', '0', null, '0', '0'
 INSERT INTO `kppw_user_balance` VALUES ('86', '50000', '87', '0', null, '0', '0', null, '0', null, '0', '0', '1', '0', '0', '0', '0', '0');
 INSERT INTO `kppw_user_balance` VALUES ('87', '50000', '88', '0', null, '0', '0', null, '0', null, '0', '0', '1', '0', '0', '0', '0', '0');
 INSERT INTO `kppw_user_balance` VALUES ('96', '', '101', '0', null, '0', '0', null, '0', null, '0', '0', '1', '0', '0', '0', '0', '0');
+INSERT INTO `kppw_user_balance` VALUES ('97', '0', '102', '0', null, '0', '0', null, '0', '0', '0', '0', '1', '0', '0', '0', '0', '0');
+INSERT INTO `kppw_user_balance` VALUES ('98', '0', '103', '0', null, '0', '0', null, '0', '0', '0', '0', '1', '0', '0', '0', '0', '0');
+INSERT INTO `kppw_user_balance` VALUES ('99', '0', '104', '0', null, '0', '0', null, '0', '0', '0', '0', '1', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for kppw_user_detail
@@ -48521,7 +48597,7 @@ CREATE TABLE `kppw_user_detail` (
   `safe_code` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '安全密码',
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_detail_uid_unique` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_user_detail
@@ -48542,6 +48618,9 @@ INSERT INTO `kppw_user_detail` VALUES ('88', '86', null, '0', '0', '17696041235'
 INSERT INTO `kppw_user_detail` VALUES ('89', '87', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', 'fecbe64e858ba6bf3166c377faa0cf1f', 'fecbe64e858ba6bf3166c377faa0cf1f');
 INSERT INTO `kppw_user_detail` VALUES ('90', '88', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', '0f748bc20d7f6256f9f065fd155ba236', '0f748bc20d7f6256f9f065fd155ba236');
 INSERT INTO `kppw_user_detail` VALUES ('100', '101', null, '0', '0', null, '0', null, null, '0', null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', null, null, null, null);
+INSERT INTO `kppw_user_detail` VALUES ('101', '102', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-03-16 15:39:50', '2018-03-16 15:39:50', null, null);
+INSERT INTO `kppw_user_detail` VALUES ('102', '103', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-03-16 15:43:41', '2018-03-16 15:43:41', null, null);
+INSERT INTO `kppw_user_detail` VALUES ('103', '104', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-03-16 15:53:12', '2018-03-16 15:53:12', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_user_focus
@@ -48681,7 +48760,7 @@ CREATE TABLE `kppw_user_game_match_result` (
   `competition` int(11) DEFAULT '1' COMMENT '比赛类型1：海选',
   `sort` int(255) DEFAULT '0' COMMENT '得分',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='比赛详情及结果';
+) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='比赛详情及结果';
 
 -- ----------------------------
 -- Records of kppw_user_game_match_result
@@ -48705,6 +48784,16 @@ INSERT INTO `kppw_user_game_match_result` VALUES ('25', '6', '1', '2018-03-14 15
 INSERT INTO `kppw_user_game_match_result` VALUES ('26', '2', '1', '2018-03-14 15:13:43', '2', '0', null, '10', '0');
 INSERT INTO `kppw_user_game_match_result` VALUES ('27', '5', '1', '2018-03-14 15:14:07', '5', '2', null, '11', '0');
 INSERT INTO `kppw_user_game_match_result` VALUES ('28', '7', '1', '2018-03-14 15:14:29', '7', '5', null, '11', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('35', '13', '2', '2018-03-15 11:10:52', '13', '14', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('36', '15', '2', '2018-03-15 11:12:47', '15', '0', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('37', '16', '2', '2018-03-15 11:13:38', '16', '0', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('38', '0', '2', '2018-03-15 11:14:51', '2', '3', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('39', '13', '2', '2018-03-15 11:15:15', '13', '15', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('40', '0', '2', '2018-03-15 11:14:51', '5', '6', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('41', '16', '2', '2018-03-15 11:15:23', '16', '0', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('42', '0', '2', '2018-03-15 11:14:51', '7', '9', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('43', '14', '2', '2018-03-15 11:17:11', '14', '15', null, '1', '0');
+INSERT INTO `kppw_user_game_match_result` VALUES ('44', '13', '2', '2018-03-15 11:22:33', '13', '0', null, '1', '0');
 
 -- ----------------------------
 -- Table structure for kppw_user_game_rules

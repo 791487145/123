@@ -1,33 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="db89fc96-cd83-4cf4-9e08-259deff9a2fe" name="默认的" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ManageController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ManageController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Middleware/WebAuth.php" afterPath="$PROJECT_DIR$/app/Http/Middleware/WebAuth.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/GameController.php" afterPath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/GameController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/TaskController.php" afterPath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/TaskController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/UserController.php" afterPath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/UserController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/UserInfoController.php" afterPath="$PROJECT_DIR$/app/Modules/Api/Http/Controllers/UserInfoController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Api/Http/routes.php" afterPath="$PROJECT_DIR$/app/Modules/Api/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/ArticleCategoryController.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/ArticleCategoryController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/ArticleController.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/ArticleController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/GameController.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Http/Controllers/GameController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Http/routes.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/CampusRecruitmentModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/CampusRecruitmentModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/MenuModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/MenuModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveGameRuleModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveGameRuleModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveGroupModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveGroupModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveTeamModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/UserActiveTeamModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Modules/Manage/Model/UserGameRulesModel.php" afterPath="$PROJECT_DIR$/app/Modules/Manage/Model/UserGameRulesModel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/addcategory.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/addcategory.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/articlelist.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/articlelist.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/campusDetail.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/campusDetail.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/campusList.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/campusList.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/editarticle.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/editarticle.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/themes/admin/views/manage/gameTeamEdit.blade.php" afterPath="$PROJECT_DIR$/public/themes/admin/views/manage/gameTeamEdit.blade.php" />
-    </list>
+    <list default="true" id="db89fc96-cd83-4cf4-9e08-259deff9a2fe" name="默认的" comment="" />
     <ignored path="123.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -436,7 +410,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
