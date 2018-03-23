@@ -83,7 +83,7 @@ class ArticleController extends ManageController
 
 
         $list = $articleList->join('article_category as c', 'article.cat_id', '=', 'c.id')
-            ->select('article.id', 'article.cat_id', 'article.title', 'article.view_times', 'article.author', 'article.created_at', 'c.cate_name as cate_name')
+            ->select('article.id','article.is_recommended', 'article.cat_id', 'article.title', 'article.view_times', 'article.author', 'article.created_at', 'c.cate_name as cate_name')
             ->orderBy($by, $order)->paginate($paginate);
         $listArr = $list->toArray();
 
@@ -282,6 +282,7 @@ class ArticleController extends ManageController
             'keywords' => $data['keywords'],
             'description' => $data['description'],
             'updated_at' => date('Y-m-d H:i:s',time()),
+            'is_recommended' => $data['is_recommended'],
 
         );
         $res = ArticleModel::where('id', $data['artID'])->update($arr);

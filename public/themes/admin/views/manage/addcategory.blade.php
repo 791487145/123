@@ -26,14 +26,14 @@
                             </div>
                             <div class="form-group interface-bottom col-xs-12">
                                 <lebel class="col-sm-1 text-right">分类名称</lebel>
-                                <div class="text-left col-sm-9">
+                                <div class="text-left">
                                     <input type="text" name="catName" id="catName" value="">
                                     {{ $errors->first('catName') }}
                                 </div>
                             </div>
                             <div class="interface-bottom col-xs-12">
                                 <label class="col-sm-1 text-right">排序</label>
-                                <div class="text-left col-sm-9">
+                                <div class="text-left">
                                     <input type="text" name="displayOrder" id="displayOrder" value="">
                                     {{ $errors->first('displayOrder') }}
                                 </div>

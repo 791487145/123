@@ -3,8 +3,10 @@
 namespace App\Modules\Api\Http\Controllers;
 
 use App\Http\Requests;
+use App\Modules\Manage\Model\CampusRecruitmentModel;
 use App\Modules\Manage\Model\FunctionModel;
 use App\Modules\Manage\Model\IconModel;
+use App\Modules\Manage\Model\UserArticleCommentThumbupModel;
 use App\Modules\Shop\Models\ShopModel;
 use App\Modules\Shop\Models\ShopTagsModel;
 use App\Modules\Task\Model\TaskWaterModel;
@@ -59,57 +61,112 @@ class UserInfoController extends ApiBaseController
      */
     public function index(Request $request)
     {
-        $data = $request->except('token');
+        $data = $request->all();
+        $validator = Validator::make($data,[
+            'limit' => 'required|integer|min:1',
+        ],[
+            'limit.required' => '请填写数量',
+            'limit.integer' => '请输入整数',
+            'limit.min' => '最小值为1',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $num = $request->input('page_num',1);
+        $offset = ($num - 1) * $data['limit'];
+
+        $menu_id = $request->input('menu_id',0);
 
         $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
         $functionIds = UserModel::whereId($tokenInfo['uid'])->pluck('function_order');
-        $en = ['one','two','three','fore'];
-
-       /* if(Cache::has('lunbo_menu_ad')){
-            $data = Cache::get('lunbo_menu');
-        }else{*/
-            $data['menu'] = IconModel::whereType('menu')->whereStatus('valid')->get()->toArray();//菜单
-            $data['lunbo'] = IconModel::whereType('carousel')->whereStatus('valid')->whereSort(IconModel::ICON_LUNBO_INDEX)->whereStatus('valid')->get()->toArray();//轮播
-            foreach($data['lunbo'] as $k=>$v){
-                $data['lunbo'][$k]['en'] = $en[$k];
-            }
-
-            $data['ads'] = IconModel::getIconInfoFromSort(IconModel::ICON_TYPE_AD,IconModel::ICON_AD_INDEX);
-            $data['zixun'] = ArticleModel::where('display_order',ArticleModel::ARTICLE_INDEX)->select('id','title','url')->get();
-            if(!$data['zixun']->isEmpty()){
-                $data['zixun'] = $data['zixun']->toArray();
-            }
-            Cache::put('lunbo_menu',$data,60*3);
-        //}
-
-        /*$count = TaskWaterModel::where('status',2)->count();
-        $len = 100;
-        $num = $len - $count;
-        if($num > 0){
-            for($i =1;$i<$num;$i++){
-                TaskWaterModel::createTask();
-            }
-        }*/
 
         if(is_null($functionIds)){
-            $data['function'] = FunctionModel::whereStatus('valid')->orderBy('id','desc')->get()->toArray();//功能
+            $data['menu'] = IconModel::whereType('menu')->whereStatus('valid')->get();
         }else{
             $functionIds = explode(",",$functionIds);
             foreach($functionIds as $functionId){
-                $data['function'] = FunctionModel::whereStatus('valid')->whereId($functionId)->first()->toArray();//功能
+                $data['menu'] = IconModel::whereStatus('valid')->whereId($functionId)->first()->toArray();//功能
             }
         }
 
-        $data['task'] = AnnouncementController::displayMiddleOfTask();
+        if($menu_id == 0){
+            $menu_id = $data['menu'][0]['id'];
+        }
 
-        $announcement = AnnouncementModel::where('status','valid')->orderBy('id','desc')->select('content')->take(10)->get();
-        if(!$announcement->isEmpty()){
-            $data['announcement'] = $announcement->toArray();
-        }else{
-            $data['announcement'] = 'null';
+        $menu = IconModel::where('id',$menu_id)->first();
+
+        if($menu->describe == "官方"){
+            $offset_a = ($num - 1) * 2;
+            $offset_z = ($num - 1) * 2;
+            $offset_c = ($num - 1) * ($data['limit'] -4);
+            $active = ArticleModel::where('cat_id',60)->where('user_id',0)->limit($data['limit'])->offset($offset_a)->orderBy('id','desc')->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
+            $zixun = ArticleModel::where('cat_id',61)->where('user_id',0)->limit($data['limit'])->offset($offset_z)->orderBy('id','desc')->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
+            $campus = CampusRecruitmentModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_c)->get();
+
+        }
+
+        if($menu->describe == "推荐"){
+            $offset_aa = ($num - 1) * 2;
+            $offset_cc = ($num - 1) * ($data['limit'] -4);
+            $date['infos'] = ArticleModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_aa)->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
+            if(!$date['infos']->isEmpty()){
+                foreach($date['infos'] as $v){
+                    $v->type = 2;
+                    $v->created_at = self::timeShow($v->created_at);
+                }
+                $date['infos'] = $date['infos']->toArray();
+            }
+
+            $date['invites'] = CampusRecruitmentModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_cc)->limit($data['limit'])->offset($offset)->get();
+            if(!$date['invites']->isEmpty()){
+                foreach($date['invites'] as $val){
+                    $val->type = 1;
+                }
+                $date['invites'] = $date['invites']->toArray();
+            }
+        }
+
+        if($menu->describe == "任务"){
+            $time = date("Y-m-d H:i:s");
+            $data['time'] = $request->input('time',1);
+            $data['bounty_start'] = $request->input('bounty_start','');
+            $date = TaskController::getTaskList($data,$num,$time,$offset);
+        }
+
+        if($menu->describe == "招聘"){
+            $date['invites'] = CampusRecruitmentModel::whereStatus('valid')->select('id','post_name','salary','create_at','post_demand','company_name')->orderBy('id','desc')->limit($data['limit'])->offset($offset)->get();
+            if(!$date['invites']->isEmpty()){
+                foreach($date['invites'] as $val){
+                    $val->type = 1;
+                }
+                $date['infos'] = $date['infos']->toArray();
+            }
         }
 
         return $this->formateResponse(1000, 'success', json_encode($data));
+    }
+
+    static function dataChange($date)
+    {
+        if(!$date['infos']->isEmpty()){
+            foreach($date['infos'] as $v){
+                $v->type = 2;
+                $v->created_at = self::timeShow($v->created_at);
+            }
+            $date['infos'] = $date['infos']->toArray();
+        }
+
+        if(!$date['invites']->isEmpty()){
+            foreach($date['invites'] as $val){
+                $val->type = 1;
+            }
+            $date['infos'] = $date['infos']->toArray();
+        }
+
+        return $date;
     }
 
     /**功能排序修改(post:/user/functionSort)

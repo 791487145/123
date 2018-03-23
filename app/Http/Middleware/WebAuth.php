@@ -22,6 +22,7 @@ class WebAuth
         } else {
             //代码注释不要删！不要删！不要删。。。
             $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+
             // if ( is_array($tokenInfo) && isset($tokenInfo['uid']) && isset($tokenInfo['name']) && isset($tokenInfo['akey']) && isset($tokenInfo['expire'] )) {
             if ( is_array($tokenInfo) && isset($tokenInfo['uid']) && isset($tokenInfo['name']) && isset($tokenInfo['akey'])) {
                 $akey = md5(Config::get('app.key'));
@@ -33,7 +34,7 @@ class WebAuth
                 $last_login_uuid = UserModel::where('id',$tokenInfo['uid'])->pluck('last_login_uuid');
 
                 $cache = Cache::get($tokenInfo['uid']);
-                
+                //dd($cache);
                 // if ( $tokenInfo['expire'] > time() && $akey == $tokenInfo['akey'] && Cache::get($tokenInfo['uid'])) {
                 // if ($akey == $tokenInfo['akey'] && $cache && $cache['token'] == $request->get('token') && $tokenInfo['uuid'] == $last_login_uuid) {
                 if ($akey == $tokenInfo['akey'] && $cache && $cache['token'] == $request->get('token')) {

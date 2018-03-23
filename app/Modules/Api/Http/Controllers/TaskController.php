@@ -67,12 +67,12 @@ class TaskController extends ApiBaseController
      * @param title标题
      * @return \Illuminate\Http\Response
      */
-    public function getTaskList(Request $request)
+    static function getTaskList($data,$num,$time,$offset)
     {
        /* if(empty($this->school)){
             return $this->formateResponse(1001,'请先完善信息');
         }*/
-        $data = $request->all();
+       /* $data = $request->all();
         $validator = Validator::make($data,[
             'limit' => 'required|integer|min:1',
         ],[
@@ -84,13 +84,13 @@ class TaskController extends ApiBaseController
         $error = $validator->errors()->all();
         if(count($error)){
             return $this->formateResponse(1001,$error[0], $error);
-        }
+        }*/
 
-        $num = $request->input('page_num',1);
+      /*  $num = $request->input('page_num',1);
         $time = date("Y-m-d H:i:s");
         $offset = ($num - 1) * $data['limit'];
         $data['time'] = $request->input('time',1);
-        $data['bounty_start'] = $request->input('bounty_start','');
+        $data['bounty_start'] = $request->input('bounty_start','');*/
 
         if($num == 1){
             $task = TaskModel::taskSelect($data);
@@ -113,9 +113,9 @@ class TaskController extends ApiBaseController
         $length = $data['limit'] - count($task_pub);
         $task_water = TaskWaterModel::taskSelect($data);
         $task_waters = $task_water->orderByRaw('RAND()')->whereStatus(TaskModel::TASK_PUB)->take($length)
-                        ->select('id','publicity_at','title','desc','bounty','created_at','uid','identify','schoolName','avatar')->get()->toArray();
+                        ->select('id','publicity_at','title','desc','bounty','created_at','uid','identify','schoolName','avatar','task_cate_name','username')->get();
 
-        $date['ads'] = IconModel::getIconInfoFromSort(IconModel::ICON_TYPE_AD,IconModel::INCO_AD_TASK);
+        //$date['ads'] = IconModel::getIconInfoFromSort(IconModel::ICON_TYPE_AD,IconModel::INCO_AD_TASK);
 
         if(isset($date['taskDinmond']) && !$date['taskDinmond']->isEmpty()){
             foreach($date['taskDinmond'] as $keyy =>$value){
@@ -167,20 +167,36 @@ class TaskController extends ApiBaseController
         if($data['limit'] == $length){
             foreach($task_waters as $task_water){
                 $task_water->time = self::timeShow($task_water->created_at);
+                $task_water->type = 5;
             }
             $task_waters = $task_waters->toArray();
             $date['taskPubs'] = $task_waters;
         }
 
         if($num == 1 && empty($date['taskPubs']) && $date['taskTops']->isEmpty() && $date['taskDinmond']->isEmpty()){
-            return $this->formateResponse(2000,'暂无数据',$date);
+            $return_date = array(
+                'num' => 2000,
+                'message' => '暂无数据',
+                'date' => $date
+            );
+            return $return_date;
         }
 
         if($num != 1 && empty($date['taskPubs'])){
-            return $this->formateResponse(2000,'暂无数据',$date);
+            $return_date = array(
+                'num' => 2000,
+                'message' => '暂无数据',
+                'date' => $date
+            );
+            return $return_date;
         }
 
-        return $this->formateResponse(1000,'获取成功',$date);
+        $return_date = array(
+            'num' => 1000,
+            'message' => '获取成功',
+            'date' => $date
+        );
+        return $return_date;
     }
 
     /**任务详情（post:/taskDetial）

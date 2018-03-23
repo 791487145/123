@@ -420,6 +420,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['web.autho','game.log']], func
 	Route::post('/game/captainAgreeApply','GameController@captainAgreeApply');//队长同意
 	Route::post('/game/playerAgree','GameController@playerAgree');//游客接受邀请
 	Route::post('/game/teamReport','GameController@teamReport')->name('teamReport');//团队报名
+	Route::post('/game/drawLotsList','GameController@drawLotsLists');//抽签列表
 	Route::post('/game/drawLots','GameController@drawLots');//抽签
 
 	Route::post('/game/groupInitialize','GameController@gameGroupInitialize');//分组初始化

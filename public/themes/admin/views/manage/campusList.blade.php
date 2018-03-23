@@ -27,6 +27,7 @@
                     <th>岗位名称</th>
                     <th>薪资</th>
                     <th>联系方式</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -48,6 +49,13 @@
                             <td>{!! $item->post_name !!}</td>
                             <td>{!! $item->salary !!}</td>
                             <td>{!! $item->phone !!}</td>
+                            <td>
+                                @if($item['is_recommended'] == 1)
+                                    被推荐
+                                @else
+                                    未被推荐
+                                @endif
+                            </td>
                             <td>
                                 <a class="btn btn-xs btn-info" href="campusDetail/{{ $item['id'] }}">
                                     <i class="fa fa-edit bigger-120"></i>编辑

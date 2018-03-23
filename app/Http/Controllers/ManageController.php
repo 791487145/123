@@ -41,6 +41,7 @@ class ManageController extends BasicController
                     $this->theme->set('menu_ids',$menu_data['menu_ids']);
                 }
             }
+
             $basisConfig = ConfigModel::getConfigByType('basis');
             if(!empty($basisConfig)){
                 $this->theme->set('basis_config',$basisConfig);

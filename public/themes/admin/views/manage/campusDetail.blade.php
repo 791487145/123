@@ -40,6 +40,15 @@
             </div>
         </div>
         <div class="form-group interface-bottom col-xs-12">
+            <label class="col-sm-1 text-right">是否推荐</label>
+            <div class="text-left col-sm-9">
+                <input type="radio"  name="is_recommended" value="1" @if($campus['is_recommended'] == 1)checked="checked"@endif/>
+                <span class="lbl"></span>是
+                <input type="radio"  name="is_recommended" value="2"@if($campus['is_recommended'] == 2)checked="checked"@endif/>
+                <span class="lbl"></span>否
+            </div>
+        </div>
+        <div class="form-group interface-bottom col-xs-12">
             <label class="col-sm-1 text-right">薪资：</label>
             <div class="text-left col-sm-9">
                 <input type="text" name="salary" id="summary" value="{{$campus['salary']}}">  例：60/天 或60/小时 60/月

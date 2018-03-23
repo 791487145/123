@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use spec\PhpSpec\Formatter\Html\ReportPassedItemSpec;
 use Theme;
 use Illuminate\Support\Facades\Redis;
+use Log;
 
 class GameController extends ManageController
 {
@@ -115,6 +116,7 @@ class GameController extends ManageController
 
             if($data['u_g_r_id'] != 0 && $data['u_g_r_id'] != $user_game_rule->id){
                 $user_active_game_rule = UserActiveGameRuleModel::where('u_g_r_id',$data['u_g_r_id'])->where('u_a_id',$id_array[1])->where('type',1)->first();
+                $game_rule = UserGameRulesModel::where('id',$data['u_g_r_id'])->first();
                 if(is_null($user_active_game_rule)){
                     $param = array(
                         'u_g_r_id' => $data['u_g_r_id'],
@@ -122,6 +124,10 @@ class GameController extends ManageController
                         'type' => 1
                     );
                     UserActiveGameRuleModel::createOne($param);
+
+                   /* if($game_rule->name == "复活赛"){
+
+                    }*/
                 }
             }
 
@@ -180,16 +186,17 @@ class GameController extends ManageController
 
         if($data['type'] == 1){
             UserGameRulesModel::where('id',$data['competition'])->update(['status' => 3]);
-
-            for($i=0;$i<count($user_ids);$i++){
-                $param = array(
-                    'u_a_id' => $user_ids[$i],
-                    'u_g_r_id' => $user_game_rule_hx->id,
-                    'type' => $data['type']
-                );
-                UserActiveGameRuleModel::createOne($param);
-            }
         }
+
+        for($i=0;$i<count($user_ids);$i++){
+            $param = array(
+                'u_a_id' => $user_ids[$i],
+                'u_g_r_id' => $user_game_rule_hx->id,
+                'type' => $data['type']
+            );
+             UserActiveGameRuleModel::createOne($param);
+        }
+
 
         UserGameMatchResultModel::detail($data['type'],$user_game_rule_hx->id,$group_ids,$user_game_setting);
 
@@ -208,7 +215,6 @@ class GameController extends ManageController
         }
 
         $user_group_id = UserActiveGroupModel::where('u_a_id',$data['id'][0])->where('type',$data['type'])->pluck('u_g_g_id');
-
 
         $param = array(
             'type' => $data['type'],
@@ -274,9 +280,15 @@ class GameController extends ManageController
         if($status == 1){
             $data = self::notReportAndReport($type,$userActiveTeam,$this->page,$param,$status,$user_game_rules);
         }
-
         if($status == 2){
+            $param['state'] = $user_game_rule->status;
             $data = self::groupDrawLots($type,$userActiveTeam,$this->page,$param,$status,$user_game_rules);
+        }
+        if($status == 3){
+            $data = self::audition($userActiveTeam,$param,$this->page,$status,$user_game_rules,2);
+        }
+        if($status >= 4){
+            $data = self::audition($userActiveTeam,$param,$this->page,$status,$user_game_rules,2);
         }
 
         return $this->theme->scope('manage.gameTeamList', $data)->render();
@@ -381,24 +393,83 @@ class GameController extends ManageController
 
     public function teamEdit($id,Request $request)
     {
-        $user_active_team = UserActiveTeamModel::whereId($id)->first();
+        $id_array = explode("_",$id);
+        $user_active_team = UserActiveTeamModel::where('user_active_team.id', $id_array[1])
+            ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active_team.id')
+            ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
+            ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active_team.id')
+            ->select('user_game_group.group','user_active_game_rule.u_g_r_id','user_game_group.id as group_id','user_game_group.num','user_active_team.id','user_active_team.team_name')
+            ->orderBy('user_active_game_rule.id','desc')
+            ->first();
 
-        if($request->isMethod("post")){
-            $data = $request->except('_token','pic');
-            $file = $request->file('pic');
+        $user_game_match_result = UserGameMatchResultModel::where('id',$id_array[0])->first();
 
-            if(!empty($file)){
-                $result = \FileClass::uploadFile($file,'game');
-                $result = json_decode($result,true);
-                $data['logo'] = $result['data']['url'];
+        $user_game_rules = UserGameRulesModel::where('category',UserGameRulesModel::CATEGORY_KING_OF_GLORY)->where('pid',0)->orderBy('sort','asc')->get();
+        $user_game_rule = UserGameRulesModel::where('id',$user_game_match_result->competition)->first();
+
+        if($user_game_match_result->competition != $user_active_team->u_g_r_id){
+            return 1;
+        }
+
+        $user_active_team->group_b_id = $user_game_match_result->group_a;
+        $user_active_team->winner = $user_game_match_result->win;
+        $user_active_team->competition = $user_game_rule->id;
+        if($user_active_team->group_id == $user_game_match_result->group_a){
+            $user_active_team->group_b_id = $user_game_match_result->group_b;
+        }
+
+        $u_a_id_b = UserActiveGroupModel::where('u_g_g_id',$user_active_team->group_b_id)->where('type',2)->first();
+
+        if($request->isMethod('post')) {
+            $data = $request->except("_token");
+
+            if ($data['u_g_r_id'] != 0 && $data['u_g_r_id'] != $user_game_rule->id) {
+                $user_active_game_rule = UserActiveGameRuleModel::where('u_g_r_id', $data['u_g_r_id'])->where('u_a_id', $id_array[1])->where('type', 2)->first();
+                if (is_null($user_active_game_rule)) {
+                    $param = array(
+                        'u_g_r_id' => $data['u_g_r_id'],
+                        'u_a_id' => $id_array[1],
+                        'type' => 2
+                    );
+                    UserActiveGameRuleModel::createOne($param);
+                }
             }
 
-            UserActiveTeamModel::whereId($id)->update($data);
-            return  redirect('manage/game/team/1');
+            if ($data['match_result'] == 2) {
+                if ($user_game_rule->name == "小组赛") {
+                    $array = array(
+                        'u_a_id' => $id_array[1],
+                        'u_g_g_id' => $user_active_team->group_id,
+                        'competition' => $user_game_rule->id,
+                        'type' => 2,
+                        'vote' => 0,
+                        'sort' => 2
+                    );
+                    UserActiveSortVoteModel::createOneSort($array);
+                }
+                UserGameMatchResultModel::where('id', $id_array[0])->update(['win' => $user_active_team->group_id]);
+            }
+
+            if ($data['match_result'] == 1) {
+                if ($user_game_rule->name == "小组赛") {
+                    $array = array(
+                        'u_a_id' => $u_a_id_b->u_a_id,
+                        'u_g_g_id' => $user_active_team->group_b_id,
+                        'competition' => $user_game_rule->id,
+                        'type' => 2,
+                        'vote' => 0,
+                        'sort' => 2
+                    );
+                    UserActiveSortVoteModel::createOneSort($array);
+                }
+                UserGameMatchResultModel::where('id', $id_array[0])->update(['win' => $user_active_team->group_b_id]);
+            }
+            return  redirect('/manage/game/team/0?competition='.$user_game_match_result->competition);
         }
 
         $data = array(
             'user_active_team' => $user_active_team,
+            'user_game_rules' => $user_game_rules
         );
         return $this->theme->scope('manage.gameTeamEdit', $data)->render();
     }
@@ -445,6 +516,7 @@ class GameController extends ManageController
         return $this->theme->scope('manage.gameCompetitionAdd',$data)->render();
     }
 
+
     public function competitionDel(Request $request)
     {
         $id = $request->input('id');
@@ -456,6 +528,7 @@ class GameController extends ManageController
         return 0;
     }
 
+    //赛制编辑
     public function competitionEdit($id,Request $request)
     {
         $user_game_rule = UserGameRulesModel::where('id',$id)->first();
@@ -478,6 +551,7 @@ class GameController extends ManageController
         return $this->theme->scope('manage.gameCompetitionEdit',$data)->render();
     }
 
+    //基本设置
     public function gameConfig()
     {
         $user_game_settings['single'] = UserGameSettingModel::where('type',UserGameSettingModel::TYPE_SINGLE)->first();
@@ -490,6 +564,7 @@ class GameController extends ManageController
         return $this->theme->scope('manage.gameconfig',$data)->render();
     }
 
+    //分组设定
     public function gameGroupInitialize(Request $request)
     {
         $single_num = $request->input('single_num');
@@ -597,28 +672,31 @@ class GameController extends ManageController
     static function groupDrawLots($type,$userActiveTeam,$page,$param,$status,$user_game_rules)
     {
         $user_active_teams = UserActiveTeamModel::getListAll($param,$userActiveTeam,$page);
-        //dd($user_active_teams);
+
         if(isset($param['state'])){
             $data['state'] = $param['state'];
             unset($param['state']);
         }
 
-        $data = array(
-            'teams' => $user_active_teams,
-            'param' => $param,
-            'type' => $type,
-            'status' => $status,
-            'user_game_rules' => $user_game_rules
-        );
+        $data['teams'] = $user_active_teams;
+        $data['param'] = $param;
+        $data['type'] = $type;
+        $data['status'] = $status;
+        $data['user_game_rules'] = $user_game_rules;
+
         return $data;
     }
 
     //海选-小组
     static function audition($userActive,$param,$page,$status,$user_game_rules,$type)
     {
+        if($type == 1){
+            $user_actives = UserActiveModel::getListAll($param,$userActive,$page);
+        }
+        if($type ==2){
+            $user_actives = UserActiveTeamModel::getListAll($param,$userActive,$page);
+        }
 
-        $user_actives = UserActiveModel::getListAll($param,$userActive,$page);
-        //dd($param);
         foreach($user_actives as $user_active){
             $user_game_match_results = UserGameMatchResultModel::where('type',$type)->where('competition',$param['competition'])->where(function ($query) use($user_active){
                 $query->where('group_a',$user_active->group_id)->orWhere('group_b',$user_active->group_id);

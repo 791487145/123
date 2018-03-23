@@ -69,6 +69,7 @@
                 <th>发布时间</th>
                 <th>访问量</th>
                 <th>作者</th>
+                <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -100,6 +101,15 @@
                 <td>
                     {{$item['author']}}
                 </td>
+
+                <td>
+                    @if($item['is_recommended'] == 1)
+                        被推荐
+                    @else
+                        未被推荐
+                    @endif
+                </td>
+
                 <td>
                     <div class="hidden-sm hidden-xs btn-group">
                         <a title="浏览" class="btn btn-xs btn-success" href="/article/{{$item['id']}}">

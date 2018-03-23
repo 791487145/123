@@ -228,7 +228,9 @@ class UserController extends ApiBaseController
     }
 
     /**注册
-     * @param Request $request
+     * @param
+     * post:/user/register
+     * Request $request
      * param  $username
      * param  $phone
      * param  $password
@@ -241,16 +243,16 @@ class UserController extends ApiBaseController
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|min:4|max:15|alpha_num|unique:users,name',
+          /*  'username' => 'required|min:4|max:15|alpha_num|unique:users,name',*/
             'phone'    => 'required|mobile_phone|unique:users,mobile',
             'password' => 'required|min:6|max:12|alpha_num',
             'code'     => 'required',
         ],[
-            'username.required' => '请输入用户名',
+         /*   'username.required' => '请输入用户名',
             'username.min' => '用户名长度不得小于4',
             'username.max' => '用户名长度不得大于15',
             'username.alpha_num' => '用户名请输入字母或数字',
-            'username.unique' => '此用户名已存在',
+            'username.unique' => '此用户名已存在',*/
 
             'phone.required' => '请输入手机号',
             'phone.mobile_phone' => '请输入正确的手机号码格式',
@@ -289,7 +291,7 @@ class UserController extends ApiBaseController
         $now = time();
         $password = UserModel::encryptPassword($request->get('password'), $salt);
         $userArr = array(
-            'name' => $request->get('username'),
+            'name' => $request->get('phone'),
             'password' => $password,
             'salt' => $salt,
             'last_login_time' => $date,
@@ -298,6 +300,8 @@ class UserController extends ApiBaseController
             'status' => 1,
             'mobile' => $request->get('phone'),
             'head_img' => 'uploads\head_img\moren.png',
+            'status' => 2,
+            'activation_method' => 2
         );
         $this->mobile = $request->get('phone');
         $promote_code = $request->input('promote_code',0);
@@ -379,7 +383,7 @@ class UserController extends ApiBaseController
         if(!isset($res)){
             return $this->formateResponse(1001,'网络错误');;    
         }elseif($res['code'] == '1000'){
-            return $this->formateResponse(1000,'注册成功，请支付激活账号');
+            return $this->formateResponse(1000,'注册成功');
         }elseif($res['code'] == '-1000'){
             return $this->formateResponse(1001,$res['data']);
         }
@@ -564,14 +568,20 @@ class UserController extends ApiBaseController
         
     }
 
-    //用户名密码登录
+
+    /**
+     * 用户名密码登录
+     * post:/user/login
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
+            'phone' => 'required',
             'password' => 'required|min:6|max:12|alpha_num',
             // 'uuid' => 'required'
         ],[
-            'username.required' => '请输入用户名或手机号',
+            'phone.required' => '请输入手机号',
             'password.required' => '请输入密码',
             'password.min' => '密码长度不得小于6',
             'password.max' => '密码长度不得大于12',
@@ -580,13 +590,13 @@ class UserController extends ApiBaseController
         ]);
         $error = $validator->errors()->all();
         if(count($error)) return $this->formateResponse(1001,$error[0], $error);
-        $username = $request->get('username');
+        $username = $request->get('phone');
         $error2 = Validator::make($request->except('password'),[
-                            'username'=>'mobile_phone'
+                            'phone'=>'mobile_phone'
                         ],[
-                            'username.mobile_phone'=>'请输入正确的手机号码格式'
+                            'phone.mobile_phone'=>'请输入正确的手机号码格式'
                         ])->errors()->all();
-        if(count($error2)){
+        /*if(count($error2)){
             //用户名登陆
             $error3 = Validator::make($request->except('password'),[
                             'username'=>'min:4|max:15|alpha_num'
@@ -595,12 +605,12 @@ class UserController extends ApiBaseController
                             'username.max'=>'用户名长度不得大于15',
                             'username.alpha_num'=>'用户名请输入字母或数字'
                         ])->errors()->all();
-            if(count($error3)) return $this->formateResponse(1001,$error3[0],$error3);
-            $userInfo = UserModel::where('users.name',$username);
-        }else{
+            if(count($error3)) return $this->formateResponse(1001,$error3[0],$error3);*/
+            //$userInfo = UserModel::where('users.name',$username);
+       /* }else{*/
             //电话登陆
             $userInfo = UserModel::where('users.mobile',$username);
-        }
+       // }
         $userInfo = $userInfo->leftjoin('user_detail','users.id','=','user_detail.uid')
                         ->select('users.*','user_detail.avatar','user_detail.school')
                         ->first();
@@ -671,6 +681,7 @@ class UserController extends ApiBaseController
                 'token' => $token
             );
         Cache::put($uid,$userDetail,28800*60);
+
         return $token;
     }
 
@@ -679,14 +690,12 @@ class UserController extends ApiBaseController
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required|min:6|max:12|alpha_num',
-            // 'uuid' => 'required'
         ],[
             'username.required' => '请输入用户名或手机号',
             'password.required' => '请输入密码',
             'password.min' => '密码长度不得小于6',
             'password.max' => '密码长度不得大于12',
             'password.alpha_num' => '请输入字母或数字',
-            // 'uuid.required' => '请输入手机标识'
         ]);
         $error = $validator->errors()->all();
         if(count($error)) return $this->formateResponse(1001,$error[0], $error);

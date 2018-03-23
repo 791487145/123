@@ -1,0 +1,141 @@
+<?php
+
+namespace  App\Modules\Manage\Model;
+
+use Illuminate\Database\Eloquent\Model;
+
+class UserActiveModel extends Model
+{
+    const ACTIVE_TYPE_WX = 1;//微信
+
+    const ACTIVE_CANTAIN_ONE = 1;//1v1
+    const ACTIVE_CANTAIN_FIVE = 2;//5v5
+
+    //参赛结果
+    const MATCH_RESULT_SUCCESS = 3;//赢
+    const MATCH_RESULT_FAIL = 2;//输
+    const MATCH_RESULT_NOT_START = 1;//未开始
+
+    protected $table = 'user_active';
+    protected $primaryKey = 'id';
+
+
+    protected $fillable = [
+        'id','uid','type','pid','cantain','active_type','created_at','user_no','match_result'
+    ];
+
+    public $timestamps = true;
+
+    //创建角色
+    static function createOne($data)
+    {
+        $data = self::create($data);
+        return $data;
+    }
+
+    //个人相信报名信息
+    static function singleInfo($uid)
+    {
+        $data = self::where('user_active.uid',$uid)->where('user_active.pid',0)->where('user_active.cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+                       ->where('user_active.active_type',UserActiveModel::ACTIVE_TYPE_WX)
+                       ->leftJoin('users','users.id','=','user_active.uid')
+                       ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+                        ->leftJoin('district_region','user_game_info.school','=','district_region.id')
+                        ->select('users.name','users.id','user_game_info.game_name','user_game_info.game_server','user_game_info.mobile','district_region.name as school_name')
+                        ->first();
+
+        return $data;
+    }
+
+    //判断某条件下某角色是否存在
+    static function userIsExist($where)
+    {
+        $data = self::where($where)->first();
+        return $data;
+    }
+
+    //某战队人员总数
+    static function getTeamPeopleTotal($team_id)
+    {
+        $data = self::where('pid',$team_id)->count();
+        return $data;
+    }
+
+    //战队队员及详细信息
+    static function groupUser($team_id)
+    {
+        $data = self::where('user_active.pid',$team_id)->where('user_active.cantain',UserActiveModel::ACTIVE_CANTAIN_FIVE)
+            ->leftJoin('users','users.id','=','user_active.uid')
+            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+            ->leftJoin('district_region','user_game_info.school','=','district_region.id')
+            ->select('users.name','users.id','user_game_info.game_name','user_game_info.game_server','user_game_info.mobile','district_region.name as school_name')
+            ->orderBy('user_active.id','asc')
+            ->get()->toArray();
+
+        return $data;
+    }
+
+    //抽签
+    static function sectionalization($group_id,$user_active,$type)
+    {
+        $uesr_game_rules = UserGameRulesModel::where('name','抽签')->first();
+
+        $param = array(
+            'u_a_id' => $user_active->id,
+            'u_g_g_id' => $group_id,
+            'type' => $type,
+        );
+        UserActiveGroupModel::createOne($param);
+
+        $data = array(
+            'u_a_id' => $user_active->id,
+            'u_g_r_id' => $uesr_game_rules->id,
+            'type' => $type
+        );
+        UserActiveGameRuleModel::createOne($data);
+
+        return true;
+    }
+
+
+    static function getAllList($param,$userActive,$page)
+    {
+        $user_active = $userActive->where('pid',0)
+                        ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+                        ->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)
+                        ->where('user_active.type','=',1)
+                        ->where('user_active_game_rule.type',1)
+                        ->where('user_active_game_rule.u_g_r_id',$param['competition'])
+                        ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
+                        ->leftJoin('users','users.id','=','user_active.uid')
+                        ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+                        ->select('user_active.id','user_active.created_at','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+                        ->orderBy('id','asc')
+                        ->paginate($page);
+        return $user_active;
+    }
+
+    //个人及对手详情
+    static function getListAll($param,$userActive,$page)
+    {
+        $user_active = $userActive->where('pid',0)
+            ->where('cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+            ->where('active_type',UserActiveModel::ACTIVE_TYPE_WX)
+            ->where('user_active.type','=',1)
+            ->where('user_active_game_rule.type',1)
+            ->where('user_game_group.type',1)
+            ->where('user_active_game_rule.u_g_r_id',$param['competition'])
+            ->leftJoin('user_active_game_rule','user_active_game_rule.u_a_id','=','user_active.id')
+            ->leftJoin('user_active_group','user_active_group.u_a_id','=','user_active.id')
+            ->leftJoin('user_game_group','user_game_group.id','=','user_active_group.u_g_g_id')
+            ->leftJoin('users','users.id','=','user_active.uid')
+            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+            ->select('user_game_group.group','user_game_group.id as group_id','user_game_group.num','user_active.id','user_active.created_at','user_active.match_result','user_active.uid','user_game_info.game_name','user_game_info.game_server','users.name')
+            ->orderBy('user_active_game_rule.id','asc')
+            ->paginate($page);
+
+        return $user_active;
+    }
+
+
+}

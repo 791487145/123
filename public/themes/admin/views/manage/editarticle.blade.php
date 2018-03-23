@@ -59,17 +59,26 @@
                                         <span class="red">{{ $errors->first('author') }}</span>
                                     </div>
                                 </div>
-                                {{--<tr>--}}
-                                    {{--<td class="text-right">是否推荐：</td>--}}
-                                    {{--<td class="text-left">--}}
-                                        {{--<label class="">--}}
-                                            {{--<input type="radio"  name="is_recommended" value="1" @if($article->is_recommended == 1)checked="checked"@endif/>--}}
-                                            {{--<span class="lbl"></span>是--}}
-                                            {{--<input type="radio"  name="is_recommended" value="2"@if($article->is_recommended == 2)checked="checked"@endif/>--}}
-                                            {{--<span class="lbl"></span>否--}}
-                                        {{--</label>--}}
-                                    {{--</td>--}}
-                                {{--</tr>--}}
+                                <div class="form-group interface-bottom col-xs-12">
+                                    <label class="col-sm-1 text-right">是否推荐</label>
+                                    <div class="text-left col-sm-9">
+                                        <input type="radio"  name="is_recommended" value="1" @if($article->is_recommended == 1)checked="checked"@endif/>
+                                        <span class="lbl"></span>是
+                                        <input type="radio"  name="is_recommended" value="2"@if($article->is_recommended == 2)checked="checked"@endif/>
+                                        <span class="lbl"></span>否
+                                    </div>
+                                </div>
+                               {{-- <tr>
+                                    <td class="text-right">是否推荐：</td>
+                                    <td class="text-left">
+                                        <label class="">
+                                            <input type="radio"  name="is_recommended" value="1" @if($article->is_recommended == 1)checked="checked"@endif/>
+                                            <span class="lbl"></span>是
+                                            <input type="radio"  name="is_recommended" value="2"@if($article->is_recommended == 2)checked="checked"@endif/>
+                                           <span class="lbl"></span>否
+                                        </label>
+                                    </td>
+                               </tr>--}}
                                 {{--<tr>--}}
                                     {{--<td class="text-right"></td>--}}
                                     {{--<td class="text-left">--}}

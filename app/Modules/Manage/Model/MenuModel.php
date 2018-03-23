@@ -26,7 +26,6 @@ class MenuModel extends Model
         {
             $menu = self::orderBy('sort')->get()->toArray();
             $manageMenu = \CommonClass::listToTree($menu);
-
         }else{
             $role_id = \App\Modules\Manage\Model\RoleUserModel::where('user_id',$uid)->first();
             $permission = \App\Modules\Manage\Model\PermissionRoleModel::where('role_id',$role_id['role_id'])->lists('permission_id')->toArray();

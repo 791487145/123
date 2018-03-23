@@ -39,8 +39,13 @@ Route::group(['prefix' => 'manage'], function() {
     Route::get('/bankAuth/{id}', 'AuthController@getBankAuth')->name('bankAuth');
     Route::post('bankAuthPay', 'AuthController@bankAuthPay')->name('bankAuthPayCreate');
 
+    //app设置
+    Route::get('/appSetting', 'AppController@navigationList')->name('navigationList');
+    Route::match(['get', 'post'], 'appSetting/navigationAdd', 'AppController@navigationAdd')->name('navigationAdd');
+    Route::match(['get', 'post'], 'appSetting/{id}/navigationEdit', 'AppController@navigationEdit')->name('navigationEdit');
+    Route::post('/appSettingDel', 'AppController@navigationDel');
 
-    
+
     Route::get('/taskList', 'TaskController@taskList')->name('taskList');
     Route::get('/taskPass/{id}', 'TaskController@taskPass')->name('taskPass');//任务审核通过
     Route::get('/taskNotPass/{id}', 'TaskController@taskNotPass')->name('taskNotPass');//任务审核通过

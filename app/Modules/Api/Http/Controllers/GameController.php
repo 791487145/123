@@ -153,13 +153,13 @@ class GameController extends ApiBaseController
     public function singleVSReport(Request $request)
     {
         $time = strtotime("now");
-        $start_time = '2017-12-20';
-        $end_time = '2018-01-30';
+      /*  $start_time = '2017-12-20';
+        $end_time = '2018-01-30';*/
         $user_game_info = UserGameModel::where('uid',$this->uid)->first();
 
-        if($time < strtotime($start_time) || strtotime($end_time) < $time){;
+      /*  if($time < strtotime($start_time) || strtotime($end_time) < $time){;
             return $this->formateResponse(1001,'时间未到或已过期，不能报名');
-        }
+        }*/
         if(is_null($user_game_info)){
             return $this->formateResponse(1001,'请先完善游戏信息');
         }
@@ -880,7 +880,64 @@ class GameController extends ApiBaseController
     }
 
     /**
-     * 抽签
+     * 抽签列表(post:/game/drawLotsList)
+     * @param Request $request
+     */
+    public function drawLotsLists(Request $request)
+    {
+        $single = UserActiveModel::singleInfo($this->uid);
+
+
+        //个人
+        if(is_null($single)){
+            $data['single'] = 0;
+        }else{
+            $user_active_group_single = UserActiveGroupModel::groupInfo($single->u_a_id,1);
+            if(is_null($user_active_group_single)){
+                $single->status =0;//未抽签
+            }else{
+                $single->group = $user_active_group_single->group;
+                $single->num = $user_active_group_single->num;
+                $single->status = 1;//抽签
+            }
+            $data['single'] = $single;
+        }
+
+
+        $where = [
+            'uid'=>$this->uid,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $couple = UserActiveModel::userIsExist($where);
+
+        if(is_null($couple)){
+            $data['team'] = 0;
+        }else{
+            $team = UserActiveTeamModel::getInfoById($couple->pid);
+            $group = UserActiveModel::groupUser($couple->pid);
+            $user_active_group_couple = UserActiveGroupModel::groupInfo($couple->pid,2);
+
+            if(is_null($user_active_group_couple)){
+                $team->status = 0;
+            }else{
+                $team->group = $user_active_group_couple->group;
+                $team->num = $user_active_group_couple->num;
+                $team->status = 1;//抽签
+            }
+
+            $data['team'] = $team;
+            $data['team']['group'] = $group;
+
+        }
+
+        return $this->formateResponse(1000,'',$data);
+
+
+    }
+
+    /**
+     * 抽签(post:/game/drawLots)
      * @param Request $request
      * @param type 1:个人；2：团队
      * @return \Illuminate\Http\Response
@@ -957,6 +1014,17 @@ class GameController extends ApiBaseController
         return $this->formateResponse(1000,'抽签成功',$user_game_group);
     }
 
+    //复活赛队伍列表
+    public function repechageList()
+    {
+        $user_game_rule = UserGameRulesModel::where('name','复活赛')->first();
+        $param['competition'] = $user_game_rule->id;
+
+        $userActive = new UserActiveModel();
+        $singles = $userActive->getAllList($param,$userActive,8);
+        /*gameRuleOfGroup
+        UserActiveTeamModel::getListAll($param,$userActiveTeam,$page)*/
+    }
 
 
 }

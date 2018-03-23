@@ -12,7 +12,8 @@ class CampusRecruitmentModel extends Model
 
 
     protected $fillable = [
-        'id','company_name','scale','profile','post_name','salary','post_demand','phone','email','address','create_at','status','thumb_pic'
+        'id','company_name','scale','profile','post_name','salary','post_demand','phone','email','address','create_at',
+        'status','thumb_pic','is_recommended'
     ];
 
     public $timestamps = false;

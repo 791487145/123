@@ -33,6 +33,20 @@ class UserActiveModel extends Model
         return $data;
     }
 
+    //个人相信报名信息
+    static function singleInfo($uid)
+    {
+        $data = self::where('user_active.uid',$uid)->where('user_active.pid',0)->where('user_active.cantain',UserActiveModel::ACTIVE_CANTAIN_ONE)
+                       ->where('user_active.active_type',UserActiveModel::ACTIVE_TYPE_WX)
+                       ->leftJoin('users','users.id','=','user_active.uid')
+                       ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+                        ->leftJoin('district_region','user_game_info.school','=','district_region.id')
+                        ->select('users.name','users.id','user_active.id as u_a_id','user_game_info.game_name','user_game_info.game_server','user_game_info.mobile','district_region.name as school_name')
+                        ->first();
+
+        return $data;
+    }
+
     //判断某条件下某角色是否存在
     static function userIsExist($where)
     {
@@ -44,6 +58,20 @@ class UserActiveModel extends Model
     static function getTeamPeopleTotal($team_id)
     {
         $data = self::where('pid',$team_id)->count();
+        return $data;
+    }
+
+    //战队队员及详细信息
+    static function groupUser($team_id)
+    {
+        $data = self::where('user_active.pid',$team_id)->where('user_active.cantain',UserActiveModel::ACTIVE_CANTAIN_FIVE)
+            ->leftJoin('users','users.id','=','user_active.uid')
+            ->leftJoin('user_game_info','user_game_info.uid','=','user_active.uid')
+            ->leftJoin('district_region','user_game_info.school','=','district_region.id')
+            ->select('users.name','users.id','user_game_info.game_name','user_game_info.game_server','user_game_info.mobile','district_region.name as school_name')
+            ->orderBy('user_active.id','asc')
+            ->get()->toArray();
+
         return $data;
     }
 
@@ -69,7 +97,7 @@ class UserActiveModel extends Model
         return true;
     }
 
-
+    //
     static function getAllList($param,$userActive,$page)
     {
         $user_active = $userActive->where('pid',0)

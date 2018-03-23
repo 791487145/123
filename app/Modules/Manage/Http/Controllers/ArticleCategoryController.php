@@ -179,6 +179,7 @@ class ArticleCategoryController extends ManageController
     public function postCategory(CategoryRequest $request)
     {
         $data = $request->all();
+
         $data['cate_name'] = $data['catName'];
         $parentId = ArticleCategoryModel::getParentId($data['upID']);
         switch($parentId){
@@ -191,7 +192,7 @@ class ArticleCategoryController extends ManageController
             default:
                 $url = '/manage/categoryList/';
         }
-        
+
         $res = ArticleCategoryModel::createCategory($data);
         if($res) {
             return redirect($url.$data['upID'])->with(array('message' => '操作成功'));

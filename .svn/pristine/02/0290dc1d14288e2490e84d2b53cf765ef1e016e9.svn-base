@@ -1,0 +1,1017 @@
+<?php
+
+namespace App\Modules\Api\Http\Controllers;
+
+use App\Modules\Manage\Model\UserActiveGameRuleModel;
+use App\Modules\Manage\Model\UserActiveGroupModel;
+use App\Modules\Manage\Model\UserActiveModel;
+use App\Modules\Manage\Model\UserActiveTeamModel;
+use App\Modules\Manage\Model\UserGameGroupModel;
+use App\Modules\Manage\Model\UserGameLogModel;
+use App\Modules\Manage\Model\UserGameMatchResultModel;
+use App\Modules\Manage\Model\UserGameModel;
+use App\Modules\Manage\Model\UserGameRulesModel;
+use App\Modules\Manage\Model\UserTeamModel;
+use App\Modules\Order\Model\OrderModel;
+use App\Modules\Task\Model\DistrictRegionModel;
+use App\Modules\Task\Model\TaskWaterModel;
+use App\Modules\User\Model\UserModel;
+use Illuminate\Http\Request;
+use App\Http\Controllers\ApiBaseController;
+use Illuminate\Support\Facades\Crypt;
+use Validator;
+use DB;
+use Cache;
+use Lang;
+use Redis;
+
+class GameController extends ApiBaseController
+{
+    protected $uid;
+    protected $school;
+    protected $mobile;
+    protected $username;
+
+    public function __construct(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->get('token')));
+        //dd($tokenInfo);
+        $this->uid = $tokenInfo['uid'];
+        $this->school = $tokenInfo['school'];
+        $this->username = $tokenInfo['name'];
+        $this->mobile = $tokenInfo['mobile'];
+
+    }
+
+    /*public function getUserComplateInfo(Request $request)
+    {
+        $data['username'] = $this->username;
+        $data['mobile'] = $this->mobile;
+        $data['school'] = DistrictRegionModel::getDistrictName($this->school);
+
+        return $this->formateResponse(1000,'信息填写成功',$data);
+    }*/
+
+    /**填写游戏信息（post:/game/userGameInfoCreate）
+     * @param Request $request
+     * @param game_server
+     * @param game_name
+     * @return \Illuminate\Http\Response
+     */
+    public function userGameInfoCreate(Request $request)
+    {
+        $date = $request->except('token');
+        $validator = Validator::make($date,[
+            'game_server' => 'required',
+            'game_name' => 'required',
+        ],[
+            'game_server.required' => '请填写游戏服务器',
+            'game_name.required' => '请填写昵称',
+
+          /*  'type.required' => '请填写类别',
+            'type.integer' => '整数哦',*/
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $time = strtotime("now");
+        $start_time = '2017-12-20';
+        $end_time = '2018-01-30';
+
+        if(strtotime($end_time) < $time){
+            return $this->formateResponse(1001,'已过期，不能在填写信息');
+        }
+
+        $user = self::userInfoComplateCheck($this->uid,'user_id');
+        if(!$user){
+            return $this->formateResponse(1001,'请到个人中心补全学校信息或未实名认证');
+        }
+
+        $userGameInfo = UserGameModel::where('uid',$this->uid)->first();
+        if(!is_null($userGameInfo)){
+            return $this->formateResponse(1001,'您已填写游戏信息，不能重复提交');
+        }
+
+        $data['game_server'] = $date['game_server'];
+        $data['game_name'] = $date['game_name'];
+        $data['uid'] = $this->uid;
+        $data['school'] = $user->school;
+        $data['mobile'] = $user->mobile;
+        $data['user_no'] = OrderModel::randomCode($this->uid);
+
+        $data = UserGameModel::createOne($data);
+
+        $data['username'] = $this->username;
+        $data['schoolName'] = DistrictRegionModel::getDistrictName($data['school']);
+
+        return $this->formateResponse(1000,'success',$data);
+       /* if($date['type'] == 1){
+            $param = self::singleVSReport($data['user_no'],$this->uid);
+            if($param['code'] == '1000'){
+                $param['data'] = $data;
+            }
+        }*/
+
+       /* if($date['type'] == 2){
+            $where = [
+                'type' => UserActiveModel::ACTIVE_TYPE_WX,
+                'active_type' => 1,
+                'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE,
+                'uid' => $this->uid
+            ];
+            $user_active = UserActiveModel::userIsExist($where);
+
+            $user_active_team = UserActiveTeamModel::where('captain_id',$this->uid)->first();
+            if(!is_null($user_active_team) && is_null($user_active)){
+                UserActiveTeamModel::where('captain_id',$this->uid)->delete();
+                UserActiveModel::where('pid',$user_active_team->id)->delete();
+            }
+
+            if(is_null($user_active)){
+                $param['code'] = '2000';
+                $param['message'] = 'success';
+                $param['data'] = $data;
+            }else{
+                $param = self::teamInfo($this->uid);
+                return $this->formateResponse($param['code'],$param['message'],$param);
+            }
+
+
+        }*/
+
+
+    }
+
+    /**
+     * 1v1(post:/game/singleVSReport)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function singleVSReport(Request $request)
+    {
+        $time = strtotime("now");
+      /*  $start_time = '2017-12-20';
+        $end_time = '2018-01-30';*/
+        $user_game_info = UserGameModel::where('uid',$this->uid)->first();
+
+      /*  if($time < strtotime($start_time) || strtotime($end_time) < $time){;
+            return $this->formateResponse(1001,'时间未到或已过期，不能报名');
+        }*/
+        if(is_null($user_game_info)){
+            return $this->formateResponse(1001,'请先完善游戏信息');
+        }
+
+        $where = [
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_ONE,
+            'pid' => 0,
+            'uid' => $this->uid
+        ];
+        $userActive = UserActiveModel::userIsExist($where);
+        if(!is_null($userActive)){
+            return $this->formateResponse(1001,'您已报名，不能重复提交');
+        }
+
+        $user_active = UserActiveModel::createOne($where);
+        $user_game_rule = UserGameRulesModel::where('name','报名')->first();
+        $param = array(
+            'u_a_id' => $user_active->id,
+            'u_g_r_id' => $user_game_rule->id,
+            'type' => 1
+        );
+        UserActiveGameRuleModel::createOne($param);
+
+        return $this->formateResponse(1000,'报名成功');
+
+    }
+
+    /**创建战队（post:/game/createTeam）
+     * @param Request $request
+     * @param team_name 战队名称
+     * @param school 学校id
+     * @param captain_name 队长名字
+     * @param tel 队长电话
+     * @param logo 战队logo
+     * @return \Illuminate\Http\Response
+     */
+    public function createTeam(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'team_name' => 'required|unique:user_active_team,team_name|string|between:1,6',
+        ],[
+            'team_name.required' => '请输入战队名称',
+            'team_name.unique' => '战队名称已存在',
+            'team_name.string' => '请输入字符串',
+            'team_name.between' => '战队名称长度 :min - :max 位',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $team = UserActiveTeamModel::where('captain_id',$this->uid)->first();
+        if(!is_null($team)){
+            return $this->formateResponse(1001,'您已创建战队，不能重新创建');
+        }
+
+        $where = [
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE,
+            'uid' => $this->uid
+        ];
+        $user = UserActiveModel::userIsExist($where);
+        if(!is_null($user)){
+            return $this->formateResponse(1001,'您已加入其他战队，不能创建战队');
+        }
+
+        $data['captain_id'] = $this->uid;
+        $user = self::userInfoComplateCheck($this->uid,'user_id');
+
+        $where = [
+            'uid'=>$user->id
+        ];
+        $userGameInfo = UserGameModel::userIsExist($where);
+
+        if(is_null($userGameInfo)){
+            return $this->formateResponse(1001,'请先完善游戏信息');
+        }
+
+        $data['captain_name'] = $this->username;
+        $data['tel'] = $this->mobile;
+        $data['school'] = $this->school;
+        $data['user_no'] =$userGameInfo->user_no;
+
+        if(isset($data['logo']) && !empty($data['logo'])){
+            $paths = self::uploadByBase64($data['logo'],$path = 'game');
+            $data['logo'] = $paths['url_path'];
+        }
+
+        if(!isset($data['logo']) || empty($data['logo'])){
+            $data['logo'] = 'uploads/game/moren/ZDlogo_01.png';
+        }
+
+        $team = DB::transaction(function () use($user,$data) {
+            $team = UserActiveTeamModel::createOne($data);
+
+            $param['uid'] = $this->uid;
+            $param['cantain'] = UserActiveModel::ACTIVE_CANTAIN_FIVE;
+            $param['pid'] = $team->id;
+            $param['user_no'] = $data['user_no'];
+            if(isset($data['logo'])){
+                $param['user_no'] = $data['logo'];
+            }
+            UserActiveModel::createOne($param);
+            return $team;
+        });
+
+        return $this->formateResponse(1000,'创建成功',$team);
+    }
+
+    /**战队列表（post:/game/teamList）
+     * @param Request $request
+     * @param limit
+     * @param page_num
+     * @return \Illuminate\Http\Response
+     */
+    public function teamList(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'limit' => 'required|integer',
+            'page_num' => 'required|integer'
+        ],[
+            'limit.required' => '每页限制数量',
+            'limit.integer' => '请上传整数',
+
+            'page_num.required' => '页数',
+            'page_num.integer' => '页数请上传整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+        $offset = $data['limit'] * ($data['page_num'] -1);
+
+        $userActiveTeams = new UserActiveTeamModel();
+        if(isset($data['title']) && !empty($data['title'])){
+            $userActiveTeams = $userActiveTeams->where('team_name','like','%'.$data['title'].'%');
+        }
+        $userActiveTeams =  $userActiveTeams->orderBy('id','desc')->limit($data['limit'])->offset($offset)->get();
+
+        if(!$userActiveTeams->isEmpty()){
+            foreach($userActiveTeams as $userActiveTeam){
+                $userActiveTeam->total = UserActiveModel::getTeamPeopleTotal($userActiveTeam->id);
+            }
+            $userActiveTeams = $userActiveTeams->toArray();
+
+        }else{
+            return $this->formateResponse(2000,'暂无数据');
+        }
+
+        return $this->formateResponse(1000,'success',$userActiveTeams);
+    }
+
+    /**获取用户基本游戏信息(post:/game/userGameInfoByMobile)
+     * @param Request $request
+     * @param mobile
+     * @return \Illuminate\Http\Response
+     */
+    public function userGameInfoByMobile(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'mobile' => 'required|mobile_phone',
+
+        ],[
+            'mobile.required' => '请输入邀请手机号',
+            'mobile.mobile_phone' => '请输入正确手机号码格式',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $user = UserModel::getUserInfoByMobile($data['mobile']);
+        $user_detail = UserModel::userInfo($user->id);
+
+        if(is_null($user)){
+            return $this->formateResponse(1001,'该用户还未注册或者激活，暂时无法获取基本信息');
+        }
+        $where = [
+            'uid'=>$user->id
+        ];
+        $userGameInfo = UserGameModel::userIsExist($where);
+        if(!is_null($userGameInfo)){
+            $userGameInfo->name = $user->name;
+            $userGameInfo->school = DistrictRegionModel::getDistrictName($user_detail->school);
+            return $this->formateResponse(1000,'success',$userGameInfo);
+        }
+
+        return $this->formateResponse(2000,'该用户还未填写基本游戏信息',$user);
+    }
+
+
+    /**队长邀请队员(post:/game/inviteByCaptain)
+     * @param Request $request
+     * @param to_id
+     * @return \Illuminate\Http\Response
+     */
+    public function inviteByCaptain(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'to_id' => 'required|integer',
+
+        ],[
+            'to_id.required' => 'uid不能为空',
+            'to_id.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $team = UserActiveTeamModel::getInfoByCaptainId($this->uid);
+        if(is_null($team)){
+            return $this->formateResponse(1001,'您还没有创建战队，不能进行相关操作');
+        }
+        if($data['to_id'] == $this->uid){
+            return $this->formateResponse(1001,'亲，不能自己邀请自己哦');
+        }
+
+        $where = [
+            'uid'=>$data['to_id'],
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $team_member = UserActiveModel::userIsExist($where);
+
+        if(!is_null($team_member)){
+            return $this->formateResponse(1001,'该成员已加入战队，不能被邀请');
+        }
+
+        $team_member = UserActiveModel::getTeamPeopleTotal($team->id);
+        if($team_member >=6){
+            return $this->formateResponse(1001,'您的战队人数已满，不能邀请其他人参赛');
+        }
+
+        $data['form_id'] = $this->uid;
+        $data['team_id'] = $team->id;
+        $data['status'] = UserTeamModel::USER_TEAM_APPLY;
+
+        UserTeamModel::createOne($data);
+
+        return $this->formateResponse(1000,'邀请成功');
+    }
+
+    /**队友接收邀请列表(post:/game/inviteInfoList)
+     * @param Request $request
+     * @param limit
+     * @param page_num
+     * @return \Illuminate\Http\Response
+     */
+    public function inviteInfoList(Request $request)
+    {
+        $data = $request->except('token');
+
+        $invite_teams = UserTeamModel::where('to_id',$this->uid)->whereStatus(UserTeamModel::USER_TEAM_APPLY)->get();
+        //dd($invite_teams);
+        if(!$invite_teams->isEmpty()){
+            $user_active_team_type = UserActiveTeamModel::where('captain_id',$this->uid)->first();
+
+            foreach($invite_teams as $invite_team){
+                $user_active_team = UserActiveTeamModel::whereId($invite_team->team_id)->first();
+                if(is_null($user_active_team)){
+                    UserGameModel::whereId($invite_team->id)->delete();
+                    continue;
+                }
+                $user = UserModel::whereId($invite_team->form_id)->first();
+                $invite_team->user_name = $user->name;
+                $invite_team->mobile = $user->mobile;
+                $invite_team->status_name = UserTeamModel::getStatusCN($invite_team->status);
+                $invite_team->team_name = $user_active_team->team_name;
+                if(is_null($user_active_team_type)){
+                    $invite_team->title = '邀请您加入';
+                    $invite_team->type = 1;
+                }else{
+                    $invite_team->title = '申请加入';
+                    $invite_team->type = 2;
+                }
+            }
+            $invite_teams = $invite_teams->toArray();
+        }else{
+            return $this->formateResponse(2000,'暂无数据');
+        }
+
+        return $this->formateResponse(1000,'success',$invite_teams);
+    }
+
+
+    /**
+     * 游客同意/拒绝某条邀请(post:/game/playerAgree)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function playerAgree(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'agree_id' => 'required',
+            'attitude' => 'required|integer',
+        ],[
+            'agree_id.required' => '请输入战队编号',
+
+            'attitude.required' => '请输入选择参数',
+            'attitude.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $user_team = UserTeamModel::whereId($data['agree_id'])->whereStatus(UserTeamModel::USER_TEAM_APPLY)->first();
+        $user_active_team = UserActiveTeamModel::whereId($user_team->team_id)->first();
+        $user_active_info = UserGameModel::whereUid($this->uid)->first();
+
+        if(is_null($user_team)){
+            return $this->formateResponse(1001,'该邀请已不存在');
+        }
+        if($user_team->to_id != $this->uid){
+            return $this->formateResponse(1001,'您不是受邀请的玩家，不能进行相关操作');
+        }
+        if($data['attitude'] == 2 && is_null($user_active_info)){
+            return $this->formateResponse(1001,'请先完善游戏信息');
+        }
+        if(is_null($user_active_team)){
+            UserTeamModel::whereId($data['agree_id'])->delete();
+            return $this->formateResponse(1001,'您加入的战队已不存在');
+        }
+        if ($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS) {
+            return $this->formateResponse(1001,'战队已报名，不能进行相关操作');
+        }
+
+        if($data['attitude'] == 1){//拒绝
+            UserTeamModel::whereId($data['agree_id'])->update(['status'=>UserTeamModel::USER_TEAM_REFUSE]);
+            return $this->formateResponse(1000,'已拒绝');
+        }
+
+        $where = [
+            'uid'=>$this->uid,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $user_active = UserActiveModel::userIsExist($where);
+
+        if(!is_null($user_active)){
+            return $this->formateResponse(1001,'您已加入其他战队，不能进行相关操作');
+        }
+
+
+        if($data['attitude'] == 2){
+            $param['uid'] = $this->uid;
+            $param['cantain'] = UserActiveModel::ACTIVE_CANTAIN_FIVE;
+            $param['pid'] = $user_team->team_id;
+            $param['user_no'] = $user_active_info->user_no;
+            UserActiveModel::createOne($param);
+            UserTeamModel::whereId($data['agree_id'])->update(['status'=>UserTeamModel::USER_TEAM_AGREE]);
+        }
+
+        return $this->formateResponse(1000,'您已加入战队');
+    }
+
+    /**
+     * 5v5报名(post:/game/joinInTeam)
+     * @param Request $request
+     * @param team_id
+     * @return \Illuminate\Http\Response
+     */
+    public function joinInTeam(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'team_id' => 'required|integer',
+
+        ],[
+            'team_id.required' => '请输入战队编号',
+            'team_id.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $team = UserActiveTeamModel::getInfoById($data['team_id']);
+        $userActive = UserActiveModel::where('uid',$this->uid)->where('cantain',UserActiveModel::ACTIVE_CANTAIN_FIVE)->first();
+
+       if(!is_null($userActive)){
+            return $this->formateResponse(1001,'您已申请其他战队');
+        }
+
+        if($team->status == UserActiveTeamModel::TEAM_STATUS_OPEN){
+            $userTeams = UserTeamModel::where('team_id',$data['team_id'])->where('form_id',$this->uid)->orderBy('id','desc')->whereIn('status',[1,3])->first();
+            if(!is_null($userTeams)){
+                return $this->formateResponse(1001,'您已申请过该战队，不能重复申请');
+            }
+            $param = [
+                'team_id'=>$data['team_id'],
+                'form_id'=>$this->uid,
+                'status'=> UserTeamModel::USER_TEAM_APPLY,
+                'to_id'=>$team->captain_id
+            ];
+
+            UserTeamModel::createOne($param);
+
+        }
+        return $this->formateResponse(1000,'申请成功，等待审核');
+
+    }
+
+    /**
+     * 队长审核加入(post:/game/captainAgreeApply)
+     * @param Request $request
+     * @param agree_id 申请id
+     * @return \Illuminate\Http\Response
+     */
+    public function captainAgreeApply(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'agree_id' => 'required',
+            'attitude' => 'required|integer',
+        ],[
+            'agree_id.required' => '请输入战队编号',
+
+            'attitude.required' => '请输入选择参数',
+            'attitude.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $user_team = UserTeamModel::whereId($data['agree_id'])->whereStatus(UserTeamModel::USER_TEAM_APPLY)->first();
+        if (is_null($user_team)) {
+            return $this->formateResponse(1001,'该申请已失效');
+        }
+        $user_active_team = UserActiveTeamModel::where('captain_id', $this->uid)->whereId($user_team->team_id)->first();
+        $user_active_info = UserGameModel::whereUid($user_team->form_id)->first();
+
+        if (is_null($user_active_team)) {
+            return $this->formateResponse(1001,'您不是战队队长，无权操作');
+        }
+        if ($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS) {
+            return $this->formateResponse(1001,'战队已报名，不能进行相关操作');
+        }
+
+        if($data['attitude'] == 2 && is_null($user_active_info)){
+            return $this->formateResponse(1001,'该队员游戏信息不全，不能通过');
+        }
+
+        if($data['attitude'] == 1){//拒绝
+            UserTeamModel::whereId($data['agree_id'])->update(['status'=>UserTeamModel::USER_TEAM_REFUSE]);
+            return $this->formateResponse(1000,'已拒绝');
+        }
+        $where = [
+            'uid'=>$user_team->form_id,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $user_active = UserActiveModel::userIsExist($where);
+
+        if(!is_null($user_active)){
+            UserTeamModel::whereId($data['agree_id'])->update(['status'=>UserTeamModel::USER_TEAM_REFUSE]);
+            return $this->formateResponse(1001,'该成员已加入其他战队');
+        }
+
+        $param['uid'] = $user_team->form_id;
+        $param['cantain'] = UserActiveModel::ACTIVE_CANTAIN_FIVE;
+        $param['pid'] = $user_team->team_id;
+        $param['user_no'] = $user_active_info->user_no;
+        UserActiveModel::createOne($param);
+        UserTeamModel::whereId($data['agree_id'])->update(['status'=>UserTeamModel::USER_TEAM_AGREE]);
+
+
+        if(empty($error)){
+            return $this->formateResponse(1000,'操作成功');
+        }
+        return $this->formateResponse(1001,$error['message']);
+    }
+
+    /**
+     * 退出战队(post:/game/quitTeam)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function quitTeam(Request $request)
+    {
+        $where = [
+            'uid'=>$this->uid,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $user_avtive = UserActiveModel::userIsExist($where);
+
+        if(is_null($user_avtive)){
+            return $this->formateResponse(1001,'您暂无加入战队，无法进行相关操作');
+        }
+
+        $user_active_team = UserActiveTeamModel::where('captain_id',$this->uid)->first();
+
+        if($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+            return $this->formateResponse(1001,'战队已报名，不能进行任何操作');
+        }
+
+        if(is_null($user_active_team)){//个人
+            UserActiveModel::where('uid',$this->uid)->delete();
+        }
+
+        if(!is_null($user_active_team)){//队长
+            DB::transaction(function () use($user_active_team) {
+                $user_active = UserActiveModel::where('pid', $user_active_team->id)->where('uid','!=',$this->uid)->get();
+                if(!$user_active->isEmpty()){
+                    foreach($user_active as $v){
+                        $content = UserGameLogModel::content('',UserGameLogModel::LOG_SYSTEM_TYPE_DISBANDED_TEAM);
+                        UserGameLogModel::createOne($v->uid,UserGameLogModel::LOG_SYSTEM_TYPE_DISBANDED_TEAM,$content,0);
+                    }
+                }
+                UserActiveModel::where('pid', $user_active_team->id)->delete();
+                UserTeamModel::where('team_id', $user_active_team->id)->delete();
+                UserActiveTeamModel::whereId($user_active_team->id)->delete();
+            });
+            return $this->formateResponse(1000,'战队已解散');
+        }
+
+        return $this->formateResponse(1000,'退出成功');
+    }
+
+    /**
+     * 战队信息(post:/game/teamInfo)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function teamInfo(Request $request)
+    {
+        $pid = UserActiveModel::whereUid($this->uid)->where('pid','!=',0)->where('cantain',UserActiveModel::ACTIVE_CANTAIN_FIVE)->pluck('pid');
+        if(empty($pid)){
+            return $this->formateResponse(2000,'暂无信息');
+        }
+
+        $captain_id = UserActiveTeamModel::where('id',$pid)->pluck('captain_id');
+        $uid = UserActiveModel::where('cantain',UserActiveModel::ACTIVE_CANTAIN_FIVE)->wherePid($pid)->lists('uid');
+        $data['team_member'] =  UserGameModel::getUserInfo($uid);
+        $data['user_active_team'] = UserActiveTeamModel::getInfoByCaptainId($captain_id);
+        //dd($data['user_active_team']);
+        $data['identify'] = 1;
+        if($captain_id == $this->uid){
+            $data['identify'] = 2;//队长
+        }
+        if($data['user_active_team']->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+            $data['identify'] = 3;//已报名
+        }
+
+        return $this->formateResponse(1000,'success',$data);
+    }
+
+    /**删除队员(post:/game/delGroup)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delGroup(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'uid' => 'required|integer',
+        ],[
+            'uid.required' => '请输入队员id',
+            'uid.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $captain = UserActiveTeamModel::where('captain_id',$this->uid)->first();
+
+        if(is_null($captain)){
+            return $this->formateResponse(1001,'您不是队长，无权进行此项操作');
+        }
+        if($captain->captain_id != $this->uid){
+            return $this->formateResponse(1001,'您不是队长，无权进行此项操作');
+        }
+        if($data['uid'] == $this->uid){
+            return $this->formateResponse(1001,'不能自己删除自己哦，亲');
+        }
+        if($captain->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+            return $this->formateResponse(1001,'已报名,不能进行修改');
+        }
+
+        $content = UserGameLogModel::content('',UserGameLogModel::LOG_SYSTEM_TYPE_KICK_TEAM);
+        UserGameLogModel::createOne($data['uid'],UserGameLogModel::LOG_SYSTEM_TYPE_KICK_TEAM,$content,UserGameLogModel::LOG_IS_READ_NULL);
+        UserActiveModel::where('pid', $captain->id)->where('uid', $data['uid'])->delete();
+        UserTeamModel::where('form_id', $data['uid'])->where('to_id', $this->uid)->delete();
+
+
+        return $this->formateResponse(1000,'成功');
+    }
+
+    /**
+     * 测试添加队员(post:/game/testCreateGroup)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function testCreateGroup(Request $request)
+    {
+        $num = $request->input('num',1);
+
+        $where = [
+            'uid'=>$this->uid,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'active_type' => 1,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $user_active = UserActiveModel::userIsExist($where);
+        if(is_null($user_active)){
+            return $this->formateResponse(1001,'fail');
+        }
+
+        $total = UserActiveModel::getTeamPeopleTotal($user_active->pid);
+
+        if($num + $total > 6){
+            return $this->formateResponse(1001,'人数过多');
+        }
+
+        $user_ids = UserModel::lists('id')->toArray();
+        //dd((array)$this->uid);
+        $param = array_diff($user_ids, (array)$this->uid);
+        $uid = array_slice($param,0,$num);
+
+        foreach($uid as $v){
+            $where = [
+                'uid'=>$v
+            ];
+            UserGameModel::where('uid',$v)->delete();
+            UserActiveModel::where('uid',$v)->delete();
+
+            $data['game_server'] = '微信1区';
+            $data['game_name'] = 'haha';
+            $data['uid'] = $v;
+            $data['school'] = 87;
+            $data['mobile'] = 123456;
+            $data['user_no'] = OrderModel::randomCode($v);
+
+            $user_game_info = UserGameModel::createOne($data);
+
+            $param['uid'] = $v;
+            $param['cantain'] = UserActiveModel::ACTIVE_CANTAIN_FIVE;
+            $param['pid'] = $user_active->pid;
+            $param['user_no'] = $user_game_info->user_no;
+            UserActiveModel::createOne($param);
+        }
+
+        return $this->formateResponse(1000,'success');
+    }
+
+    public function delAllFromGame(Request $request)
+    {
+        UserGameModel::where('uid'.$this->uid)->delete();
+        UserActiveModel::where('uid',$this->uid)->delete();
+        UserActiveTeamModel::where('captain_id',$this->uid)->delete();
+        UserTeamModel::where('to_id',$this->uid)->delete();
+        UserTeamModel::where('form_id',$this->uid)->delete();
+        return $this->formateResponse(1000,'删除成功');
+    }
+
+    /**
+     * 团队报名比赛(post:/game/teamReport)
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function teamReport(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'team_id' => 'required|integer',
+        ],[
+            'team_id.required' => '请输入战队id',
+            'team_id.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        $user_active_team = UserActiveTeamModel::whereId($data['team_id'])->first();
+        $team_count = UserActiveModel::getTeamPeopleTotal($data['team_id']);
+
+        if($user_active_team->report_status == UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS){
+            return $this->formateResponse(1001,'已报名，请勿重复操作');
+        }
+        if($user_active_team->captain_id != $this->uid){
+            return $this->formateResponse(1001,'您不是队长，无权进行此项操作');
+        }
+        if($team_count < 5){
+            return $this->formateResponse(1001,'您的战队人数不够5-6人，暂不能报名');
+        }
+
+        $ret = UserActiveTeamModel::whereId($data['team_id'])->update(['report_status'=>UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS]);
+        if($ret){
+            return $this->formateResponse(1000,'报名成功');
+        }
+        return $this->formateResponse(1001,'报名失败');
+    }
+
+    /**
+     * 抽签列表(post:/game/drawLotsList)
+     * @param Request $request
+     */
+    public function drawLotsLists(Request $request)
+    {
+        $single = UserActiveModel::singleInfo($this->uid);
+        $user_active_group_single = UserActiveGroupModel::groupInfo($this->uid,1);
+
+        //个人
+        if(is_null($single)){
+            $data['single'] = 0;
+        }else{
+            if(is_null($user_active_group_single)){
+                $single->status =0;//未抽签
+            }else{
+                $single->group = $user_active_group_single->group;
+                $single->num = $user_active_group_single->num;
+                $single->status = 1;//抽签
+            }
+            $data['single'] = $single;
+        }
+
+
+        $where = [
+            'uid'=>$this->uid,
+            'type' => UserActiveModel::ACTIVE_TYPE_WX,
+            'cantain' => UserActiveModel::ACTIVE_CANTAIN_FIVE
+        ];
+        $couple = UserActiveModel::userIsExist($where);
+
+        if(is_null($couple)){
+            $data['team'] = 0;
+        }else{
+            $team = UserActiveTeamModel::getInfoById($couple->pid);
+            $group = UserActiveModel::groupUser($couple->pid);
+            $user_active_group_couple = UserActiveGroupModel::groupInfo($couple->pid,2);
+
+            if(is_null($user_active_group_couple)){
+                $team->status = 0;
+            }else{
+                $team->group = $user_active_group_couple->group;
+                $team->num = $user_active_group_couple->num;
+                $team->status = 1;//抽签
+            }
+
+            $data['team'] = $team;
+            $data['team']['group'] = $group;
+
+        }
+
+        return $this->formateResponse(1000,'',$data);
+
+
+    }
+
+    /**
+     * 抽签(post:/game/drawLots)
+     * @param Request $request
+     * @param type 1:个人；2：团队
+     * @return \Illuminate\Http\Response
+     */
+    public function drawLots(Request $request)
+    {
+        $data = $request->except('token');
+        $validator = Validator::make($data,[
+            'type' => 'required|integer',
+        ],[
+            'type.required' => '抽签类型',
+            'type.integer' => '请输入整数',
+        ]);
+
+        $error = $validator->errors()->all();
+        if(count($error)){
+            return $this->formateResponse(1001,$error[0], $error);
+        }
+
+        //TODO::超时判断
+       /* $user_game_rule_hx = UserGameRulesModel::where('name','海选')->first();
+        $user_game_rule_hx_first = UserGameRulesModel::where('pid',$user_game_rule_hx->id)->orderBy('id','asc')->first();*/
+
+        if($data['type'] == 1){//1v1
+            $where = [
+                'uid'=>$this->uid,
+                'type' => UserActiveModel::ACTIVE_TYPE_WX,
+                'active_type' => 1,
+                'cantain' => UserActiveModel::ACTIVE_CANTAIN_ONE,
+                'pid' => 0
+            ];
+            $user_active = UserActiveModel::userIsExist($where);
+
+            if(is_null($user_active)){
+                return $this->formateResponse(1001,'您还没有报名，请先报名');
+            }
+
+            $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active->id)->first();
+
+            if(!is_null($user_active_group)){
+                return $this->formateResponse(1001,'您已抽签，不能重复操作');
+            }
+        }
+
+        if($data['type'] == 2) {
+            $user_active_team = UserActiveTeamModel::where('captain_id', $this->uid)->where('report_status', UserActiveTeamModel::TEAM_REPORT_STATUS_SUCCESS)->first();
+            if (is_null($user_active_team)) {
+                return $this->formateResponse(1001, '您不是队长或战队未报名');
+            }
+
+            $user_active_group = UserActiveGroupModel::where('type',$data['type'])->where('u_a_id',$user_active_team->id)->first();
+
+            if(!is_null($user_active_group)){
+                return $this->formateResponse(1001,'您已抽签，不能重复操作');
+            }
+        }
+
+
+
+        $user_active_group_id = UserActiveGroupModel::where('type',$data['type'])->lists('u_g_g_id')->toArray();
+
+        $user_game_group = UserGameGroupModel::where('type',$data['type'])->lists('id')->toArray();
+        $D_value = array_diff($user_game_group,$user_active_group_id);
+
+        $group_id = $user_game_group[array_rand($D_value)];
+        $user_game_group = UserGameGroupModel::where('id',$group_id)->select('group','num')->first();
+
+        if($data['type'] == 1){
+            UserActiveModel::sectionalization($group_id,$user_active,$data['type']);
+        }else{
+            UserActiveTeamModel::sectionalization($group_id,$user_active_team,$data['type']);
+        }
+
+        return $this->formateResponse(1000,'抽签成功',$user_game_group);
+    }
+
+
+}
