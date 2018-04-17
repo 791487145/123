@@ -13,6 +13,7 @@ use App\Modules\Manage\Http\Requests\ArticleRequest;
 use Illuminate\Http\Request;
 use Theme;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class ArticleController extends ManageController
 {
@@ -317,8 +318,21 @@ class ArticleController extends ManageController
     //添加
     public function addRecruitment(Request $request)
     {
+        $validator0 = Validator::make($request->all(),[
+            'email' => 'required|email',
+
+        ],[
+            'email.required' => '请输入email地址',
+            'email.email' => '请输入正确email地址',
+        ]);
+        $error0 = $validator0->errors()->all();
+        if(!empty($error0)){
+            return redirect()->back()->with(['message'=>$error0[0]]);
+        }
+
         $data = $request->all();
         unset($data['_token']);
+
         $data['create_at'] = date('Y-m-d H:i:s');
         $result = CampusRecruitmentModel::create($data);
         if($result)
