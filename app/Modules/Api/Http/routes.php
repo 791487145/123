@@ -23,7 +23,11 @@ Route::group(['prefix' => 'api'], function() {
 	Route::post('/oauth', 'UserController@authThreePartiesSorts');
 	//Route::get('oauth/{type}/callback', 'UserController@authThreePartiesSortsCall');
 
+    //安卓第三方登录
+    Route::post('/user/oauthLogin','UserController@postOauthLogin');
+
 	Route::post('/user/login', 'UserController@login');//登录
+    Route::post('/user/passwordSalt', 'UserController@postPasswordSalt');//获取密码随机码
 	Route::post('/user/webLogin', 'UserController@webLogin');//网页登录
 
 	Route::post('/user/vertify', 'UserController@vertify');//手机验证码登录
@@ -93,7 +97,10 @@ Route::group(['prefix' => 'api'], function() {
 Route::group(['prefix' => 'api', 'middleware' => ['web.auth']], function () {
 //Route::group(['prefix' => 'api'],function(){
 
-    Route::post('/user/index', 'UserInfoController@index'); //首页
+    Route::post('/user/index', 'IndexController@index'); //首页
+	Route::post('/user/menu', 'IndexController@indexMenu'); //主菜单
+    Route::post('/user/navigation', 'IndexController@indexNavigation'); //我的导航
+    Route::post('/user/navigationAll', 'IndexController@navigationAll'); //所有导航
 
     Route::post('/user/functionSort', 'UserInfoController@funSort'); //排序功能
 
@@ -325,6 +332,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['web.auth']], function () {
 	Route::post('/article/addArticle','ArticleController@addArticle');//写文章
 	Route::post('/article/getADs','ArticleController@getADs');//广告
 	Route::post('/article/articleThumbsUp','ArticleController@articleThumbsUp');//文章点赞
+	Route::post('/article/campusRecruitment','ArticleController@campusRecruitment');//招聘列表
+
 
 
 	Route::post('/article/addComment','ArticleController@addComment');//发布文章评论
@@ -337,8 +346,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['web.auth']], function () {
     Route::post('/fincial/withdrawals','PurseController@postWithdrawal');//提现
 
 	//资讯
-	Route::get('/activeCenter','ArticleController@activeCenter');
-	Route::post('/article/articleTypeList','ArticleCOntroller@articleTypeList');
+	Route::post('/activeCenter','ArticleController@activeCenter');
+	Route::post('/article/articleTypeList','ArticleController@articleTypeList');
 
 	//设置首页功能顺序系列
 	Route::post('/function/get','FunctionController@getList');//获取功能列表
@@ -399,8 +408,21 @@ Route::group(['prefix' => 'api', 'middleware' => ['web.auth']], function () {
 	Route::post('/addAnnouncement/displayMiddleOfTask','AnnouncementController@displayMiddleOfTask');//首页展示动态
 
 	Route::post('/makeData','AnnouncementController@makeData');
-	Route::post('/getAnnounceList','AnnouncementController@getAnnounceList');
-	
+	Route::post('/getAnnounceList','AnnouncementController@postAnnounceList');
+
+
+	//二手交易
+    Route::get('/transactionList','SecondhandTransactionController@getTransactionList');//列表
+    Route::post('/transactionDetail','SecondhandTransactionController@postTransactionDetail');//详情
+    Route::get('/transaction','SecondhandTransactionController@getTransactionCreate');//获取物品类型
+    Route::post('/transactionClose','SecondhandTransactionController@postTransactionClose');//关闭交易
+    Route::post('/userComment','SecondhandTransactionController@postUserComment');//评论
+    Route::post('/userCommentReply','SecondhandTransactionController@postUserCommentReply');//评论
+    Route::post('/userCommentMore','SecondhandTransactionController@postUserCommentMore');//查看更多评论
+
+
+
+
 });
 
 Route::group(['prefix' => 'api', 'middleware' => ['web.autho','game.log']], function () {
@@ -444,6 +466,10 @@ Route::group(['prefix' => 'api', 'middleware' => ['web.autho','game.log']], func
 //对比app版本
 //Route::post('api/check_update','UserController@checkUpdate');
 Route::get('api/function','UserController@functionImg');
+
+Route::get('api/picone','UserController@one');
+Route::post('api/pictwo','UserController@two');
+
 
 /*Route::any('api/alipay/notify','PayNotifyController@alipayNotify');
 Route::get('api/wechatpay/notify', 'PayNotifyController@wechatpayNotify');*/

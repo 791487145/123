@@ -3,6 +3,7 @@
 namespace App\Modules\Api\Http\Controllers;
 
 use App\Http\Requests;
+use App\Modules\Manage\Model\AppNavigationModel;
 use App\Modules\Manage\Model\CampusRecruitmentModel;
 use App\Modules\Manage\Model\FunctionModel;
 use App\Modules\Manage\Model\IconModel;
@@ -75,98 +76,57 @@ class UserInfoController extends ApiBaseController
             return $this->formateResponse(1001,$error[0], $error);
         }
 
+       /* $url = \CommonClass::getDomain();
+        dd($url);*/
         $num = $request->input('page_num',1);
         $offset = ($num - 1) * $data['limit'];
 
-        $menu_id = $request->input('menu_id',0);
-
         $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
-        $functionIds = UserModel::whereId($tokenInfo['uid'])->pluck('function_order');
 
-        if(is_null($functionIds)){
-            $data['menu'] = IconModel::whereType('menu')->whereStatus('valid')->get();
-        }else{
-            $functionIds = explode(",",$functionIds);
-            foreach($functionIds as $functionId){
-                $data['menu'] = IconModel::whereStatus('valid')->whereId($functionId)->first()->toArray();//功能
-            }
-        }
+        $offset_a = ($num - 1) * 2;
+        $offset_c = ($num - 1) * ($data['limit'] -2);
+        $date['infos'] = ArticleModel::where('user_id',0)->limit($data['limit'])->offset($offset_a)->orderBy('id','desc')->select('id','comment_num','is_recommended','author','title','summary','created_at','view_times','thumb_up_number','thumb_pic')->get();
+        $date['invites'] = CampusRecruitmentModel::where('identify',1)->limit($data['limit'])->offset($offset_c)->get();
 
-        if($menu_id == 0){
-            $menu_id = $data['menu'][0]['id'];
-        }
+        if(isset($date['infos']) && !$date['infos']->isEmpty()){
 
-        $menu = IconModel::where('id',$menu_id)->first();
-
-        if($menu->describe == "官方"){
-            $offset_a = ($num - 1) * 2;
-            $offset_z = ($num - 1) * 2;
-            $offset_c = ($num - 1) * ($data['limit'] -4);
-            $active = ArticleModel::where('cat_id',60)->where('user_id',0)->limit($data['limit'])->offset($offset_a)->orderBy('id','desc')->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
-            $zixun = ArticleModel::where('cat_id',61)->where('user_id',0)->limit($data['limit'])->offset($offset_z)->orderBy('id','desc')->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
-            $campus = CampusRecruitmentModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_c)->get();
-
-        }
-
-        if($menu->describe == "推荐"){
-            $offset_aa = ($num - 1) * 2;
-            $offset_cc = ($num - 1) * ($data['limit'] -4);
-            $date['infos'] = ArticleModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_aa)->select('id','comment_num','is_recommended','author','title','from','summary','created_at','content','view_times','thumb_up_number','thumb_pic')->get();
-            if(!$date['infos']->isEmpty()){
-                foreach($date['infos'] as $v){
-                    $v->type = 2;
-                    $v->created_at = self::timeShow($v->created_at);
-                }
-                $date['infos'] = $date['infos']->toArray();
-            }
-
-            $date['invites'] = CampusRecruitmentModel::where('is_recommended',1)->limit($data['limit'])->offset($offset_cc)->limit($data['limit'])->offset($offset)->get();
-            if(!$date['invites']->isEmpty()){
-                foreach($date['invites'] as $val){
-                    $val->type = 1;
-                }
-                $date['invites'] = $date['invites']->toArray();
-            }
-        }
-
-        if($menu->describe == "任务"){
-            $time = date("Y-m-d H:i:s");
-            $data['time'] = $request->input('time',1);
-            $data['bounty_start'] = $request->input('bounty_start','');
-            $date = TaskController::getTaskList($data,$num,$time,$offset);
-        }
-
-        if($menu->describe == "招聘"){
-            $date['invites'] = CampusRecruitmentModel::whereStatus('valid')->select('id','post_name','salary','create_at','post_demand','company_name')->orderBy('id','desc')->limit($data['limit'])->offset($offset)->get();
-            if(!$date['invites']->isEmpty()){
-                foreach($date['invites'] as $val){
-                    $val->type = 1;
-                }
-                $date['infos'] = $date['infos']->toArray();
-            }
-        }
-
-        return $this->formateResponse(1000, 'success', json_encode($data));
-    }
-
-    static function dataChange($date)
-    {
-        if(!$date['infos']->isEmpty()){
             foreach($date['infos'] as $v){
-                $v->type = 2;
+                if(empty($v->thumb_pic)){
+                    $v->type = 1;
+                }else{
+                    $v->type = 2;
+                    $v->thumb_pic_1 = $v->thumb_pic;
+                }
                 $v->created_at = self::timeShow($v->created_at);
             }
             $date['infos'] = $date['infos']->toArray();
         }
 
-        if(!$date['invites']->isEmpty()){
+        if(isset($date['invites']) && !$date['invites']->isEmpty()){
             foreach($date['invites'] as $val){
-                $val->type = 1;
+                $val->title = $val->post_name;
+                if(empty($val->thumb_pic)){
+                    $val->type = 1;
+                }else{
+                    $val->type = 2;
+                    $val->thumb_pic_1 = $val->thumb_pic;
+                }
+                $val->created_at = self::timeShow($val->created_at);
             }
-            $date['infos'] = $date['infos']->toArray();
+            $date['invites'] = $date['invites']->toArray();
         }
 
-        return $date;
+        if(is_array($date['infos']) && is_array($date['invites'])){
+            $data = array_merge($date['infos'],$date['invites']);
+        }
+        if(!is_array($date['infos']) && is_array($date['invites'])){
+            $data = $date['infos'];
+        }
+        if(is_array($date['infos']) && !is_array($date['invites'])){
+            $data = $date['invites'];
+        }
+
+        return $this->formateResponse(1000, 'success', $data);
     }
 
     /**功能排序修改(post:/user/functionSort)
@@ -1868,4 +1828,28 @@ class UserInfoController extends ApiBaseController
         return $this->formateResponse(1000, '获取关于我们信息成功', $articleInfo);
     }
 
+    //导航、**
+    /**
+     * /user/menu
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function menus(Request $request)
+    {
+        $tokenInfo = Crypt::decrypt(urldecode($request->input('token')));
+
+        $functionIds = UserModel::whereId($tokenInfo['uid'])->pluck('function_order');
+        $menus = array();
+        if(is_null($functionIds)){
+            $menus = AppNavigationModel::whereStatus(AppNavigationModel::STATUS_NORMAL)->orderBy('sort','asc')->get();
+        }else{
+            $functionIds = explode(",",$functionIds);
+            foreach($functionIds as $functionId){
+                $menus = AppNavigationModel::whereStatus(AppNavigationModel::STATUS_NORMAL)->whereId($functionId)->first();//功能
+            }
+        }
+        $menus = AppNavigationModel::nabigationListChange($menus);
+
+        return $this->formateResponse(1000, '获取关于我们信息成功', $menus);
+    }
 }

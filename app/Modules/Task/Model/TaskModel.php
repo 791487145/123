@@ -1021,23 +1021,16 @@ class TaskModel extends Model
         $task = new TaskModel();
 
         if(isset($data['title'])){
-
-            $task = $task->where('title','like','%'.$data['title'].'%');
+            $task = $task->where('task.title','like','%'.$data['title'].'%');
+            $task = $task->where('task.desc','like','%'.$data['title'].'%');
         }
 
         if(isset($data['area']) && !empty($data['area'])){//地址
-
-            $task = $task->where('area',$data['area']);
-        }
-
-        if(isset($data['area']) && $data['area'] == 0){//地址
-
-            $task = $task->where('region_limit',0);
+            $task = $task->where('task.area',$data['area']);
         }
 
         if(isset($data['cate_id']) && $data['cate_id'] != 0){//类型
-
-            $task = $task->where('cate_id',$data['cate_id']);
+            $task = $task->where('task.cate_id',$data['cate_id']);
         }
 
 
@@ -1048,6 +1041,26 @@ class TaskModel extends Model
             $task = $task->where('bounty','>=',$data['bounty_amount'][0])->where('bounty_status',self::TASK_BOUNTY_YES);
             $task = $task->where('bounty','<=',$data['bounty_amount'][1])->where('bounty_status',self::TASK_BOUNTY_YES);
         }
+
+
+        if($data['time'] != 1){//时间正序
+            $time = strtotime("now");
+            $data['time'] = date("Y-m-d H:i:s",($time + 60*30));
+            $task = $task->where('verified_at','<=',$data['time']);
+        }
+
+       /* if(isset($data['time']) && $data['time'] = 2){//时间
+            $task = $task->orderBy('verified_at','desc');
+        }*/
+
+       /* if(isset($data['bounty_start']) && !empty($data['bounty_start'])){
+            dd(1);
+            $bounty = [1=>[1,10],10=>[10,50],50=>[50,100],100=>[100,100000000000]];
+            $data['bounty_amount'] = $bounty[$data['bounty_start']];
+
+            $task = $task->where('bounty','>=',$data['bounty_amount'][0])->where('bounty_status',self::TASK_BOUNTY_YES);
+            $task = $task->where('bounty','<=',$data['bounty_amount'][1])->where('bounty_status',self::TASK_BOUNTY_YES);
+        }*/
 
 
         if($data['time'] != 1){//时间正序

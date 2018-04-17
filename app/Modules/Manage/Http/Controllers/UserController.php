@@ -686,6 +686,7 @@ class UserController extends ManageController
     public function getRolesAdd()
     {
         $tree_menu = Permission::getPermissionMenu();
+
         $data = array(
             'list' =>$tree_menu,
         );

@@ -5,7 +5,6 @@ namespace App\Modules\Manage\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-use Log;
 
 class ManagerModel extends Model
 {

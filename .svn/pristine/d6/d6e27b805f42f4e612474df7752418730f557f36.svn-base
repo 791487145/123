@@ -1,0 +1,9 @@
+{
+	"name": "Mobile",
+	"slug": "mobile",
+	"namespace": "Mobile",
+	"version": "1.0",
+	"author": " ",
+	"license": "MIT",
+	"description": "This is the description for the Mobile module."
+}

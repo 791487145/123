@@ -21,14 +21,17 @@ class ManageController extends BasicController
             $this->themeName = 'admin';
             if (ManagerModel::getManager())
             {
+                //dd(1);
                 $this->manageBreadcrumb();
                 $this->breadcrumb = $this->theme->breadcrumb();
                 $this->manager = ManagerModel::getManager();//登录用户信息
                 $this->theme->setManager($this->manager->username);
 
                 $manageMenu = MenuModel::getMenuPermission();
+
                 $this->theme->set('manageMenu', $manageMenu);
             }
+
             $route = Route::currentRouteName();
             if($route!='loginCreatePage')
             {

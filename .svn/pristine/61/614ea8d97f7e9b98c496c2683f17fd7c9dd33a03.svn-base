@@ -4,7 +4,7 @@ namespace  App\Modules\Manage\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IconModel extends Model
+class MenuIconModel extends Model
 {
     //轮播
     const ICON_LUNBO_INDEX = 1;//首页
@@ -22,12 +22,12 @@ class IconModel extends Model
     const ICON_TYPE_CAROUSEL = 'carousel';//轮播图
     const ICON_TYPE_AD = 'advertisement';//广告
 
-    protected $table = 'icon';
+    protected $table = 'menu_icon';
     protected $primaryKey = 'id';
 
 
     protected $fillable = [
-        'id','icon_name','route','type','describe','status','sort'
+        'id','img','select_img','sort','name','status'
     ];
 
     public $timestamps = false;

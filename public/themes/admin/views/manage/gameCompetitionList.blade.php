@@ -41,7 +41,6 @@
                     <tbody>
                     @foreach($user_game_rules as $user_game_rule)
                         <tr id = "tr_{!! $user_game_rule['id'] !!}">
-
                             <td class="center">
                                 <label class="pos-rel">
                                     <input type="checkbox"  class="ace check" name="ckb[]" value="{!! $user_game_rule['id'] !!}"/>
