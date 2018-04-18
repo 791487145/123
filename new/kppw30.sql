@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2018-03-23 17:27:53
+Date: 2018-04-18 17:34:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -271,14 +271,19 @@ CREATE TABLE `kppw_app_navigation` (
   `url` varchar(55) DEFAULT NULL,
   `sort` int(11) DEFAULT '1' COMMENT '排序',
   `remark` varchar(20) DEFAULT NULL COMMENT '备用',
+  `py` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='app导航栏';
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='app导航栏';
 
 -- ----------------------------
 -- Records of kppw_app_navigation
 -- ----------------------------
-INSERT INTO `kppw_app_navigation` VALUES ('2', '官方1', '-1', '', '0', null);
-INSERT INTO `kppw_app_navigation` VALUES ('3', '官方', '1', '', '0', null);
+INSERT INTO `kppw_app_navigation` VALUES ('2', '官方1', '-1', '', '0', null, null);
+INSERT INTO `kppw_app_navigation` VALUES ('3', '官方', '1', '', '0', null, null);
+INSERT INTO `kppw_app_navigation` VALUES ('4', '任务', '1', 'http://test.zfy0351.cn/api/tasks', '1', null, null);
+INSERT INTO `kppw_app_navigation` VALUES ('5', '推荐', '1', '#', '0', null, null);
+INSERT INTO `kppw_app_navigation` VALUES ('6', '招聘', '1', '#', '2', null, null);
+INSERT INTO `kppw_app_navigation` VALUES ('7', '345', '-1', '345', '4', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_article
@@ -743,13 +748,17 @@ CREATE TABLE `kppw_campus_recruitment` (
   `status` varchar(10) NOT NULL DEFAULT 'valid' COMMENT '状态（valid 有效的  invalid无效的）',
   `create_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
   `is_recommended` tinyint(4) DEFAULT '2' COMMENT '是否推荐 1->是 2->否',
+  `identify` tinyint(4) DEFAULT '1' COMMENT '1:个人',
+  `work_old` int(40) DEFAULT NULL COMMENT '工作年限',
+  `education` varchar(20) DEFAULT NULL COMMENT '学历',
+  `positionLables` varchar(15) DEFAULT NULL COMMENT '职位标签',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='校园招聘';
 
 -- ----------------------------
 -- Records of kppw_campus_recruitment
 -- ----------------------------
-INSERT INTO `kppw_campus_recruitment` VALUES ('1', '43', '3', '34534', '345', '3444', '<p>345</p>', '', '', '', '', 'valid', '2018-03-23 15:09:49', '1');
+INSERT INTO `kppw_campus_recruitment` VALUES ('1', '43', '3', '34534', '345', '3444', '<p>345</p>', '', '', '', '', 'valid', '2018-03-23 15:09:49', '1', '1', null, null, null);
 
 -- ----------------------------
 -- Table structure for kppw_cashout
@@ -896,6 +905,110 @@ CREATE TABLE `kppw_comments` (
 -- ----------------------------
 -- Records of kppw_comments
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for kppw_company
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_company`;
+CREATE TABLE `kppw_company` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户id（发布人员的id）',
+  `name` varchar(30) NOT NULL DEFAULT '' COMMENT '公司名称',
+  `logo` varchar(100) NOT NULL DEFAULT '' COMMENT '公司logo',
+  `phone` varchar(11) NOT NULL DEFAULT '' COMMENT '公司电话',
+  `scale` smallint(5) NOT NULL DEFAULT '0' COMMENT '公司规模',
+  `industry` smallint(6) NOT NULL DEFAULT '0' COMMENT '公司行业',
+  `financing` smallint(6) NOT NULL DEFAULT '0' COMMENT '融资阶段',
+  `email` varchar(30) NOT NULL DEFAULT '' COMMENT '公司邮箱',
+  `province` int(11) NOT NULL DEFAULT '0' COMMENT '省',
+  `city` int(11) NOT NULL DEFAULT '0' COMMENT '市',
+  `area` int(11) NOT NULL DEFAULT '0' COMMENT '区',
+  `address` varchar(50) NOT NULL DEFAULT '' COMMENT '详情地址',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='公司表';
+
+-- ----------------------------
+-- Records of kppw_company
+-- ----------------------------
+INSERT INTO `kppw_company` VALUES ('1', '0', '众方圆', 'uploads\\game\\2018/04/18\\d523af6f522bc9da9d917782bf13e927.jpeg', '', '6', '4', '8', '791487145@qq.com', '4', '0', '0', '43534', '0000-00-00 00:00:00');
+
+-- ----------------------------
+-- Table structure for kppw_company_financing
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_company_financing`;
+CREATE TABLE `kppw_company_financing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `financing` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of kppw_company_financing
+-- ----------------------------
+INSERT INTO `kppw_company_financing` VALUES ('8', '天使轮');
+INSERT INTO `kppw_company_financing` VALUES ('9', 'A轮');
+INSERT INTO `kppw_company_financing` VALUES ('10', 'B轮');
+INSERT INTO `kppw_company_financing` VALUES ('11', 'C轮');
+
+-- ----------------------------
+-- Table structure for kppw_company_industry
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_company_industry`;
+CREATE TABLE `kppw_company_industry` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `industry` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of kppw_company_industry
+-- ----------------------------
+INSERT INTO `kppw_company_industry` VALUES ('3', '运维');
+INSERT INTO `kppw_company_industry` VALUES ('4', '保险');
+
+-- ----------------------------
+-- Table structure for kppw_company_position
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_company_position`;
+CREATE TABLE `kppw_company_position` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` int(11) NOT NULL DEFAULT '0' COMMENT '公司id',
+  `name` varchar(20) NOT NULL DEFAULT '' COMMENT '职位名称',
+  `salary` varchar(20) NOT NULL DEFAULT '' COMMENT '薪资',
+  `experience` varchar(20) NOT NULL DEFAULT '' COMMENT '工作经验',
+  `nature` varchar(10) NOT NULL DEFAULT '' COMMENT '工作性质（全职  兼职  临时工等）',
+  `education` smallint(6) NOT NULL DEFAULT '0' COMMENT '学历',
+  `skill` varchar(30) NOT NULL DEFAULT '' COMMENT '技能标签',
+  `describe` text NOT NULL COMMENT '职位描述',
+  `number` smallint(6) NOT NULL DEFAULT '0' COMMENT '招聘人数',
+  `sax` tinyint(3) NOT NULL DEFAULT '0' COMMENT '要求性别（0不限 1女 2男 ）',
+  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '发布时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='公司职位';
+
+-- ----------------------------
+-- Records of kppw_company_position
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for kppw_company_scale
+-- ----------------------------
+DROP TABLE IF EXISTS `kppw_company_scale`;
+CREATE TABLE `kppw_company_scale` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `scale` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='公司规模';
+
+-- ----------------------------
+-- Records of kppw_company_scale
+-- ----------------------------
+INSERT INTO `kppw_company_scale` VALUES ('6', '20以下');
+INSERT INTO `kppw_company_scale` VALUES ('7', '20-50');
+INSERT INTO `kppw_company_scale` VALUES ('8', '50-100');
+INSERT INTO `kppw_company_scale` VALUES ('9', '100-500');
+INSERT INTO `kppw_company_scale` VALUES ('10', '500以上');
 
 -- ----------------------------
 -- Table structure for kppw_config
@@ -45054,7 +45167,7 @@ CREATE TABLE `kppw_icon` (
   `status` varchar(8) NOT NULL DEFAULT 'valid' COMMENT '状态（valid有效 invalid 无效的）',
   `sort` tinyint(3) NOT NULL DEFAULT '0' COMMENT '排序',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of kppw_icon
@@ -45081,6 +45194,7 @@ INSERT INTO `kppw_icon` VALUES ('19', 'uploads/icon/0ad8ac0c91554e1c22b3a09431df
 INSERT INTO `kppw_icon` VALUES ('20', 'uploads/icon/3082b1d9e04bddc6093db37d7c7b7c20.png', 'http://html.zfy0351.cn/download/hj.html', 'carousel', '注册', 'valid', '2');
 INSERT INTO `kppw_icon` VALUES ('21', 'uploads/icon/f650a5104d6654cc2fd08dd0e11faaa6.jpg', '23', 'menu', '官方', 'valid', '2');
 INSERT INTO `kppw_icon` VALUES ('22', 'uploads/icon/cf41d0d9e5cd988c881d87f41ccd84e5.jpeg', '56', 'menu', '任务', 'valid', '2');
+INSERT INTO `kppw_icon` VALUES ('23', 'uploads/icon/f8e4de35acae1850db2cf13c83d2498f.jpg', '#', 'menu', '推荐', 'valid', '2');
 
 -- ----------------------------
 -- Table structure for kppw_icon_type
@@ -45307,12 +45421,13 @@ CREATE TABLE `kppw_manager` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台用户表';
 
 -- ----------------------------
 -- Records of kppw_manager
 -- ----------------------------
 INSERT INTO `kppw_manager` VALUES ('1', 'sjlmadmin', null, '6aa4ae9a79403ced7d784606e8aae4f9', 'F66g', '', '', null, '0000-00-00 00:00:00', '1', '2017-11-08 11:18:44', '2017-12-26 17:23:44');
+INSERT INTO `kppw_manager` VALUES ('2', '测试1-1', null, '8b9cfaf04f7603f9e79c150d5b64de39', 'itHI', '', '', '791487145@qq.com', '0000-00-00 00:00:00', '1', '2018-03-30 15:35:11', '2018-03-30 15:37:18');
 
 -- ----------------------------
 -- Table structure for kppw_match_reward
@@ -45359,7 +45474,7 @@ CREATE TABLE `kppw_menu` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=245 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='后台菜单';
 
 -- ----------------------------
 -- Records of kppw_menu
@@ -45475,7 +45590,7 @@ INSERT INTO `kppw_menu` VALUES ('200', '激活码列表', 'manage/invitationList
 INSERT INTO `kppw_menu` VALUES ('201', '签到及用户等级管理', '', '171', '2', '', '4', '2017-11-10 10:28:11', null);
 INSERT INTO `kppw_menu` VALUES ('202', '签到管理', 'manage/sign', '201', '3', '', '1', '2017-11-10 10:28:40', null);
 INSERT INTO `kppw_menu` VALUES ('203', '用户等级', 'manage/grade', '201', '3', '', '2', '2017-11-10 10:29:11', null);
-INSERT INTO `kppw_menu` VALUES ('204', '校园招聘', 'manage/campus', '84', '2', '', '4', '2017-12-07 10:17:55', null);
+INSERT INTO `kppw_menu` VALUES ('204', '校园招聘', '', '84', '2', '', '4', '2017-12-07 10:17:55', null);
 INSERT INTO `kppw_menu` VALUES ('205', '系统任务', 'manage/system', '84', '2', '', '5', '2017-12-07 10:25:13', null);
 INSERT INTO `kppw_menu` VALUES ('206', '奖品管理', 'manage/prizeManage', '201', '3', '', '3', '2017-12-07 10:34:24', null);
 INSERT INTO `kppw_menu` VALUES ('207', '雇主/猎人等级管理', '', '171', '2', '', '5', '2017-12-07 10:59:37', null);
@@ -45513,6 +45628,8 @@ INSERT INTO `kppw_menu` VALUES ('240', 'app设置', '', '0', '1', '', '2', '2018
 INSERT INTO `kppw_menu` VALUES ('241', '基本设置', '', '1', '2', '', '0', '2018-03-23 11:03:54', null);
 INSERT INTO `kppw_menu` VALUES ('242', '基本设置', '', '240', '2', '', '0', '2018-03-23 11:11:35', null);
 INSERT INTO `kppw_menu` VALUES ('243', '导航设置', 'manage/appSetting', '242', '3', '', '0', '2018-03-23 11:11:46', null);
+INSERT INTO `kppw_menu` VALUES ('244', '招聘列表', 'manage/campus', '204', '3', '', '0', '2018-04-18 13:39:15', null);
+INSERT INTO `kppw_menu` VALUES ('245', '公司列表', 'manage/company', '204', '3', '', '1', '2018-04-18 13:40:06', null);
 
 -- ----------------------------
 -- Table structure for kppw_menu_permission
@@ -45523,7 +45640,7 @@ CREATE TABLE `kppw_menu_permission` (
   `menu_id` int(11) NOT NULL COMMENT '菜单id',
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=519 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_menu_permission
@@ -45809,11 +45926,8 @@ INSERT INTO `kppw_menu_permission` VALUES ('447', '203', '388');
 INSERT INTO `kppw_menu_permission` VALUES ('448', '202', '389');
 INSERT INTO `kppw_menu_permission` VALUES ('449', '202', '390');
 INSERT INTO `kppw_menu_permission` VALUES ('450', '202', '391');
-INSERT INTO `kppw_menu_permission` VALUES ('451', '204', '392');
-INSERT INTO `kppw_menu_permission` VALUES ('452', '204', '393');
 INSERT INTO `kppw_menu_permission` VALUES ('453', '205', '394');
 INSERT INTO `kppw_menu_permission` VALUES ('454', '205', '395');
-INSERT INTO `kppw_menu_permission` VALUES ('455', '204', '396');
 INSERT INTO `kppw_menu_permission` VALUES ('456', '205', '397');
 INSERT INTO `kppw_menu_permission` VALUES ('457', '206', '398');
 INSERT INTO `kppw_menu_permission` VALUES ('458', '206', '399');
@@ -45868,6 +45982,12 @@ INSERT INTO `kppw_menu_permission` VALUES ('515', '238', '447');
 INSERT INTO `kppw_menu_permission` VALUES ('516', '243', '448');
 INSERT INTO `kppw_menu_permission` VALUES ('517', '243', '449');
 INSERT INTO `kppw_menu_permission` VALUES ('518', '243', '450');
+INSERT INTO `kppw_menu_permission` VALUES ('519', '245', '451');
+INSERT INTO `kppw_menu_permission` VALUES ('520', '244', '392');
+INSERT INTO `kppw_menu_permission` VALUES ('521', '244', '393');
+INSERT INTO `kppw_menu_permission` VALUES ('522', '244', '396');
+INSERT INTO `kppw_menu_permission` VALUES ('523', '245', '452');
+INSERT INTO `kppw_menu_permission` VALUES ('524', '245', '453');
 
 -- ----------------------------
 -- Table structure for kppw_message_receive
@@ -46244,7 +46364,7 @@ CREATE TABLE `kppw_permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=451 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=454 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_permissions
@@ -46578,6 +46698,9 @@ INSERT INTO `kppw_permissions` VALUES ('447', 'competitionEdit', '赛制排序',
 INSERT INTO `kppw_permissions` VALUES ('448', 'navigationList', 'app导航列表', '', '243', null, null);
 INSERT INTO `kppw_permissions` VALUES ('449', 'navigationEdit', 'app导航编辑', '', '243', null, null);
 INSERT INTO `kppw_permissions` VALUES ('450', 'navigationAdd', 'app导航添加', '', '243', null, null);
+INSERT INTO `kppw_permissions` VALUES ('451', 'companyList', '公司列表', '', '245', null, null);
+INSERT INTO `kppw_permissions` VALUES ('452', 'companyAdd', '添加公司', '', '245', null, null);
+INSERT INTO `kppw_permissions` VALUES ('453', 'editCompany', '公司修改', '', '245', null, null);
 
 -- ----------------------------
 -- Table structure for kppw_permission_role
@@ -46716,6 +46839,7 @@ INSERT INTO `kppw_permission_role` VALUES ('353', '3');
 INSERT INTO `kppw_permission_role` VALUES ('359', '3');
 INSERT INTO `kppw_permission_role` VALUES ('375', '3');
 INSERT INTO `kppw_permission_role` VALUES ('93', '4');
+INSERT INTO `kppw_permission_role` VALUES ('448', '5');
 
 -- ----------------------------
 -- Table structure for kppw_phone_auth
@@ -47045,13 +47169,14 @@ CREATE TABLE `kppw_roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_roles
 -- ----------------------------
 INSERT INTO `kppw_roles` VALUES ('3', '管理员', '管理员', null, '2017-10-30 13:04:04', '2017-10-30 13:04:04');
 INSERT INTO `kppw_roles` VALUES ('4', '推广员', '推广员', null, '2017-11-08 11:20:00', '2017-11-08 11:20:00');
+INSERT INTO `kppw_roles` VALUES ('5', '测试权限1-1', '测试权限1-1', null, '2018-03-30 15:36:09', '2018-03-30 15:36:09');
 
 -- ----------------------------
 -- Table structure for kppw_role_user
@@ -47070,6 +47195,7 @@ CREATE TABLE `kppw_role_user` (
 -- Records of kppw_role_user
 -- ----------------------------
 INSERT INTO `kppw_role_user` VALUES ('1', '3');
+INSERT INTO `kppw_role_user` VALUES ('2', '5');
 
 -- ----------------------------
 -- Table structure for kppw_service
@@ -47467,7 +47593,7 @@ CREATE TABLE `kppw_system_log` (
   `IP` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'IP地址',
   `created_at` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of kppw_system_log
@@ -47601,6 +47727,26 @@ INSERT INTO `kppw_system_log` VALUES ('126', '0', '1', 'sjlmadmin', '0', 'sjlmad
 INSERT INTO `kppw_system_log` VALUES ('127', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 09:31:23登录', '127.0.0.1', '2018-03-23 09:31:23');
 INSERT INTO `kppw_system_log` VALUES ('128', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 13:50:35登录', '127.0.0.1', '2018-03-23 13:50:35');
 INSERT INTO `kppw_system_log` VALUES ('129', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-23 14:12:05登录', '127.0.0.1', '2018-03-23 14:12:05');
+INSERT INTO `kppw_system_log` VALUES ('130', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-24 09:36:28登录', '127.0.0.1', '2018-03-24 09:36:28');
+INSERT INTO `kppw_system_log` VALUES ('131', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-26 17:28:39登录', '127.0.0.1', '2018-03-26 17:28:39');
+INSERT INTO `kppw_system_log` VALUES ('132', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-27 09:51:26登录', '127.0.0.1', '2018-03-27 09:51:26');
+INSERT INTO `kppw_system_log` VALUES ('133', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-27 13:49:29登录', '127.0.0.1', '2018-03-27 13:49:29');
+INSERT INTO `kppw_system_log` VALUES ('134', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-28 13:16:37登录', '127.0.0.1', '2018-03-28 13:16:37');
+INSERT INTO `kppw_system_log` VALUES ('135', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-30 15:34:41登录', '127.0.0.1', '2018-03-30 15:34:41');
+INSERT INTO `kppw_system_log` VALUES ('136', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-30 15:37:01登录', '127.0.0.1', '2018-03-30 15:37:01');
+INSERT INTO `kppw_system_log` VALUES ('137', '0', '2', '测试1-1', '0', '测试1-1于2018-03-30 15:37:43登录', '127.0.0.1', '2018-03-30 15:37:43');
+INSERT INTO `kppw_system_log` VALUES ('138', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-03-30 15:41:59登录', '127.0.0.1', '2018-03-30 15:41:59');
+INSERT INTO `kppw_system_log` VALUES ('139', '0', '2', '测试1-1', '0', '测试1-1于2018-03-30 15:43:23登录', '127.0.0.1', '2018-03-30 15:43:23');
+INSERT INTO `kppw_system_log` VALUES ('140', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 10:45:36登录', '127.0.0.1', '2018-04-10 10:45:36');
+INSERT INTO `kppw_system_log` VALUES ('141', '0', '2', '测试1-1', '0', '测试1-1于2018-04-10 10:50:02登录', '127.0.0.1', '2018-04-10 10:50:02');
+INSERT INTO `kppw_system_log` VALUES ('142', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 11:22:13登录', '127.0.0.1', '2018-04-10 11:22:13');
+INSERT INTO `kppw_system_log` VALUES ('143', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 14:00:58登录', '127.0.0.1', '2018-04-10 14:00:58');
+INSERT INTO `kppw_system_log` VALUES ('144', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 14:02:37登录', '127.0.0.1', '2018-04-10 14:02:37');
+INSERT INTO `kppw_system_log` VALUES ('145', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 14:03:11登录', '127.0.0.1', '2018-04-10 14:03:11');
+INSERT INTO `kppw_system_log` VALUES ('146', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-10 14:43:44登录', '127.0.0.1', '2018-04-10 14:43:44');
+INSERT INTO `kppw_system_log` VALUES ('147', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-17 14:40:43登录', '127.0.0.1', '2018-04-17 14:40:43');
+INSERT INTO `kppw_system_log` VALUES ('148', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-18 09:22:25登录', '127.0.0.1', '2018-04-18 09:22:25');
+INSERT INTO `kppw_system_log` VALUES ('149', '0', '1', 'sjlmadmin', '0', 'sjlmadmin于2018-04-18 13:38:08登录', '127.0.0.1', '2018-04-18 13:38:08');
 
 -- ----------------------------
 -- Table structure for kppw_system_tasks
@@ -47720,7 +47866,7 @@ INSERT INTO `kppw_task` VALUES ('2', '买车票', '买到石家庄的车票', '1
 INSERT INTO `kppw_task` VALUES ('3', '我是测试看看的', '我需要帮我带一个测试', '1', '0', '18634337338', '1', '10', '5.00', '0', null, null, null, null, null, '2018-01-09 17:01:14', null, null, '0.00', '0.00', '0.00', '4', '25', '0', '2', '0', '16', 'tl123', '1', '0', '0', '0', '0', '0', '0', '2018-01-08 17:01:14', '2018-01-08 17:01:45', '0', '2018-01-08 17:01:14', '1');
 INSERT INTO `kppw_task` VALUES ('4', '买车票', '买10号石家庄车票', '1', '0', '13834598886', '0', '1', '0.00', '1', null, null, null, null, null, '2018-01-09 17:16:25', null, null, '0.00', '0.00', '5.00', '0', '0', '0', '2', '0', '13', 'wh123', '1', '0', '0', '0', '0', '0', '0', '2018-01-08 17:16:25', '2018-01-08 17:17:47', '0', '2018-01-08 17:16:25', '1');
 INSERT INTO `kppw_task` VALUES ('5', '测试11-3', '2342', '1', '240', '17696041235', '1', '10', '10.00', '0', null, null, null, null, null, '2018-01-11 09:17:27', null, null, '0.00', '0.00', '0.00', '4', '25', '90', '0', '0', '8', 'Hanna', '1', '0', '0', '0', '0', '0', '0', '2018-01-10 09:17:27', '2018-01-10 09:17:27', '0', '0000-00-00 00:00:00', '1');
-INSERT INTO `kppw_task` VALUES ('6', '测试11-5', '2342', '1', '240', '17696041235', '1', '3', '1.00', '0', null, null, null, null, null, '2018-01-13 15:58:32', null, null, '0.00', '0.00', '0.00', '4', '25', '90', '0', '0', '8', 'Hanna', '1', '0', '0', '0', '0', '0', '0', '2018-01-12 15:58:32', '2018-01-12 16:05:08', '0', '0000-00-00 00:00:00', '1');
+INSERT INTO `kppw_task` VALUES ('6', '测试11-5', '2342', '1', '240', '17696041235', '1', '2', '1.00', '0', null, null, null, null, null, '2018-03-24 15:58:32', null, null, '0.00', '0.00', '0.00', '4', '25', '90', '0', '0', '8', 'Hanna', '1', '0', '0', '0', '0', '0', '0', '2018-03-24 15:58:32', '2018-01-12 16:05:08', '0', '0000-00-00 00:00:00', '1');
 
 -- ----------------------------
 -- Table structure for kppw_task_attachment
@@ -48135,7 +48281,7 @@ CREATE TABLE `kppw_users` (
 -- Records of kppw_users
 -- ----------------------------
 INSERT INTO `kppw_users` VALUES ('3', 'lsw123', 'uploads/task_proof/2017-12-28/20171228133055000000769.png', '18234482954', '8762e45bef5f3b6a1d650c2bdbd09613', 'pfJV', '2', '2', null, '1', null, null, null, null, '2017-12-27 09:32:15', null, '100003', '0', null, null, '2017-12-27 09:32:15', '2017-12-29 10:01:54', null, null);
-INSERT INTO `kppw_users` VALUES ('4', 'jhm123', 'uploads/task_proof/2017-12-28/20171228134637000000420.jpeg', '15235140061', '922ac2ebd89fb3ee7e066224ecbaf0e0', 'zzwB', '2', '2', null, '1', null, null, null, null, '2017-12-28 10:26:12', null, '100004', '0', null, null, '2017-12-28 10:26:12', '2018-01-02 09:58:52', null, null);
+INSERT INTO `kppw_users` VALUES ('4', 'jhm123', 'uploads/task_proof/2017-12-28/20171228134637000000420.jpeg', '15235140061', '922ac2ebd89fb3ee7e066224ecbaf0e0', 'zzwB', '2', '2', null, '1', null, null, null, null, '2017-12-28 10:26:12', null, '100004', '0', null, null, '2017-12-28 10:26:12', '2018-04-18 10:35:41', null, null);
 INSERT INTO `kppw_users` VALUES ('7', '22669265', 'uploads/task_proof/2017-12-29/20171229134543000000966.jpeg', '18603538383', '930199bdc234fb8c9b127b32a6d1f056', '9u3d', '2', '2', null, '1', null, null, null, null, '2017-12-28 13:59:23', null, '100009', '0', null, null, '2017-12-28 13:59:23', '2017-12-29 15:47:44', null, null);
 INSERT INTO `kppw_users` VALUES ('8', 'Hanna', 'uploads\\head_img\\moren.png', '18335162521', '14b8f6d6f6f69d2b1512b92e5080e41a', 'qiTg', '2', '2', null, '1', null, null, null, null, '2017-12-28 14:12:58', null, '100009', '0', null, null, '2017-12-28 14:12:58', '2017-12-29 17:21:57', null, '58966');
 INSERT INTO `kppw_users` VALUES ('10', 'a1234', 'uploads\\head_img\\moren.png', '17635165720', 'c8aacce81cfb8a1fe3e9231f398f273c', 'UIlI', '2', '0', null, '1', null, null, null, null, '2017-12-28 14:52:12', null, '100012', '0', null, null, '2017-12-28 14:52:12', '2017-12-28 15:30:07', null, null);
@@ -48151,7 +48297,7 @@ INSERT INTO `kppw_users` VALUES ('80', 'zfy2', null, '1769604123', 'a6cf2d62770d
 INSERT INTO `kppw_users` VALUES ('81', 'zfy3', null, '1769604123', 'f55e214c4810c074127fa7977854433a', 'o0EP', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', '9mjglQ', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
 INSERT INTO `kppw_users` VALUES ('82', 'zfy4', null, '1769604123', '1f147fc35785aecd6995ba411ef92ef0', 'uCPv', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'ZpMJbq', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
 INSERT INTO `kppw_users` VALUES ('83', 'zfy5', null, '1769604123', 'e53a5d9409079859067cc5175e7509c4', 'Mdta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:14', '1', 'BN3U6J', '0', null, null, '2018-01-16 15:30:14', '2018-01-16 15:30:14', null, null);
-INSERT INTO `kppw_users` VALUES ('84', 'zfy6', null, '1769604123', '04cadbcc5efabd39c6c116d52658f669', 'Jpdt', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'CueIYy', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
+INSERT INTO `kppw_users` VALUES ('84', 'zfy6', null, '176960412', '04cadbcc5efabd39c6c116d52658f669', 'Jpdt', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'CueIYy', '0', null, null, '2018-01-16 15:30:15', '2018-04-18 10:39:23', null, null);
 INSERT INTO `kppw_users` VALUES ('85', 'zfy7', null, '1769604123', '0b5ca2d2b994bfa2c795f79bf9ef7c38', 'wdO9', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'wgIz5H', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
 INSERT INTO `kppw_users` VALUES ('86', 'zfy8', null, '1769604123', 'e098dc16e175b4a6fbd1657deec4d9f4', 'GJta', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'YaCLwv', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
 INSERT INTO `kppw_users` VALUES ('87', 'zfy9', null, '1769604123', 'fecbe64e858ba6bf3166c377faa0cf1f', 'bzwb', '2', '1', '791487145@qq.com', '1', null, null, null, null, '2018-01-16 15:30:15', '1', 'M17tj2', '0', null, null, '2018-01-16 15:30:15', '2018-01-16 15:30:15', null, null);
@@ -48603,7 +48749,7 @@ CREATE TABLE `kppw_user_detail` (
 -- Records of kppw_user_detail
 -- ----------------------------
 INSERT INTO `kppw_user_detail` VALUES ('6', '3', '', '0', '2', '18234482954', '0', '我有炸', null, '0', null, '0', null, '0', '0', '0', '4', '25', '88', '美术', '1202020', '美容美发', null, '山西', '2017-12-06', '018', null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-27 09:32:15', '2018-01-06 16:13:42', '28d4508d43e6e44f91184fb1f96a701e', null);
-INSERT INTO `kppw_user_detail` VALUES ('7', '4', '晋慧敏', '0', '1', '15235140061', '0', '的撒', null, '0', null, '0', null, '0', '0', '0', '4', '25', '93', '', '', '', null, '山西', '2017-12-21', null, '长得五大三粗夏娃', null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-28 10:26:12', '2018-01-02 18:44:08', null, null);
+INSERT INTO `kppw_user_detail` VALUES ('7', '4', '晋慧敏', '0', '0', '15235140061', '0', '的撒', null, '0', null, '0', null, '4', '84', '0', '4', '25', '93', '软件工程1', '', '', null, '山西', '2017-12-21', null, '长得五大三粗夏娃', null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-28 10:26:12', '2018-04-18 10:35:41', null, null);
 INSERT INTO `kppw_user_detail` VALUES ('8', '5', null, '0', '2', '18603538383', '0', '小倭瓜', null, '0', null, '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-28 10:33:05', '2017-12-28 13:55:58', 'ca8f16dc7c43b771dd9358ea23a1c12b', null);
 INSERT INTO `kppw_user_detail` VALUES ('10', '7', '郭亮', '0', '2', '18603538383', '0', '小问问', null, '0', null, '0', null, null, null, null, null, null, null, '音乐', '11', '美术', null, '阳泉', null, '050', '123', null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-28 13:59:23', '2017-12-29 13:17:30', '3df7e606bd8f6821e4cfc6bc61a8280e', null);
 INSERT INTO `kppw_user_detail` VALUES ('11', '8', '侯雅慧', '0', '1', '18335162521', '0', 'hdhsh', null, '0', null, '0', null, '0', '0', '0', '4', '25', '164', '', '', '', null, '', null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2017-12-28 14:12:58', '2018-01-13 10:40:35', '14b8f6d6f6f69d2b1512b92e5080e41a', null);
@@ -48612,7 +48758,7 @@ INSERT INTO `kppw_user_detail` VALUES ('82', '80', null, '0', '0', '17696041235'
 INSERT INTO `kppw_user_detail` VALUES ('83', '81', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:14', '2018-01-16 15:30:14', 'f55e214c4810c074127fa7977854433a', 'f55e214c4810c074127fa7977854433a');
 INSERT INTO `kppw_user_detail` VALUES ('84', '82', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:14', '2018-01-16 15:30:14', '1f147fc35785aecd6995ba411ef92ef0', '1f147fc35785aecd6995ba411ef92ef0');
 INSERT INTO `kppw_user_detail` VALUES ('85', '83', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:14', '2018-01-16 15:30:14', 'e53a5d9409079859067cc5175e7509c4', 'e53a5d9409079859067cc5175e7509c4');
-INSERT INTO `kppw_user_detail` VALUES ('86', '84', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', '04cadbcc5efabd39c6c116d52658f669', '04cadbcc5efabd39c6c116d52658f669');
+INSERT INTO `kppw_user_detail` VALUES ('86', '84', '', '0', '0', '176960412', '0', '', null, '0', null, '0', null, '0', '0', '4', '4', '25', '88', '', '', '', null, '', null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-04-18 10:39:23', '04cadbcc5efabd39c6c116d52658f669', '04cadbcc5efabd39c6c116d52658f669');
 INSERT INTO `kppw_user_detail` VALUES ('87', '85', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', '0b5ca2d2b994bfa2c795f79bf9ef7c38', '0b5ca2d2b994bfa2c795f79bf9ef7c38');
 INSERT INTO `kppw_user_detail` VALUES ('88', '86', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', 'e098dc16e175b4a6fbd1657deec4d9f4', 'e098dc16e175b4a6fbd1657deec4d9f4');
 INSERT INTO `kppw_user_detail` VALUES ('89', '87', null, '0', '0', '17696041235', '0', null, null, '0', null, '0', null, null, null, '4', '4', '25', '88', null, null, null, null, null, null, null, null, null, null, '0', '0', null, null, '0', '0.00', '0', null, null, '0', '0', '2018-01-16 15:30:15', '2018-01-16 15:30:15', 'fecbe64e858ba6bf3166c377faa0cf1f', 'fecbe64e858ba6bf3166c377faa0cf1f');

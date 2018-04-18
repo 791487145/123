@@ -12,6 +12,7 @@ use App\Modules\Manage\Model\Role;
 use App\Modules\Manage\Model\RoleUserModel;
 use App\Modules\User\Model\DistrictModel;
 use App\Modules\Task\Model\DistrictRegionModel;
+use App\Modules\User\Model\RealnameAuthModel;
 use App\Modules\User\Model\UserDetailModel;
 use App\Modules\User\Model\UserModel;
 use App\Modules\User\Model\UserBalanceModel;
@@ -243,6 +244,7 @@ class UserController extends ManageController
                 'users.id',
                 'users.head_img',
                 'users.last_login_time',
+
                 'user_detail.realname',
                 'user_detail.sex',
                 'user_detail.nickname',
@@ -256,12 +258,20 @@ class UserController extends ManageController
                 'user_detail.system',
                 'user_detail.class',
                 'user_detail.majors',
+                'user_detail.employee_praise_rate',
+                'user_detail.employer_praise_rate',
+                'user_detail.receive_task_num',
+                'user_detail.publish_task_num',
+                'user_detail.qq',
+                'user_detail.wechat',
+                'user_detail.autograph',
                 'user_detail.native_place',
                 'user_detail.birthday',
                 'user_detail.year_old',
+                'user_detail.card_number',
                 'user_balance.balance',
                 'user_balance.gold',
-            );
+        );
 
         $info = UserModel::select($select)
                          ->where('users.id', $uid)
@@ -269,28 +279,37 @@ class UserController extends ManageController
                          ->leftJoin('user_balance','users.id','=','user_balance.user_id')
                          ->first()->toArray();
 
-        $sexArr = array('1'=>array('num'=>'1','str'=>'女'),'2'=>array('num'=>'2','str'=>'男'));
-
-        $info['sex_str'] = $sexArr[$info['sex']]['str'];
-
         $province = DistrictModel::findTree(0);
-        $province_city = DistrictModel::findTree($info['province']);
-        $city_area = DistrictModel::findTree($info['city']);
         $region = DistrictRegionModel::findTree(0);
-        $region_province = DistrictRegionModel::findTree($info['region']);
-        $province_school = DistrictRegionModel::findTree($info['school_province']);
+
+            $province_city = DistrictModel::findTree($info['province']);
+            $city_area = DistrictModel::findTree($info['city']);
+            $region_province = DistrictRegionModel::findTree($info['region']);
+            $province_school = DistrictRegionModel::findTree($info['school_province']);
+
+
+        $auth = RealnameAuthModel::whereUid($uid)->first();
+
         $data = [
             'info' => $info,
             'province' => $province,
+            'region' => $region,
             'province_city' => $province_city,
             'city_area' => $city_area,
             'city' => DistrictModel::getDistrictName($info['city']),
             'area' => DistrictModel::getDistrictName($info['area']),
-            'region' => $region,
             'region_province' => $region_province,
             'province_school' => $province_school,
-            'sex_arr' => $sexArr,
         ];
+
+        if(!is_null($auth)){
+            $param1 = [
+                'auth_status' => $auth->status,
+                'auth_type' => $auth->type,
+                'auth_card_type' => $auth->card_type,
+            ];
+            $data = array_merge($data,$param1);
+        }
 
  		return $this->theme->scope('manage.userDetail', $data)->render();
     }
@@ -346,7 +365,7 @@ class UserController extends ManageController
 
         $userBalanceArr = array(
                 'balance' => $request['balance'],
-                'gold' => $request['gold'],
+                /*'gold' => $request['gold'],*/
             );
 
         $userBalanceDate = UserBalanceModel::where('user_id',$request['uid'])->select('balance','gold')->first();
@@ -368,7 +387,7 @@ class UserController extends ManageController
             }
         }
 
-        if($request['gold'] != $userBalanceDate['gold']){
+       /* if($request['gold'] != $userBalanceDate['gold']){
             $gold_change = $request['gold'] - $userBalanceDate['gold'];
             if($gold_change > 0) $add = '1'; else $add= '2';
             $amount2 = abs($gold_change);
@@ -376,7 +395,7 @@ class UserController extends ManageController
             if($u_b_res2['code'] != 200){
                 redirect('manage/userList')->with(array('message' => $u_b_res2['msg']));
             }
-        }
+        }*/
 
         return redirect('manage/userList')->with(['message' => '操作成功']);
     }

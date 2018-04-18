@@ -20,6 +20,13 @@
 			</p>
 		</div>
 		<div class="bankAuth-bottom clearfix col-xs-12">
+			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 身份证：</p>
+			<p class="col-sm-4">
+				<input type="text" name="realname" id="form-field-1"  class="col-xs-10 col-sm-5" disabled="disabled" value="{!! $info['card_number'] !!}">
+				<span style="color:#667f00;margin-left: 10px;">{{$auth_status == 1 ? '已认证': '未认证'}}</span>
+			</p>
+		</div>
+		<div class="bankAuth-bottom clearfix col-xs-12">
 			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 昵    称：</p>
 			<p class="col-sm-4">
 				<input type="text" name="nickname" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['nickname'] !!}">
@@ -28,12 +35,9 @@
 		<div class="bankAuth-bottom clearfix col-xs-12">
 			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 性    别：</p>
 			<p class="col-sm-4">
-				<!-- <input type="text" name="sex" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['sex_str'] !!}"> -->
 				<select name="sex">
-					<option>选择性别</option>
-					@foreach($sex_arr as $sex_s)
-						<option @if($info['sex'] == $sex_s['num']) selected="selected" @endif value="{!! $sex_s['num'] !!}">{!! $sex_s['str'] !!}</option>
-					@endforeach
+					<option name="2" {{$info['sex'] == 2 ? 'selected':''}}>男</option>
+					<option name="1" {{$info['sex'] == 2 ? 'selected':''}}>女</option>
 				</select>
 			</p>
 		</div>
@@ -64,97 +68,99 @@
 				<input type="text" name="balance" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['balance'] !!}">
 			</p>
 		</div>
-		<div class="bankAuth-bottom clearfix col-xs-12">
+		{{--<div class="bankAuth-bottom clearfix col-xs-12">
 			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 金    币：</p>
 			<p class="col-sm-4">
 				<input type="text" name="gold" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['gold'] !!}">
 			</p>
-		</div>
-		<div class="bankAuth-bottom clearfix col-xs-12">
-			<p  class="col-sm-1 control-label no-padding-left">所在地：</p>
-			<div class="col-sm-6">
-				<div class="row">
-					<p class="col-sm-4">
-						<select name="province" id="province" class="form-control validform-select Validform_error" onchange="checkprovince(this)">
-							<option value="" id="province-back">请选择省份</option>
-							@foreach($province as $item)
-								<option @if($info['province'] == $item['id'])selected="selected"@endif value="{!! $item['id'] !!}">{!! $item['name'] !!}</option>
-							@endforeach
-						</select>
-					</p>
-					<p class="col-sm-4">
-						@if(!empty($info['city']))
-						<select class="form-control  validform-select" name="city" id="city" onchange="checkcity(this)">
-						@else
-						<select class="form-control  validform-select" style="display: none;" name="city" id="city" onchange="checkcity(this)">
-						@endif
-							<option value="" id="city-back">请选择城市</option>
-							@foreach($province_city as $item1)
-								<option @if($info['city'] == $item1['id'])selected="selected"@endif value="{!! $item1['id'] !!}">{!! $item1['name'] !!}</option>
-							@endforeach
-						</select>
-					</p>
-					<p class="col-sm-4">
-						@if(!empty($info['area']))
-						<select class="form-control  validform-select" name="area" id="area">
-						@else
-						<select class="form-control  validform-select" style="display:none;" name="area" id="area">
-						@endif
-							<option value="" id="city-back">请选择区域</option>
-							@foreach($city_area as $item2)
-								<option @if($info['area'] == $item2['id'])selected="selected"@endif value="{!! $item2['id'] !!}">{!! $item2['name'] !!}</option>
-							@endforeach
-						</select>
-						
-					</p>
+		</div>--}}
+
+			<div class="bankAuth-bottom clearfix col-xs-12">
+				<p  class="col-sm-1 control-label no-padding-left">所在地：</p>
+				<div class="col-sm-6">
+					<div class="row">
+						<p class="col-sm-4">
+							<select name="province" id="province" class="form-control validform-select Validform_error" onchange="checkprovince(this)">
+								<option value="" id="province-back">请选择省份</option>
+								@foreach($province as $item)
+									<option @if(!empty($info['province']) && $info['province']== $item['id'])selected="selected"@endif value="{!! $item['id'] !!}">{!! $item['name'] !!}</option>
+								@endforeach
+							</select>
+						</p>
+						<p class="col-sm-4">
+							@if(!empty($info['city']))
+							<select class="form-control  validform-select" name="city" id="city" onchange="checkcity(this)">
+							@else
+							<select class="form-control  validform-select" style="display: none;" name="city" id="city" onchange="checkcity(this)">
+							@endif
+								<option value="" id="city-back">请选择城市</option>
+								@foreach($province_city as $item1)
+									<option @if(!empty($info['city']) && $info['city'] == $item1['id'])selected="selected"@endif value="{!! $item1['id'] !!}">{!! $item1['name'] !!}</option>
+								@endforeach
+							</select>
+						</p>
+						<p class="col-sm-4">
+							@if(!empty($info['area']))
+							<select class="form-control  validform-select" name="area" id="area">
+							@else
+							<select class="form-control  validform-select" style="display:none;" name="area" id="area">
+							@endif
+								<option value="" id="city-back">请选择区域</option>
+								@foreach($city_area as $item2)
+									<option @if($info['area'] == $item2['id'])selected="selected"@endif value="{!! $item2['id'] !!}">{!! $item2['name'] !!}</option>
+								@endforeach
+							</select>
+
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="bankAuth-bottom clearfix col-xs-12">
-			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 籍    贯：</p>
-			<p class="col-sm-4">
-				<input type="text" name="native_place" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['native_place'] !!}">
-			</p>
-		</div>
-		<div class="bankAuth-bottom clearfix col-xs-12">
-			<p  class="col-sm-1 control-label no-padding-left">学校信息：</p>
-			<div class="col-sm-6">
-				<div class="row">
-					<p class="col-sm-4">
-						<select name="region" id="region" class="form-control validform-select Validform_error" onchange="checkregion(this)">
-							<option value="" id="region-back">请选择大区</option>
-							@foreach($region as $item3)
-								<option @if($info['region'] == $item3['id'])selected="selected"@endif value="{!! $item3['id'] !!}">{!! $item3['name'] !!}</option>
-							@endforeach
-						</select>
-					</p>
-					<p class="col-sm-4">
-						@if(!empty($info['school_province']))
-						<select class="form-control  validform-select" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
-						@else
-						<select class="form-control  validform-select" style="display: none;" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
-						@endif
-							<option value="" id="school-province-back">请选择城市</option>
-							@foreach($region_province as $item4)
-								<option @if($info['school_province'] == $item4['id'])selected="selected"@endif value="{!! $item4['id'] !!}">{!! $item4['name'] !!}</option>
-							@endforeach
-						</select>
-					</p>
-					<p class="col-sm-4">
-						@if(!empty($info['school']))
-						<select class="form-control  validform-select" name="school" id="school">
-						@else
-						<select class="form-control  validform-select" style="display: none;" name="school" id="school">
-						@endif
-							<option value="">请选择学校</option>
-							@foreach($province_school as $item5)
-								<option @if($info['school'] == $item5['id'])selected="selected"@endif value="{!! $item5['id'] !!}">{!! $item5['name'] !!}</option>
-							@endforeach
-						</select>
-					</p>
+			<div class="bankAuth-bottom clearfix col-xs-12">
+				<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 籍    贯：</p>
+				<p class="col-sm-4">
+					<input type="text" name="native_place" id="form-field-1"  class="col-xs-10 col-sm-5" value="{!! $info['native_place'] !!}">
+				</p>
+			</div>
+			<div class="bankAuth-bottom clearfix col-xs-12">
+				<p  class="col-sm-1 control-label no-padding-left">学校信息：</p>
+				<div class="col-sm-6">
+					<div class="row">
+						<p class="col-sm-4">
+							<select name="region" id="region" class="form-control validform-select Validform_error" onchange="checkregion(this)">
+								<option value="" id="region-back">请选择大区</option>
+								@foreach($region as $item3)
+									<option @if(!empty($info['region']) && $info['region'] == $item3['id'])selected="selected"@endif value="{!! $item3['id'] !!}">{!! $item3['name'] !!}</option>
+								@endforeach
+							</select>
+						</p>
+						<p class="col-sm-4">
+							@if(!empty($info['school_province']))
+							<select class="form-control  validform-select" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
+							@else
+							<select class="form-control  validform-select" style="display: none;" name="school_province" id="school_province" onchange="checkschoolprovince(this)">
+							@endif
+								<option value="" id="school-province-back">请选择城市</option>
+								@foreach($region_province as $item4)
+									<option @if(!empty($info['school_province']) && $info['school_province'] == $item4['id'])selected="selected"@endif value="{!! $item4['id'] !!}">{!! $item4['name'] !!}</option>
+								@endforeach
+							</select>
+						</p>
+						<p class="col-sm-4">
+							@if(!empty($info['school']))
+							<select class="form-control  validform-select" name="school" id="school">
+							@else
+							<select class="form-control  validform-select" style="display: none;" name="school" id="school">
+							@endif
+								<option value="">请选择学校</option>
+								@foreach($province_school as $item5)
+									<option @if(!empty($info['school']) && $info['school'] == $item5['id'])selected="selected"@endif value="{!! $item5['id'] !!}">{!! $item5['name'] !!}</option>
+								@endforeach
+							</select>
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
+
 		<div class="bankAuth-bottom clearfix col-xs-12">
 			<p class="col-sm-1 control-label no-padding-left" for="form-field-1"> 系：</p>
 			<p class="col-sm-4">

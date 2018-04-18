@@ -5,11 +5,16 @@ use App\Http\Controllers\BasicController;
 use App\Http\Controllers\ManageController;
 use App\Modules\Manage\Model\ArticleCategoryModel;
 use App\Modules\Manage\Model\CampusRecruitmentModel;
+use App\Modules\Manage\Model\CompanyFinancingModel;
+use App\Modules\Manage\Model\CompanyIndustryModel;
+use App\Modules\Manage\Model\CompanyModel;
+use App\Modules\Manage\Model\CompanyScaleModel;
 use App\Modules\Manage\Model\SystemTasksModel;
 use App\Modules\Manage\Model\TypeModel;
 use App\Modules\Manage\Model\ArticleModel;
 use App\Http\Requests;
 use App\Modules\Manage\Http\Requests\ArticleRequest;
+use App\Modules\User\Model\DistrictModel;
 use Illuminate\Http\Request;
 use Theme;
 use Illuminate\Support\Facades\Auth;
@@ -292,6 +297,116 @@ class ArticleController extends ManageController
         }
     }
 
+    public function companyList(Request $request)
+    {
+        $companies = CompanyModel::leftjoin('company_financing','company.financing','=','company_financing.id')
+                                    ->leftjoin('company_industry','company.industry','=','company_industry.id')
+                                    ->leftjoin('company_scale','company.scale','=','company_scale.id')
+                                    ->select('company.*','company_financing.financing as financing_name','company_industry.industry as industry_name','company_scale.scale as scale_name')
+                                    ->paginate(20);
+        foreach($companies as $company){
+            $province = DistrictModel::getDistrictName($company->province);
+            $city = DistrictModel::getDistrictName($company->city);
+            $area = DistrictModel::getDistrictName($company->area);
+            $company->address_detail = $province.$city.$area.$company->address;
+        }
+        $data = [
+            'companies' => $companies,
+        ];
+        return $this->theme->scope('manage.companyList',$data)->render();
+    }
+
+    public function companyAdd(Request $request)
+    {
+        $province = DistrictModel::findTree(0);
+        $province_city = DistrictModel::findTree(0);
+        $city_area = DistrictModel::findTree(0);
+
+        $company_industies = CompanyIndustryModel::all();
+        $company_scales = CompanyScaleModel::all();
+        $company_financings = CompanyFinancingModel::all();
+        $data = [
+            'province' => $province,
+            'province_city' => $province_city,
+            'city_area' => $city_area,
+            'company_industies' => $company_industies,
+            'company_scales' => $company_scales,
+            'company_financings' => $company_financings,
+        ];
+        return $this->theme->scope('manage.companyAdd',$data)->render();
+    }
+
+    public function companyCreate(Request $request)
+    {
+        $file = $request->file();
+        if(!empty($file)){
+            $file = \FileClass::uploadFile($file['pic'],'game');
+            $file = json_decode($file);
+            $file_path = $file->data->url;
+        }
+
+        $data = $request->except('_token','pic');
+        if(isset($file_path)){
+            $data['logo'] = $file_path;
+        }
+
+        CompanyModel::insert($data);
+        return redirect('/manage/company');
+    }
+
+    public function companyEdit($id)
+    {
+        $company = CompanyModel::where('company.id',$id)
+                                ->leftjoin('company_financing','company.financing','=','company_financing.id')
+                                ->leftjoin('company_industry','company.industry','=','company_industry.id')
+                                ->leftjoin('company_scale','company.scale','=','company_scale.id')
+                                ->select('company.*','company_financing.financing as financing_name','company_industry.industry as industry_name','company_scale.scale as scale_name')
+                                ->first();
+
+        $province = DistrictModel::findTree(0);
+        $province_city = DistrictModel::findTree(0);
+        $city_area = DistrictModel::findTree(0);
+
+        $company_industies = CompanyIndustryModel::all();
+        $company_scales = CompanyScaleModel::all();
+        $company_financings = CompanyFinancingModel::all();
+
+        $data = array(
+            'company' => $company,
+            'province' => $province,
+            'province_city' => $province_city,
+            'city_area' => $city_area,
+            'company_industies' => $company_industies,
+            'company_scales' => $company_scales,
+            'company_financings' => $company_financings
+        );
+
+        return $this->theme->scope('manage.companyEdit',$data)->render();
+    }
+
+    public function companyUpdate($id,Request $request)
+    {
+        $file = $request->file();
+        if(!empty($file)){
+            $file = \FileClass::uploadFile($file['pic'],'game');
+            $file = json_decode($file);
+            $file_path = $file->data->url;
+        }
+
+        $data = $request->except('_token','pic');
+        if(isset($file_path)){
+            $data['logo'] = $file_path;
+        }
+
+        CompanyModel::whereId($id)->update($data);
+        return redirect('/manage/company');
+    }
+
+    public function companyDelete($id)
+    {
+        CompanyModel::whereId($id)->delete();
+        return redirect('/manage/company');
+    }
 
     //校园招聘
     public function recruitmentList(Request $request)

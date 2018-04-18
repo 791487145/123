@@ -164,6 +164,14 @@ Route::group(['prefix' => 'manage'], function() {
     Route::get('/campusDel/{id}','ArticleController@recruitmentDel');//删除
     Route::post('/campusHandle','ArticleController@recruitmentDelHandle');//批量删除
 
+    //公司编辑
+    Route::get('/company','ArticleController@companyList')->name('companyList');//列表
+    Route::get('/addCompany','ArticleController@companyAdd')->name('companyAdd');//添加
+    Route::post('/companyCreate','ArticleController@companyCreate');//添加
+    Route::get('/editCompany/{id}','ArticleController@companyEdit')->name('editCompany');//
+    Route::post('/companyUpdate/{id}','ArticleController@companyUpdate');//
+    Route::get('/companyDelete/{id}','ArticleController@companyDelete')->name('companyDelete');//
+
     //系统任务
     Route::get('system','ArticleController@systemTask')->name('systemTask');
     Route::get('systemAdd','ArticleController@addSystemShow')->name('addSystemShow');//添加页
